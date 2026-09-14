@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>組分け第3回 だいさくせん 🚀</title>
+<style>
+:root{
+  --bg:#FFF7EF; --bg2:#FFEFE2; --card:#FFFFFF; --text:#2C3043; --sub:#7A8096;
+  --primary:#FF7A59; --primary-d:#E2542F; --accent:#7C6CF0; --accent-d:#5A49C7;
+  --ok:#42C28E; --ok-bg:#E4F7EF; --ng:#FF6F91; --ng-bg:#FFE9EF;
+  --info:#3FA7F0; --warn:#FFC23C;
+  --kokugo:#FF9EC4; --sansu:#7FB8FF; --rika:#74D6A0; --shakai:#FFB36B;
+  --l1:#9FD8A6; --l2:#8EC2F7; --l3:#FFC78A; --l4:#F49AC0;
+  --line:rgba(20,20,40,.08); --shadow:0 6px 18px rgba(40,30,60,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#15161F; --bg2:#1B1D2A; --card:#23253420; --card:#232534; --text:#ECEAF6; --sub:#A6A9BE; --line:rgba(255,255,255,.10); --shadow:0 6px 18px rgba(0,0,0,.35);}
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",system-ui,sans-serif;
+  background:
+    radial-gradient(1200px 380px at 100% -8%, var(--bg2), transparent 60%),
+    radial-gradient(900px 320px at -10% 0%, #FCE6F0, transparent 55%),
+    var(--bg);
+  background-attachment:fixed;
+  color:var(--text); font-size:17px; line-height:1.7; letter-spacing:.01em; min-height:100vh;
+}
+@media (prefers-color-scheme: dark){ html,body{ background: radial-gradient(1000px 360px at 100% -8%, #20223400, transparent 60%), var(--bg);} }
+#app{max-width:560px;margin:0 auto;padding:14px 14px calc(86px + env(safe-area-inset-bottom));}
+.screen{display:none;animation:fade .32s ease;}
+.screen.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:18px 18px;margin-bottom:14px;}
+h1{font-size:25px;font-weight:800;letter-spacing:.02em;}
+h2{font-size:20px;font-weight:800;margin-bottom:10px;}
+h3{font-size:15px;font-weight:700;color:var(--sub);margin-bottom:8px;}
+p{margin-bottom:6px;} .muted{color:var(--sub);font-size:13.5px;}
+.row{display:flex;align-items:center;gap:12px;}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;border:none;
+  background:linear-gradient(135deg,#FF8A65 0%,#FF6F91 55%,#7C6CF0 120%);}
+.hero h1{color:#fff;} .hero .muted{color:rgba(255,255,255,.9);}
+.hero .spark{position:absolute;border-radius:50%;background:rgba(255,255,255,.18);}
+.ring-wrap{display:flex;align-items:center;gap:14px;margin-top:6px;}
+.ring{position:relative;width:84px;height:84px;flex:none;}
+.ring svg{transform:rotate(-90deg);} .ring .lv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring .lv b{font-size:26px;font-weight:800;line-height:1;} .ring .lv small{font-size:10px;opacity:.9;}
+.hstats{display:flex;gap:10px;flex:1;}
+.hstat{flex:1;background:rgba(255,255,255,.16);border-radius:14px;padding:8px 6px;text-align:center;backdrop-filter:blur(2px);}
+.hstat b{display:block;font-size:20px;font-weight:800;line-height:1.2;} .hstat span{font-size:11px;opacity:.92;}
+.flame{display:inline-block;animation:flick 1.1s ease-in-out infinite alternate;}
+@keyframes flick{from{transform:scale(1) rotate(-3deg);}to{transform:scale(1.12) rotate(3deg);}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;
+  background:var(--primary);color:#fff;border:none;border-radius:16px;padding:14px 20px;
+  font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 5px 0 var(--primary-d);transition:transform .12s,box-shadow .12s;}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--primary-d);}
+.btn.acc{background:var(--accent);box-shadow:0 5px 0 var(--accent-d);}
+.btn.sec{background:var(--card);color:var(--text);border:1.5px solid var(--line);box-shadow:0 3px 0 var(--line);}
+.btn.ghost{background:transparent;color:var(--primary);border:2px solid var(--primary);box-shadow:none;}
+.btn.sm{min-height:42px;font-size:15px;width:auto;padding:8px 16px;border-radius:12px;box-shadow:none;}
+.btnrow{display:flex;gap:10px;} .btnrow .btn{flex:1;}
+
+/* badges */
+.badge{display:inline-block;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:800;margin-right:6px;}
+.b-kokugo{background:var(--kokugo);color:#7A1840;} .b-sansu{background:var(--sansu);color:#0B3D7A;}
+.b-rika{background:var(--rika);color:#0E5235;} .b-shakai{background:var(--shakai);color:#8A4A11;}
+.b-l1{background:var(--l1);color:#13491A;} .b-l2{background:var(--l2);color:#0B3D7A;}
+.b-l3{background:var(--l3);color:#8A4A11;} .b-l4{background:var(--l4);color:#7A1840;}
+
+/* mission / coaching */
+.mission{background:linear-gradient(135deg,#FFF3D9,#FFE4C4);border:1px solid #FFD79E;color:#7A4A10;border-radius:18px;padding:14px 16px;margin-bottom:14px;}
+@media (prefers-color-scheme: dark){.mission{background:linear-gradient(135deg,#2E2716,#332A18);border-color:#5A4A20;color:#FFD79E;}}
+.mission b{font-weight:800;}
+.rules{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:8px;}
+.rules li{display:flex;gap:9px;align-items:flex-start;font-size:14px;}
+.rules .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+
+/* progress bar */
+.bar{height:11px;background:rgba(120,120,150,.16);border-radius:999px;overflow:hidden;}
+.bar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--warn));transition:width .7s cubic-bezier(.3,1,.4,1);}
+
+/* list items */
+.item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin:8px 0;cursor:pointer;transition:transform .12s;}
+.item:active{transform:scale(.985);}
+.item .t{flex:1;font-weight:700;font-size:15px;}
+.item .st{font-size:18px;}
+.seg{display:flex;gap:7px;overflow-x:auto;padding:2px 0 6px;}
+.seg button{flex:none;border:none;background:var(--card);border:1px solid var(--line);color:var(--sub);font-weight:700;font-size:13.5px;padding:8px 14px;border-radius:999px;cursor:pointer;font-family:inherit;}
+.seg button.on{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* problem */
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:8px;}
+.dots i{width:9px;height:9px;border-radius:50%;background:rgba(120,120,150,.25);}
+.dots i.on{background:var(--primary);} .dots i.done{background:var(--ok);}
+.qbox{font-size:19px;line-height:1.85;margin:14px 0;padding:15px 16px;background:rgba(255,122,89,.07);border-left:5px solid var(--primary);border-radius:12px;white-space:pre-wrap;}
+.intent{font-size:12.5px;color:var(--sub);background:rgba(120,120,150,.08);padding:8px 12px;border-radius:10px;margin:10px 0;}
+input[type=text],input[type=number],textarea{width:100%;padding:15px;font-size:20px;font-family:inherit;border:2px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);}
+input:focus,textarea:focus{outline:none;border-color:var(--primary);}
+textarea{min-height:96px;resize:vertical;line-height:1.7;}
+.unit{font-size:15px;color:var(--sub);margin-left:8px;}
+.choices{display:flex;flex-direction:column;gap:9px;}
+.choice{display:flex;align-items:center;gap:10px;padding:14px 15px;background:var(--card);border:2px solid var(--line);border-radius:14px;cursor:pointer;font-size:16px;font-weight:600;text-align:left;font-family:inherit;color:var(--text);transition:transform .1s;}
+.choice:active{transform:scale(.985);}
+.choice.sel{border-color:var(--primary);background:rgba(255,122,89,.10);}
+.choice .k{flex:none;width:28px;height:28px;border-radius:8px;background:rgba(120,120,150,.14);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.choice.sel .k{background:var(--primary);color:#fff;}
+
+/* feedback */
+.fb{padding:15px;border-radius:16px;margin:14px 0;animation:pop .42s cubic-bezier(.34,1.56,.64,1);}
+.fb.ok{background:var(--ok-bg);border:2px solid var(--ok);} .fb.ng{background:var(--ng-bg);border:2px solid var(--ng);}
+.fb b{font-size:18px;}
+@keyframes pop{from{transform:scale(.92);opacity:0;}to{transform:scale(1);opacity:1;}}
+.sol{background:rgba(63,167,240,.07);border-left:5px solid var(--info);padding:12px 14px;border-radius:10px;margin:10px 0;}
+.sol h4{font-size:13.5px;color:var(--info);margin-bottom:5px;font-weight:800;}
+.sol ol{padding-left:20px;} .sol li{margin:3px 0;}
+.reveal{cursor:pointer;user-select:none;color:var(--accent);font-weight:800;font-size:14px;display:inline-flex;gap:6px;align-items:center;margin:6px 0;}
+
+/* result */
+.xp{font-size:54px;font-weight:800;color:var(--primary);text-align:center;margin:8px 0;animation:xppop .6s cubic-bezier(.34,1.56,.64,1);}
+@keyframes xppop{0%{transform:scale(0);}55%{transform:scale(1.25);}100%{transform:scale(1);}}
+.combo{display:inline-block;background:var(--warn);color:#7A4A10;font-weight:800;padding:5px 14px;border-radius:999px;font-size:14px;}
+.rare{background:linear-gradient(135deg,#FFE08A,#FFAE45);color:#5A3410;padding:18px;border-radius:18px;text-align:center;box-shadow:0 10px 28px rgba(255,174,69,.45);margin:14px 0;animation:shim 1.8s ease-in-out infinite alternate;}
+@keyframes shim{from{box-shadow:0 10px 28px rgba(255,174,69,.35);}to{box-shadow:0 12px 34px rgba(255,174,69,.7);}}
+
+/* dex */
+.dex{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.dexc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--shadow);}
+.dexc.lock{opacity:.42;}
+.mini-ring{position:relative;width:62px;height:62px;margin:0 auto 6px;}
+.mini-ring svg{transform:rotate(-90deg);} .mini-ring .em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.dexc .nm{font-weight:800;font-size:13.5px;} .dexc .pg{font-size:12px;color:var(--sub);}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;gap:6px;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--card) 86%, transparent);
+  backdrop-filter:blur(10px);border-top:1px solid var(--line);}
+.nav button{flex:1;max-width:160px;background:none;border:none;font-family:inherit;color:var(--sub);font-weight:700;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;}
+.nav button .ic{font-size:22px;line-height:1;} .nav button.on{color:var(--primary);}
+.nav.hide{display:none;}
+
+/* confetti */
+.cf{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden;}
+.cf i{position:absolute;top:-16px;width:10px;height:14px;border-radius:2px;animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(112vh) rotate(720deg);}}
+.gear{position:fixed;right:10px;bottom:calc(72px + env(safe-area-inset-bottom));width:34px;height:34px;border:none;background:transparent;opacity:.28;font-size:18px;cursor:pointer;z-index:45;}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:90;opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+.pill{display:inline-block;background:rgba(124,108,240,.14);color:var(--accent);font-weight:800;font-size:12px;padding:3px 10px;border-radius:999px;}
+/* countdown */
+.cdbar{margin-top:10px;background:rgba(255,255,255,.20);border-radius:14px;padding:10px 12px;text-align:center;font-weight:800;font-size:16px;letter-spacing:.02em;}
+.cdbar b{font-size:22px;margin:0 2px;}
+/* 3-day plan */
+.plan{display:flex;flex-direction:column;gap:8px;}
+.pday{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);}
+.pday .pic{flex:none;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;background:rgba(120,120,150,.12);}
+.pday .pt b{font-size:15px;} .pday .pt div{font-size:13px;color:var(--sub);}
+.pday.now{border-color:var(--primary);background:rgba(255,122,89,.10);box-shadow:0 3px 12px rgba(255,122,89,.18);}
+.pday.now .pic{background:var(--primary);}
+.pday.done{opacity:.5;} .pday.done .pic{background:var(--ok);}
+.pday .tag{margin-left:auto;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;flex:none;align-self:center;}
+.pday.now .tag{background:var(--primary);color:#fff;} .pday.done .tag{background:var(--ok);color:#fff;}
+/* in-session progress */
+.qbar{height:9px;background:rgba(120,120,150,.20);border-radius:999px;overflow:hidden;margin-bottom:6px;}
+.qbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--warn));border-radius:999px;transition:width .4s cubic-bezier(.3,1,.4,1);}
+.qcount{text-align:center;font-size:13px;color:var(--sub);font-weight:800;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- name -->
+<div id="sName" class="screen">
+  <div class="card hero" style="margin-top:50px;text-align:center;">
+    <div style="font-size:46px;">🚀</div>
+    <h1>組分け第3回 だいさくせん</h1>
+    <p class="muted">いっしょに作戦をはじめよう！<br>なまえを おしえてね</p>
+    <input type="text" id="nameIn" placeholder="なまえ" style="margin:16px 0;color:#2C3043;background:#fff;border:none;">
+    <button class="btn acc" onclick="saveName()">スタート ✨</button>
+  </div>
+</div>
+
+<!-- home -->
+<div id="sHome" class="screen">
+  <div class="card hero">
+    <div class="row" style="justify-content:space-between;">
+      <div><h1 id="hi">こんにちは！</h1><p class="muted" id="greet"></p></div>
+      <div style="font-size:34px;" id="mascot">🦊</div>
+    </div>
+    <div class="cdbar" id="cdBar"></div>
+    <div class="ring-wrap">
+      <div class="ring">
+        <svg width="84" height="84" viewBox="0 0 84 84">
+          <circle cx="42" cy="42" r="36" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="9"/>
+          <circle id="ringFill" cx="42" cy="42" r="36" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="226"/>
+        </svg>
+        <div class="lv"><b id="lvNum">1</b><small>レベル</small></div>
+      </div>
+      <div class="hstats">
+        <div class="hstat"><b id="xpNum">0</b><span>そうXP</span></div>
+        <div class="hstat"><b><span class="flame">🔥</span><span id="stkNum">0</span></b><span>れんぞく日</span></div>
+        <div class="hstat"><b id="clrNum">0</b><span>クリア問</span></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="bar"><i id="lvBar" style="width:0%"></i></div>
+      <div class="muted" id="lvTxt" style="margin-top:5px;color:rgba(255,255,255,.92);"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🗓️ 本番までの作戦</h2>
+    <div class="plan" id="planList"></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between;">
+      <h2 style="margin:0;">🔥 きょうのミッション</h2>
+      <span class="pill" id="missionCount">—</span>
+    </div>
+    <p class="muted" id="missionSub" style="margin:6px 0 8px;"></p>
+    <div class="bar"><i id="missionBar" style="width:0%"></i></div>
+    <div class="muted" id="missionProg" style="margin:5px 0 10px;"></div>
+    <div id="todayList"></div>
+    <button class="btn" id="missionBtn" style="margin-top:6px;" onclick="startMission()">ミッション開始 🚀</button>
+  </div>
+
+  <div class="mission">
+    <b>🛡️ 本番でわすれない 3つのおまもり</b>
+    <ul class="rules">
+      <li><span class="n">1</span><span>わからなくても、記号は何か書く・式や図だけでも書く（書けば点が来る）</span></li>
+      <li><span class="n">2</span><span>算数の後半（大問4・5・6）も、(1)だけは必ず手をつける</span></li>
+      <li><span class="n">3</span><span>書きおわったら「聞かれているのは何か」をもう一度読む</span></li>
+    </ul>
+  </div>
+
+  <div class="card" id="redoCard" style="display:none;">
+    <h2>🔁 もう一回ボックス</h2>
+    <p class="muted" style="margin-bottom:8px;">まちがえた問題は、 here で もう一度ちょうせん！<br>（思い出すと記おくに残るよ）</p>
+    <div id="redoList"></div>
+    <button class="btn acc" style="margin-top:6px;" onclick="startRedo()">再ちょうせん 💪</button>
+  </div>
+
+  <div class="card">
+    <h2>📚 ぜんぶの問題</h2>
+    <div class="seg" id="seg"></div>
+    <div id="allList"></div>
+  </div>
+</div>
+
+<!-- dex -->
+<div id="sDex" class="screen">
+  <div class="card hero"><h1>📖 ずかん</h1><p class="muted">クリアした単元と、ゲットしたレアカード</p></div>
+  <div class="card"><h3>単元マスター</h3><div class="dex" id="dexGrid"></div></div>
+  <div class="card"><h3>✨ レアカード</h3><div class="dex" id="rareGrid"></div><p class="muted" id="rareEmpty">正解するとたまに出るよ。あつめてね！</p></div>
+</div>
+
+<!-- problem -->
+<div id="sProblem" class="screen">
+  <div class="dots" id="dots"></div>
+  <div class="card">
+    <div id="pBadges" style="margin-bottom:8px;"></div>
+    <h2 id="pWeak" style="font-size:17px;"></h2>
+    <div class="intent" id="pIntent"></div>
+    <div class="qbox" id="pQ"></div>
+    <div id="pAns"></div>
+    <div id="pFb"></div>
+    <div id="pActions" class="btnrow" style="margin-top:14px;">
+      <button class="btn" onclick="check()">答えあわせ ✨</button>
+    </div>
+    <button class="btn sec sm" style="width:100%;margin-top:10px;box-shadow:none;" onclick="goHome()">あとでやる</button>
+  </div>
+</div>
+
+<!-- result -->
+<div id="sResult" class="screen">
+  <div class="card hero" style="text-align:center;">
+    <h1 id="rTitle"></h1>
+    <div class="xp" id="rXp"></div>
+    <div id="rCombo" style="margin:6px 0;"></div>
+    <p id="rMsg" style="font-size:17px;margin:14px 0;color:#fff;"></p>
+    <div id="rRare"></div>
+    <div class="btnrow" style="margin-top:18px;">
+      <button class="btn acc" id="rNext" onclick="nextInQueue()">つぎへ ➡️</button>
+    </div>
+    <button class="btn sec sm" style="width:100%;margin-top:10px;color:#2C3043;" onclick="goHome()">ホームへ</button>
+  </div>
+</div>
+
+<!-- parent -->
+<div id="sParent" class="screen">
+  <div class="card"><h1>👨‍👩‍👧 保護者モード</h1><p class="muted">今日の学習サマリー（お子さんには見せても見せなくてもOK）</p>
+    <div id="parentBody" style="margin-top:12px;"></div>
+    <button class="btn sec" style="margin-top:14px;" onclick="goHome()">もどる</button>
+  </div>
+</div>
+
+</div>
+
+<button class="gear" id="gear" title="保護者モード（長押し）"
+  onmousedown="holdStart()" onmouseup="holdEnd()" onmouseleave="holdEnd()"
+  ontouchstart="holdStart()" ontouchend="holdEnd()">⚙️</button>
+
+<nav class="nav" id="nav">
+  <button id="navHome" class="on" onclick="goHome()"><span class="ic">🏠</span>ホーム</button>
+  <button id="navDex" onclick="openDex()"><span class="ic">📖</span>ずかん</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ====== DATA ======
+const SUBJ_EMOJI={国語:"📝",算数:"🔢",理科:"🔬",社会:"🗺️"};
+const PROBLEMS = [
+/* ===== 算数 ===== */
+{id:"s1a",subject:"算数",sk:"sansu",w:"周期の和",wid:"算数-1",err:"E",lvl:"L1",rate:90,intent:"周期の和の基本：まとまりの和×組数",type:"number",q:"{ 2, 5, 3 } の3つの数が、この順にくりかえしならびます。\n2 5 3 2 5 3 …\nはじめから 12番目まで を全部たすといくつ？",ans:"40",steps:["まとまり{2,5,3}の和＝10","12÷3＝4まとまり ちょうど","10×4＝40"],why:"周期の和は ①まとまりの和 ②何組＋あまり ③和×組数＋あまりの分 の順。",stumble:"あまりが無いときは『まとまりの和×組数』だけ。"},
+{id:"s1b",subject:"算数",sk:"sansu",w:"周期の和",wid:"算数-1",err:"E",lvl:"L2",rate:75,intent:"あまりの処理つき（本番レベル）",type:"number",q:"{ 1, 4, 2, 3 } が この順にくりかえし、ぜんぶで 30個 ならびます。\n全部たすと いくつ？",ans:"75",steps:["和＝1+4+2+3＝10","30÷4＝7あまり2","10×7＝70、あまり2個(1,4)の和5 → 70+5＝75"],why:"あまりの個数は『まとまりの先頭から』取る。",stumble:"あまりは最後からではなく先頭から数える。"},
+{id:"s1c",subject:"算数",sk:"sansu",w:"周期の和",wid:"算数-1",err:"E",lvl:"L3",rate:50,intent:"本番(第13回)で落とした型の類題",type:"number",q:"{ 3, 1, 4, 1, 5 } が この順にくりかえし、ぜんぶで 43個 ならびます。\n全部たすと いくつ？",ans:"120",steps:["和＝3+1+4+1+5＝14","43÷5＝8あまり3","14×8＝112、あまり3個(3,1,4)の和8 → 112+8＝120"],why:"本番ではこの『まとまりの和』を1ちがいで計算して失点。和は2回たして確かめる。",stumble:"まとまりの和の出し方をミスると全部ずれる。"},
+
+{id:"s2a",subject:"算数",sk:"sansu",w:"周期の番目・個数",wid:"算数-2",err:"B",lvl:"L1",rate:85,intent:"白紙だった大問。まず『できる』を作る",type:"choice",q:"{ ○, △, ○, ☆ } が この順にくりかえします。\n○ △ ○ ☆ ○ △ ○ ☆ …\n左から 20番目 の記号は？",choices:["○","△","☆"],ansIdx:2,steps:["まとまり4個","20÷4＝5あまり0","あまり0は『ちょうど』＝まとまりの最後の記号 → ☆"],why:"あまり0はまとまりのいちばん最後。",stumble:"あまり0を『先頭』とまちがえない。"},
+{id:"s2b",subject:"算数",sk:"sansu",w:"周期の番目・個数",wid:"算数-2",err:"B",lvl:"L2",rate:79,intent:"○番目までに何個（本番レベル）",type:"number",q:"{ A, B, B, C, A, B } が この順にくりかえします。\n左から 32番目までに、A は何個 ある？",ans:"11",steps:["Aは1まとまりに2個(1番目と5番目)","32÷6＝5あまり2","2×5＝10、あまり2個(A,B)にAが1個 → 11個"],why:"まず『1まとまりにAは何個あるか』を数える。",stumble:"あまりの中のAも数えわすれずに。"},
+{id:"s2c",subject:"算数",sk:"sansu",w:"周期の番目・個数",wid:"算数-2",err:"B",lvl:"L3",rate:35,intent:"○回目は何番目（逆向き）",type:"number",q:"同じ { A, B, B, C, A, B } のならびで、\nA が 10回目 にあらわれるのは 左から何番目？",ans:"29",accept:["29","29番目","29ばんめ"],steps:["Aは1まとまりに2個 → 10÷2＝5まとまり目の2個目のA","まとまりの中で2個目のAは5番目の位置","6×(5−1)＋5＝29番目"],why:"回数→まとまり数→まとまりの中の位置→通し番号 の順で考える。",stumble:"『何個』と『何番目』を取りちがえない。"},
+{id:"s2d",subject:"算数",sk:"sansu",w:"周期の番目・個数",wid:"算数-2",err:"B",lvl:"L4",rate:15,intent:"※取れなくてOK（見て慣れる用）",type:"number",q:"同じならびで、\nA が 30回目 にあらわれるのは 左から何番目？",ans:"89",accept:["89","89番目","89ばんめ"],steps:["30÷2＝15まとまり目の2個目のA","位置は5番目","6×(15−1)＋5＝89番目"],why:"L3と同じ考え方を大きい数でやるだけ。解けたら規則性は合格ライン超え。",stumble:""},
+
+{id:"s3a",subject:"算数",sk:"sansu",w:"等差数列",wid:"算数-3",err:"B",lvl:"L1",rate:90,intent:"□番目の数",type:"number",q:"3, 7, 11, 15, … と 3から4ずつ大きくなる数。\n左から 8番目 の数は？",ans:"31",steps:["□番目＝はじめ＋ふえる数×(□−1)","3＋4×(8−1)＝3＋28＝31"],why:"等差数列の基本公式。",stumble:"(□−1) の −1 をわすれない。"},
+{id:"s3b",subject:"算数",sk:"sansu",w:"等差数列",wid:"算数-3",err:"B",lvl:"L1",rate:90,intent:"等差数列の和",type:"number",q:"2, 4, 6, 8, 10, 12, 14 を ぜんぶたすと？",ans:"56",steps:["(はじめ＋おわり)×個数÷2","(2＋14)×7÷2＝56"],why:"和＝(はじめ＋おわり)×個数÷2。",stumble:"個数（ここでは7個）を正しく数える。"},
+{id:"s3c",subject:"算数",sk:"sansu",w:"等差数列",wid:"算数-3",err:"B",lvl:"L2",rate:65,intent:"『できるだけ多く』の個数（本番で白紙）",type:"number",q:"2けたの整数を できるだけ多く ならべます。\n12, 17, 22, 27, …\n全部で 何個 ならぶ？",ans:"18",accept:["18","18個","18こ"],steps:["5ずつふえる","2けた最大は99 →(99−12)÷5＝17あまり2 → 最後の数は12＋5×17＝97","個数＝17＋1＝18個"],why:"『できるだけ多く』＝99以下で最後の数をさがすのがカギ。",stumble:"最後の数を99と思いこまない（97が最後）。"},
+{id:"s3d",subject:"算数",sk:"sansu",w:"等差数列",wid:"算数-3",err:"B",lvl:"L2",rate:60,intent:"その和",type:"number",q:"上の 12, 17, 22, … 97 までの 18個 を ぜんぶたすと？",ans:"981",steps:["(はじめ＋おわり)×個数÷2","(12＋97)×18÷2＝109×9＝981"],why:"個数が出たら和の公式に入れるだけ。",stumble:"おわりの数は99でなく97。"},
+{id:"s3e",subject:"算数",sk:"sansu",w:"等差数列",wid:"算数-3",err:"B",lvl:"L3",rate:35,intent:"3けた版",type:"number",q:"3けたの整数を できるだけ多くならべます。\n100, 106, 112, 118, …\n全部で 何個？",ans:"150",accept:["150","150個","150こ"],steps:["6ずつ。3けた最大999 →(999−100)÷6＝149あまり5 → 最後994","個数＝149＋1＝150個"],why:"L2と同じ手順を3けたで。",stumble:"あまり5があるので最後は994（999ではない）。"},
+
+{id:"s4a",subject:"算数",sk:"sansu",w:"植木算(間の数)",wid:"算数-4",err:"E",lvl:"L1",rate:90,intent:"まっすぐは 間＝木−1",type:"number",q:"まっすぐな道に、はしからはしまで 5mおき に木を植えたら、木は 9本 になりました。\n道の長さは何m？",ans:"40",accept:["40","40m"],steps:["まっすぐは 間の数＝木の数−1＝8","5×8＝40m"],why:"まっすぐは−1、まるはそのまま。",stumble:"はしからはしまでは『−1』。"},
+{id:"s4b",subject:"算数",sk:"sansu",w:"植木算(間の数)",wid:"算数-4",err:"E",lvl:"L1",rate:85,intent:"まるは 間＝木",type:"number",q:"まるい池のまわりに 6mおき に木を植えたら、ちょうど 10本 植えられました。\n池のまわりの長さは何m？",ans:"60",accept:["60","60m"],steps:["まるは 間の数＝木の数＝10","6×10＝60m"],why:"まるは『−1』しない。",stumble:"まっすぐと同じにして−1しないこと。"},
+{id:"s4c",subject:"算数",sk:"sansu",w:"植木算(間の数)",wid:"算数-4",err:"P",lvl:"L2",rate:85,intent:"本番レベル(間に小旗)",type:"number",q:"まるい池に 8mおき で旗を立てたら、ちょうど1周して 15本 になりました。\n池のまわりの長さは何m？",ans:"120",accept:["120","120m"],steps:["まるなので 間の数＝旗の数＝15","8×15＝120m"],why:"まず池のまわりの長さを出す。",stumble:"旗が15本＝間も15。"},
+{id:"s4d",subject:"算数",sk:"sansu",w:"植木算(間の数)",wid:"算数-4",err:"P",lvl:"L2",rate:70,intent:"最後の−1がカギ（本番で落とした型）",type:"number",q:"その旗と旗の間ぜんぶに、2mおき で小さい旗を立てます（大きい旗の場所には立てない）。\n小さい旗は 全部で何本？",ans:"45",accept:["45","45本"],steps:["旗の間1つ(8m)に2mおきの間は8÷2＝4 → 小旗は4−1＝3本","間は15か所 → 3×15＝45本"],why:"検算：全部の間120÷2＝60、60−15(大旗)＝45本。",stumble:"間1つの中で『−1』をわすれない。"},
+{id:"s4e",subject:"算数",sk:"sansu",w:"植木算(間の数)",wid:"算数-4",err:"B",lvl:"L3",rate:45,intent:"走る＋休む(植木の応用)",type:"number",q:"トラックを1周4分、1周ごとに2分休みます。\n6周すると、走りはじめてから走りおわるまで 何分？",ans:"34",accept:["34","34分"],steps:["休みは周の間だけ＝6−1＝5回","走り4×6＝24分、休み2×5＝10分 → 34分"],why:"休みの回数＝周の数−1（植木算と同じ）。",stumble:"最後の周のあとは休まない。"},
+{id:"s4f",subject:"算数",sk:"sansu",w:"植木算(間の数)",wid:"算数-4",err:"B",lvl:"L3",rate:40,intent:"逆向き(本番で白紙)",type:"number",q:"同じ条件(1周4分・休み2分)で、全部で 70分 たちました。\n何周した？",ans:"12",accept:["12","12周"],steps:["最後にも2分休んだことにすると 70＋2＝72分","1セット＝走り4＋休み2＝6分 → 72÷6＝12周"],why:"最後だけ休みが無いので、仮に足してから割るときれいになる。",stumble:"そのまま70÷6にしない（最後の休みを補う）。"},
+
+{id:"s5a",subject:"算数",sk:"sansu",w:"図形の面積",wid:"算数-5",err:"P",lvl:"L1",rate:85,intent:"三角形の面積の基本",type:"number",q:"たて4cm・よこ6cm の長方形を、対角線で2つに分けた三角形が1つあります。\nこの三角形の面積は何cm²？",ans:"12",accept:["12","12cm2","12cm²","12平方センチ"],steps:["長方形の半分","4×6÷2＝12cm²"],why:"三角形＝底辺×高さ÷2。",stumble:"÷2をわすれない。"},
+{id:"s5b",subject:"算数",sk:"sansu",w:"図形の面積",wid:"算数-5",err:"P",lvl:"L2",rate:50,intent:"方眼の斜め四角形(本番で白紙)",type:"number",q:"たての対角線が 6cm、その線から左の点まで1cm・右の点まで3cm はなれた四角形（ひしがた）。\n面積は何cm²？",ans:"12",accept:["12","12cm2","12cm²"],steps:["たての対角線で左右2つの三角形に分ける","左：6×1÷2＝3、右：6×3÷2＝9","3＋9＝12cm²"],why:"ななめの四角形は、たて(よこ)の線で2つの三角形に切ると底辺と高さが見える。",stumble:"高さは『横のきょり』になる。"},
+{id:"s5c",subject:"算数",sk:"sansu",w:"図形の面積",wid:"算数-5",err:"B",lvl:"L3",rate:25,intent:"※難しめ。考え方を読むだけでも◎",type:"number",q:"台形ABCD（上の辺AD＝9cm、下の辺BC＝15cm、ADとBCは平行）。\nDからBCへ垂直な線をひき、その上に点FがありDF＝12cm。\n三角形DFCの面積は何cm²？",ans:"36",accept:["36","36cm2","36cm²"],steps:["DF(たて12)を底辺にすると、高さはEC","EC＝BC−AD＝15−9＝6cm","12×6÷2＝36cm²"],why:"底辺と高さは直角の関係。たてを底辺にすると横が高さ。",stumble:"高さをDFと取りちがえない。"},
+
+/* ===== 国語 ===== */
+{id:"k1a",subject:"国語",sk:"kokugo",w:"接続語",wid:"国語-1",err:"B",lvl:"L1",rate:85,intent:"原因→結果",type:"choice",q:"［　］に入る言葉は？\n「雨がふってきた。［　］、遠足は中止になった。」",choices:["しかし","だから","また"],ansIdx:1,steps:["雨→中止は『原因→結果』","だから"],why:"前と後ろのつながりの向きで決める。",stumble:""},
+{id:"k1b",subject:"国語",sk:"kokugo",w:"接続語",wid:"国語-1",err:"B",lvl:"L1",rate:85,intent:"逆向き",type:"choice",q:"［　］に入る言葉は？\n「たくさん練習した。［　］、本番では失敗した。」",choices:["しかし","だから","また"],ansIdx:0,steps:["練習した⇔失敗 は『逆向き』","しかし"],why:"逆のことが続くときは逆接。",stumble:""},
+{id:"k1c",subject:"国語",sk:"kokugo",w:"接続語",wid:"国語-1",err:"B",lvl:"L2",rate:70,intent:"本番で3問とも空らんだった型",type:"choice",q:"［　］に入る接続語は？\n「メダカはとても小さい。［　］、群れで泳ぐことで身を守っている。」",choices:["したがって","ところが","また"],ansIdx:0,steps:["小さい→だから群れで守る（原因→結果）","したがって"],why:"接続語は3択。本番ではここが空らんだった——わからなくても記号は必ず書く！",stumble:"空らんで出さない。仮でも記号を入れる。"},
+
+{id:"k2a",subject:"国語",sk:"kokugo",w:"指示語",wid:"国語-2",err:"R",lvl:"L1",rate:80,intent:"『それ』をぬき出す",type:"text",q:"――線『それ』は何を指す？文中の言葉で書こう。\n「妹は毎朝6時に起きて走っている。それ を半年も続けている。」",ans:"毎朝6時に起きて走っている",accept:["毎朝6時に起きて走っている","毎朝6時に起きて走っていること","走っていること","走っている","毎朝走っている"],steps:["『それ』のすぐ前の内容をさがす"],why:"『それ』を消して、見つけた言葉を入れて読み、文が通れば正解。",stumble:"後ろではなく『前』をさがす。"},
+{id:"k2b",subject:"国語",sk:"kokugo",w:"指示語",wid:"国語-2",err:"R",lvl:"L2",rate:55,intent:"指示語の記述(本番−5点)",type:"long",q:"――線『それ』はどんなこと？文中の言葉を使って 30字程度 で。\n「スズメバチは攻撃性が強く毒も強く、さされた人が死ぬこともある。それ にくらべ、ミツバチの毒はそれほど強くない。」",ans:"スズメバチは攻撃性が強く毒も強くて、さされた人が死ぬこともあること。",steps:["『それにくらべ』の相手＝直前のスズメバチの話","攻撃性・毒の強さ・死ぬこともある をまとめ『〜こと。』で結ぶ"],why:"指示語はすぐ前の段落までさかのぼる。",stumble:"ミツバチの話を答えにしない（くらべる相手はスズメバチ）。"},
+{id:"k2c",subject:"国語",sk:"kokugo",w:"指示語",wid:"国語-2",err:"R",lvl:"L3",rate:50,intent:"『このように』の指す範囲",type:"choice",q:"説明文で『このように』が指すのは、ふつうどこ？",choices:["文章のはじめ（話題を出す段落）から","『このように』の直前にある具体例のまとまり","文章の最後のまとめだけ"],ansIdx:1,steps:["『このように』は直前の具体例をまとめる言葉","話題を出す部分は入れない"],why:"本番(第13回問5)は範囲を広く取りすぎて誤答。",stumble:"はじめの話題提示まで含めない。"},
+
+{id:"k3a",subject:"国語",sk:"kokugo",w:"記述の型",wid:"国語-3",err:"X",lvl:"L1",rate:80,intent:"型をうめる（主語＋〜こと。）",type:"long",q:"〔本文〕しょうこちゃんが、とみちゃんを『カメみたい』と言った。それからだれも近づかなくなった。\n〔問い〕とみちゃんがひとりぼっちになった『きっかけ』は？\n（『（だれ）が…した こと。』の形で書こう）",ans:"しょうこちゃんが、とみちゃんを『カメみたい』と言ったこと。",steps:["主語『しょうこちゃんが』を入れる","文末は『〜こと。』"],why:"記述は『だれが・何を・どうした＋こと。』の型。",stumble:"状態（だれも近づかない）でなく、きっかけの出来事を書く。"},
+{id:"k3b",subject:"国語",sk:"kokugo",w:"記述の型",wid:"国語-3",err:"X",lvl:"L2",rate:55,intent:"利点を答える(本番類題)",type:"long",q:"〔本文の内容〕オオカバマダラの幼虫は、毒のあるトウワタを食べる。その毒を体にとりこんで、鳥に食べられないように身を守っている。\n〔問い〕トウワタを食べることの『利点』は？文中の言葉で 30字程度。",ans:"トウワタの毒を体にとりこんで、身を守ることに役立てられること。",steps:["本文『毒を体にとりこんで身を守る』を使う","『どんな利点？』→『〜こと。』で結ぶ"],why:"文末を聞かれ方に合わせる。",stumble:"30字程度＝27〜33字におさめる。"},
+{id:"k3c",subject:"国語",sk:"kokugo",w:"記述の型",wid:"国語-3",err:"X",lvl:"L3",rate:40,intent:"理由を答える",type:"long",q:"〔本文の内容〕ホタルは、おしりから光を出す。これは、おすとめすがおたがいを見つけて出会うための合図になっている。\n〔問い〕ホタルが光を出すのは なぜ？ 文中の言葉で 30字程度。",ans:"おすとめすがおたがいを見つけて、出会うための合図にするため。",steps:["『なぜ』→文末は『〜から。』『〜ため。』","本文の言葉（出会う合図）を使う"],why:"中身は書けている。あと一歩は『主語を入れる＋文末を合わせる』だけ。",stumble:"『〜です。』で止めず『〜ため。』で結ぶ。"},
+
+{id:"k4a",subject:"国語",sk:"kokugo",w:"消去法・段落",wid:"国語-4",err:"B",lvl:"L1",rate:70,intent:"『正しくないもの』を選ぶ",type:"choice",q:"『犬』の説明として 正しくないもの はどれ？",choices:["犬は人になつきやすい","犬はワンワン鳴く","犬は空を自由に飛べる"],ansIdx:2,steps:["1つずつ『正しい？』と○×をつける","正しくないのは『空を飛べる』"],why:"『正しくないものを選べ』は、正しいものに○をつけて残りを選ぶ。",stumble:"問いが『正しくない』か『正しい』かをよく読む。"},
+{id:"k4b",subject:"国語",sk:"kokugo",w:"消去法・段落",wid:"国語-4",err:"B",lvl:"L2",rate:50,intent:"段落分け(本番で白紙)",type:"choice",q:"ある説明文：①話題を出す ②③具体例その1 ④⑤具体例その2 ⑥まとめ。\n大きく3つに分けると、2番目のまとまりは？",choices:["①〜③","②〜⑤","④〜⑥"],ansIdx:1,steps:["①話題／②〜⑤具体例／⑥まとめ","2番目は②〜⑤"],why:"本番(第13回)は最後の2問が空らん。最後まで時間を残して必ず記号を書く。",stumble:"具体例1と2をまとめて2番目とする。"},
+
+/* ===== 理科 ===== */
+{id:"r1a",subject:"理科",sk:"rika",w:"単子葉と双子葉",wid:"理科-1",err:"K",lvl:"L1",rate:80,intent:"分類の代表例",type:"choice",q:"トウモロコシは 何類？",choices:["単子葉類","双子葉類"],ansIdx:0,steps:["単子葉類＝子葉1まい・葉脈が平行・ひげ根","イネ・トウモロコシ・ムギなど"],why:"双子葉類はホウセンカ・アブラナ・ヒマワリなど。",stumble:""},
+{id:"r1b",subject:"理科",sk:"rika",w:"単子葉と双子葉",wid:"理科-1",err:"K",lvl:"L2",rate:65,intent:"くきの維管束(本番レベル)",type:"choice",q:"くきを横に切ると、くだ（維管束）が 全体にばらばらに散らばっている のは？",choices:["単子葉類","双子葉類"],ansIdx:0,steps:["ばらばら＝単子葉類","双子葉類は外側に輪のようにならぶ"],why:"散らばる＝単子葉、輪＝双子葉。",stumble:"逆に覚えないように。"},
+{id:"r1c",subject:"理科",sk:"rika",w:"単子葉と双子葉",wid:"理科-1",err:"K",lvl:"L3",rate:50,intent:"道管の位置(本番で内外を逆に)",type:"choice",q:"根からすい上げた水や肥料が通る『道管』は、くきの断面で どこ？",choices:["内側","外側"],ansIdx:0,steps:["道管(水)＝内側","師管(養分)＝外側"],why:"『水は内（中）を通る』と覚える。本番は道管と書けたが内外を逆にした。",stumble:"師管(外側)とまちがえない。"},
+
+{id:"r2a",subject:"理科",sk:"rika",w:"種子・実・花",wid:"理科-2",err:"K",lvl:"L1",rate:75,intent:"種子の形",type:"choice",q:"アサガオの種子の形は？",choices:["角ばった半月の形","平たくてうすい","小さい丸い粒"],ansIdx:0,steps:["アサガオ＝角ばった半月","ヘチマ＝平たい、アブラナ＝小さい丸"],why:"種子の形を言葉にして覚える。",stumble:""},
+{id:"r2b",subject:"理科",sk:"rika",w:"種子・実・花",wid:"理科-2",err:"K",lvl:"L2",rate:55,intent:"実の中のようす(本番で誤答)",type:"number",q:"アサガオの実を横に切ると、種子は 最大で何個 できる？",ans:"6",accept:["6","6個","6こ"],steps:["3つの部屋に分かれ、1部屋に2個ずつ","3×2＝最大6個"],why:"実の断面を自分で描くと覚えやすい。",stumble:"本番は『4部屋に1個』を選んで誤答。"},
+
+{id:"r3a",subject:"理科",sk:"rika",w:"もののあたたまり方",wid:"理科-3",err:"K",lvl:"L1",rate:80,intent:"あたためると体積は",type:"choice",q:"空気・水・金属を あたためる と、体積はどうなる？",choices:["大きくなる","小さくなる","変わらない"],ansIdx:0,steps:["3つとも大きくなる（ふくらむ）","冷やすと小さくなる"],why:"体積は変わるが『重さ』は変わらない。",stumble:"体積と重さを混同しない。"},
+{id:"r3b",subject:"理科",sk:"rika",w:"もののあたたまり方",wid:"理科-3",err:"K",lvl:"L2",rate:75,intent:"水の体積変化(本番で誤答)",type:"choice",q:"色水をいっぱい入れたフラスコにガラス管をさし、水面に印。\nこれを 氷水で冷やす と、ガラス管の水面は？",choices:["印より上がる","印より下がる","変わらない"],ansIdx:1,steps:["冷やす→体積が小さくなる→水面は下がる"],why:"水も温度で体積が変わる（空気ほど大きくないが変わる）。",stumble:"本番は『変わらない』を選んだ。"},
+{id:"r3c",subject:"理科",sk:"rika",w:"もののあたたまり方",wid:"理科-3",err:"K",lvl:"L3",rate:55,intent:"変わり方の大きい順",type:"choice",q:"同じだけあたためたとき、体積の 変わり方が大きい順 は？",choices:["空気 ＞ 水 ＞ 金属","金属 ＞ 水 ＞ 空気","水 ＞ 空気 ＞ 金属"],ansIdx:0,steps:["空気がいちばん大きく、次に水、金属が最小"],why:"気体＞液体＞固体 の順。",stumble:""},
+
+/* ===== 社会 ===== */
+{id:"h1a",subject:"社会",sk:"shakai",w:"県章と県庁所在地",wid:"社会-1",err:"K",lvl:"L1",rate:70,intent:"県名とちがう県庁所在地",type:"text",q:"島根県 の県庁所在地は？",ans:"松江市",accept:["松江市","松江"],steps:["県名と県庁所在地がちがう県に注意"],why:"島根＝松江、香川＝高松 などは要ちゅうい。",stumble:"『島根市』は無い。"},
+{id:"h1b",subject:"社会",sk:"shakai",w:"県章と県庁所在地",wid:"社会-1",err:"K",lvl:"L1",rate:70,intent:"同上",type:"text",q:"香川県 の県庁所在地は？",ans:"高松市",accept:["高松市","高松"],steps:["香川＝高松"],why:"四国の県庁所在地はよく出る。",stumble:"『香川市』は無い。"},
+{id:"h1c",subject:"社会",sk:"shakai",w:"県章と県庁所在地",wid:"社会-1",err:"K",lvl:"L2",rate:55,intent:"県章から県名",type:"text",q:"ひらがなの『と』を、鳥が飛ぶ形にデザインした県章。これは何県？",ans:"鳥取県",accept:["鳥取県","鳥取"],steps:["『と』を鳥の形に＝鳥取県"],why:"県章は県名の最初の文字をデザインしたものが多い。",stumble:"同じ『と』の徳島とまちがえない（鳥の形がヒント）。"},
+{id:"h1d",subject:"社会",sk:"shakai",w:"県章と県庁所在地",wid:"社会-1",err:"K",lvl:"L3",rate:50,intent:"本番で県章誤認→3問連鎖失点",type:"text",q:"日本で いちばん人口が少ない県 はどこ？",ans:"鳥取県",accept:["鳥取県","鳥取"],steps:["1番少ない＝鳥取県(47位)","2番目は島根県(46位)"],why:"本番は県章を1つ見まちがえて3問つづけて失点。先に①〜④を全部決めてから答える。",stumble:"2番目の島根とまちがえない。"},
+
+{id:"h2a",subject:"社会",sk:"shakai",w:"雨温図",wid:"社会-2",err:"K",lvl:"L1",rate:70,intent:"見分けの手順",type:"choice",q:"雨温図を見分けるとき、最初に見るのは？",choices:["いきなり降水量の多い月","まず気温の高さ（寒い・ふつう・暑い）"],ansIdx:1,steps:["①気温の高さ→②降水のかたち の順"],why:"気温で大きく絞れる。",stumble:"いきなり降水量から見ない。"},
+{id:"h2b",subject:"社会",sk:"shakai",w:"雨温図",wid:"社会-2",err:"K",lvl:"L2",rate:50,intent:"本番で北海道型を高知に誤答",type:"choice",q:"『あたたかめで、夏(6〜9月)の降水量がとても多い』のはどの都市？",choices:["帯広（北海道）","那覇（沖縄）","高知"],ansIdx:2,steps:["帯広＝寒くて少雨、那覇＝1年中あたたかい","高知＝あたたかく夏に多雨 → 高知"],why:"まず気温で絞る（高知は北海道のように寒くない）。",stumble:"気温7℃の北海道型を高知に選ばない。"},
+
+{id:"h3a",subject:"社会",sk:"shakai",w:"雪国のくらし",wid:"社会-3",err:"K",lvl:"L1",rate:90,intent:"雪国の用語(本番で基本を落とした)",type:"choice",q:"地下水をふき出させて道路の雪をとかすしくみは？",choices:["流雪パイプ","除雪パイプ","消雪パイプ"],ansIdx:2,steps:["消雪パイプ＝地下水(約10℃)で雪をとかす"],why:"『除雪』は雪を取りのぞく作業ぜんぱん。用語で確実に取る。",stumble:""},
+{id:"h3b",subject:"社会",sk:"shakai",w:"雪国のくらし",wid:"社会-3",err:"K",lvl:"L2",rate:60,intent:"日本海側の降水",type:"choice",q:"日本海側の十日町市で、降水量がとくに多いのは？",choices:["1月と12月（冬）","3月と4月（春）","9月と10月（秋）"],ansIdx:0,steps:["日本海側は冬の北西季節風で大雪","雪も降水量に入る → 冬が最多"],why:"雪＝冬の降水。日本海側は冬に降水の山。",stumble:"台風の秋(9〜10月)とまちがえない。"},
+
+{id:"h4a",subject:"社会",sk:"shakai",w:"旧国名と連絡橋",wid:"社会-4",err:"K",lvl:"L1",rate:60,intent:"旧国名",type:"text",q:"昔の国の名『大和（やまと）』は、今の何県？",ans:"奈良県",accept:["奈良県","奈良"],steps:["大和＝奈良","近江＝滋賀、紀伊＝和歌山"],why:"旧国名⇔県名は地図位置とセットで覚える。",stumble:""},
+{id:"h4b",subject:"社会",sk:"shakai",w:"旧国名と連絡橋",wid:"社会-4",err:"K",lvl:"L2",rate:55,intent:"本州四国連絡橋",type:"choice",q:"『しまなみ海道』は、広島県と どこ を結ぶ？",choices:["香川県","愛媛県","徳島県"],ansIdx:1,steps:["瀬戸大橋＝岡山-香川","明石海峡＝兵庫-徳島","しまなみ海道＝広島-愛媛"],why:"3ルートの両はしの県を白地図で覚える。",stumble:"瀬戸大橋(香川)とまちがえない。"}
+];
+
+const RARE=[
+ {id:"grit",n:"ねばり強さの証",e:"💪"},{id:"calc",n:"正確な計算の達人",e:"🎯"},
+ {id:"write",n:"記述の勇者",e:"✍️"},{id:"map",n:"地図マスター",e:"🗺️"},
+ {id:"zero",n:"白紙ゼロの戦士",e:"🛡️"},{id:"focus",n:"集中のたつ人",e:"🎼"},
+ {id:"star",n:"きらめきスター",e:"🌟"}
+];
+const LV=[0,80,200,380,640,1000,1500,2200,3200,4600,6500,9000];
+const EXAM_DATE="2026-06-13";  // 組分けテスト第3回
+// 弱点の優先順位（算数の規則性を最優先 → 図形 → 社会/理科の知識 → 国語）
+const WID_ORDER=["算数-1","算数-2","算数-3","算数-4","算数-5","社会-1","社会-2","社会-3","社会-4","理科-1","理科-2","理科-3","国語-1","国語-4","国語-2","国語-3"];
+
+// ====== STATE ======
+const KEY="kumiwake3_v1";
+let st=load();
+let queue=[],qi=0,cur=null,last=null,combo=0,sessionMode="mission";
+function load(){try{const r=localStorage.getItem(KEY);if(r){const s=JSON.parse(r);if(!('plan'in s))s.plan=null;return s;}}catch(e){}
+ return{name:null,xp:0,lvl:1,streak:0,last:null,ans:{},redo:[],rare:[],hist:[],zeroDays:0,bestCombo:0,plan:null};}
+function save(){localStorage.setItem(KEY,JSON.stringify(st));}
+
+// ====== HELPERS ======
+function $(id){return document.getElementById(id);}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo(0,0);
+ $('nav').classList.toggle('hide', id==='sProblem'||id==='sName'||id==='sResult');}
+function today(){return new Date().toISOString().slice(0,10);}
+function daysBetween(a,b){return Math.floor((new Date(b)-new Date(a))/86400000);}
+function lvOf(xp){for(let i=LV.length-1;i>=0;i--)if(xp>=LV[i])return i+1;return 1;}
+function lvProg(xp){const lv=lvOf(xp);const c=LV[lv-1]||0;const n=LV[lv]||(c+3000);return{c,n,pct:Math.min(100,(xp-c)/(n-c)*100)};}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+let toastT=null;
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1800);}
+// ---- 本番カウントダウン & ミッション ----
+function daysToExam(){return daysBetween(today(),EXAM_DATE);}
+function isExamDay(){return daysToExam()<=0;}
+function lvlNum(l){return {L1:1,L2:2,L3:3,L4:4}[l]||9;}
+function widRank(w){const i=WID_ORDER.indexOf(w);return i<0?99:i;}
+function uniq(a){return [...new Set(a)];}
+function cleared(id){return st.ans[id]&&st.ans[id].correct;}
+function computeMission(){
+ const un=PROBLEMS.filter(p=>!cleared(p.id)).slice()
+   .sort((a,b)=>widRank(a.wid)-widRank(b.wid)||lvlNum(a.lvl)-lvlNum(b.lvl));
+ const redoIds=st.redo.filter(id=>!cleared(id));
+ if(isExamDay()){ // 当日：まちがい直し＋各単元の代表1問だけ（短く総ざらい）
+   const key=[],seen={};
+   for(const p of un){if(!seen[p.wid]){seen[p.wid]=1;key.push(p.id);}}
+   return uniq([...redoIds,...key]);
+ }
+ const D=Math.max(1,daysToExam());           // 残り学習日数
+ const perDay=Math.ceil(un.length/D);          // きょうのノルマ＝残り÷日数（がっつり）
+ return uniq([...redoIds,...un.slice(0,perDay).map(p=>p.id)]);
+}
+function getPlan(){const t=today();if(st.plan&&st.plan.date===t)return st.plan;
+ st.plan={date:t,ids:computeMission()};save();return st.plan;}
+
+// ====== INIT ======
+function init(){if(!st.name){show('sName');return;}updateStreak();renderHome();show('sHome');}
+function saveName(){const v=$('nameIn').value.trim();if(!v){$('nameIn').focus();return;}st.name=v;save();init();}
+function updateStreak(){const t=today();if(!st.last)return;const d=daysBetween(st.last,t);if(d===0)return;
+ if(d===1){}else if(d===2||d===3){st.streak=Math.floor(st.streak/2);}else{st.streak=0;}save();}
+function bumpStreak(){const t=today();if(st.last!==t){st.streak+=1;st.last=t;save();}}
+
+// ====== HOME ======
+const GREET=["きょうもちょっとだけ、やってみよう 🌱","おかえり！5分だけでもOK ⭐","さくせん、すすめよう 🚀","調子どう？きょうの3問、すぐ終わるよ ✨","むりせず、マイペースでいこう 🍀"];
+function renderHome(){
+ $('hi').textContent="こんにちは、"+st.name+"！";
+ $('greet').textContent= st.streak>=3 ? st.streak+"日れんぞく、すごい！" : pick(GREET);
+ $('lvNum').textContent=st.lvl;$('xpNum').textContent=st.xp;$('stkNum').textContent=st.streak;
+ $('clrNum').textContent=Object.values(st.ans).filter(a=>a.correct).length;
+ const p=lvProg(st.xp);
+ const C=226,off=C-C*p.pct/100;
+ const rf=$('ringFill');rf.style.transition='none';rf.setAttribute('stroke-dashoffset',C);
+ requestAnimationFrame(()=>{rf.style.transition='stroke-dashoffset 1s cubic-bezier(.3,1,.4,1)';rf.setAttribute('stroke-dashoffset',off);});
+ $('lvBar').style.width=p.pct+'%';
+ $('lvTxt').textContent=`レベル${st.lvl}　あと ${Math.max(0,p.n-st.xp)} XP で レベルアップ！`;
+ renderCountdown();renderPlan();renderMission();renderRedo();renderSeg();
+}
+function renderCountdown(){
+ const d=daysToExam();let t;
+ if(d>1)t=`⏰ テストまで あと <b>${d}</b> 日！`;
+ else if(d===1)t='⏰ テストは <b>あした</b>！ラストスパート 🔥';
+ else if(d===0)t='🎯 きょうが <b>本番</b>！いってらっしゃい 🚀';
+ else t='🌸 おつかれさま！結果がたのしみだね';
+ $('cdBar').innerHTML=t;
+}
+function renderPlan(){
+ const d=daysToExam();
+ const days=[
+  {k:2,ic:'🔢',t:'1日目（今日）',sub:'算数を制覇！規則性・植木・図形＋理科'},
+  {k:1,ic:'🗺️',t:'2日目',sub:'国語・社会＋まちがい直し'},
+  {k:0,ic:'🎯',t:'本番当日',sub:'まちがえた問題だけ総ざらい→いってらっしゃい'}
+ ];
+ $('planList').innerHTML=days.map(x=>{
+  let cls='',tag='';
+  if(d===x.k){cls='now';tag='いまここ';}
+  else if(d<x.k){cls='done';tag='すんだ';}
+  return `<div class="pday ${cls}"><div class="pic">${x.ic}</div>
+   <div class="pt"><b>${x.t}</b><div>${x.sub}</div></div>${tag?`<span class="tag">${tag}</span>`:''}</div>`;
+ }).join('');
+}
+function renderMission(){
+ const plan=getPlan(),ids=plan.ids;
+ const done=ids.filter(cleared).length,total=ids.length;
+ const pct=total?Math.round(done/total*100):100;
+ const allDone=total>0&&done>=total;
+ $('missionCount').textContent= total? total+'問':'—';
+ $('missionBar').style.width=pct+'%';
+ $('missionProg').textContent= total? (allDone?'🎉 きょうのミッション達成！えらすぎる':`${done} / ${total}問クリア（${pct}%）`):'';
+ const remain=ids.filter(id=>!cleared(id));
+ const prev=remain.slice(0,4).map(id=>PROBLEMS.find(p=>p.id===id)).filter(Boolean);
+ $('todayList').innerHTML= prev.map(itemHTML).join('')+(remain.length>4?`<p class="muted" style="margin-top:6px;">…ほか ${remain.length-4}問</p>`:'');
+ const btn=$('missionBtn'),sub=$('missionSub'),d=daysToExam();
+ if(allDone){btn.textContent='ボーナス問題に挑戦 ⚡';sub.textContent='ミッション達成！余力があれば先取りしよう';}
+ else{btn.textContent= isExamDay()?'直前チェック開始 🎯':'ミッション開始 🚀';
+  sub.textContent= isExamDay()?'本番直前！まちがえた所だけ サッと総ざらい':`あと${Math.max(1,d)}日で全部やりきる作戦。今日のノルマは ${total}問、がっつりいこう！`;}
+}
+function statusMark(p){const a=st.ans[p.id];if(!a)return"";return a.correct?"✅":"🔁";}
+
+function renderRedo(){
+ const ids=st.redo.slice();const card=$('redoCard');
+ if(!ids.length){card.style.display='none';return;}
+ card.style.display='';
+ $('redoList').innerHTML=ids.slice(0,5).map(id=>{const p=PROBLEMS.find(x=>x.id===id);return p?itemHTML(p):'';}).join('');
+}
+function itemHTML(p){
+ return `<div class="item" onclick="openOne('${p.id}')">
+  <span class="badge b-${p.sk}">${SUBJ_EMOJI[p.subject]} ${p.subject}</span>
+  <span class="badge b-${p.lvl.toLowerCase()}">${p.lvl}</span>
+  <span class="t">${p.w}</span><span class="st">${statusMark(p)}</span></div>`;
+}
+let segFilter='算数';
+function renderSeg(){
+ const subs=['算数','国語','理科','社会'];
+ $('seg').innerHTML=subs.map(s=>`<button class="${segFilter===s?'on':''}" onclick="setSeg('${s}')">${SUBJ_EMOJI[s]} ${s}</button>`).join('');
+ $('allList').innerHTML=PROBLEMS.filter(p=>p.subject===segFilter).map(p=>itemHTML(p)).join('');
+}
+function setSeg(s){segFilter=s;renderSeg();}
+
+// ====== SESSION ======
+function startMission(){sessionMode="mission";const plan=getPlan();
+ let q=plan.ids.filter(id=>!cleared(id));
+ if(!q.length){q=PROBLEMS.filter(p=>!cleared(p.id)).map(p=>p.id);} // ミッション済→ボーナス
+ if(!q.length){toast('全問クリア！すごすぎ 🎉');confetti(60);return;}
+ queue=q;qi=0;combo=0;openByIndex();}
+function startRedo(){sessionMode="redo";queue=st.redo.slice();if(!queue.length){toast('もう一回ボックスは空っぽ！');return;}qi=0;combo=0;openByIndex();}
+function openByIndex(){if(qi>=queue.length){goHome();return;}openOne(queue[qi],true);}
+function openOne(id,inSession){
+ cur=PROBLEMS.find(x=>x.id===id);if(!cur)return;
+ if(!inSession){queue=[id];qi=0;sessionMode="single";combo=0;}
+ // progress (bar + count; ミッションは問題数が多いのでバー表示)
+ const pc=Math.round(qi/queue.length*100);
+ $('dots').style.display='block';
+ $('dots').innerHTML=`<div class="qbar"><i style="width:${pc}%"></i></div><div class="qcount">${qi+1} / ${queue.length}問目</div>`;
+ $('pBadges').innerHTML=`<span class="badge b-${cur.sk}">${SUBJ_EMOJI[cur.subject]} ${cur.subject}</span>
+   <span class="badge b-${cur.lvl.toLowerCase()}">${cur.lvl}</span>
+   <span class="muted">想定正答率 ${cur.rate}%</span>${cur.lvl==='L4'?' <span class="pill">取れなくてOK</span>':''}`;
+ $('pWeak').textContent=cur.w;
+ $('pIntent').textContent='🎯 '+cur.intent;
+ $('pQ').textContent=cur.q;
+ renderInput(cur);
+ $('pFb').innerHTML='';$('pActions').style.display='';
+ $('pActions').innerHTML='<button class="btn" onclick="check()">答えあわせ ✨</button>';
+ show('sProblem');
+}
+function renderInput(p){
+ let h='';
+ if(p.type==='number'){h=`<input type="text" id="ai" inputmode="decimal" placeholder="答えを書く" autocomplete="off">`;}
+ else if(p.type==='text'){h=`<input type="text" id="ai" placeholder="答えを書く" autocomplete="off">`;}
+ else if(p.type==='long'){h=`<textarea id="ai" placeholder="自分の言葉で書こう（空らんダメ絶対！🛡️）"></textarea><p class="muted">※記述は答えの例と見くらべる自己さいてんだよ</p>`;}
+ else if(p.type==='choice'){h='<div class="choices">'+p.choices.map((c,i)=>`<button class="choice" onclick="selC(this,${i})"><span class="k">${'アイウエオ'[i]}</span><span>${c}</span></button>`).join('')+'</div><input type="hidden" id="ai" value="">';}
+ $('pAns').innerHTML=h;
+}
+function selC(el,i){document.querySelectorAll('.choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');$('ai').value=i;}
+
+function normNum(s){const m=String(s).replace(/，/g,'').match(/-?\d+(\.\d+)?/);return m?parseFloat(m[0]):NaN;}
+function normTxt(s){return String(s).replace(/\s|　|、|，|。/g,'').toLowerCase();}
+
+function check(){
+ if(!cur)return;const el=$('ai');const raw=(el.value||'').trim();const blank=raw==='';
+ let correct=false;
+ if(cur.type==='long'){correct=!blank;}
+ else if(cur.type==='choice'){correct=String(raw)!==''&&Number(raw)===cur.ansIdx;}
+ else if(cur.type==='number'){const a=normNum(raw);correct=!isNaN(a)&&(a===normNum(cur.ans)||(cur.accept||[]).some(x=>normTxt(x)===normTxt(raw)));}
+ else{const acc=cur.accept||[cur.ans];correct=acc.some(x=>{const nx=normTxt(x),nr=normTxt(raw);return nr!==''&&(nr===nx||nr.includes(nx)||nx.includes(nr));});}
+
+ bumpStreak();
+ const rec=st.ans[cur.id]||{attempts:0,correct:false,everBlank:false};
+ rec.attempts++;rec.lastDate=today();
+ if(blank&&cur.type!=='long')rec.everBlank=true;
+ const firstTry=rec.attempts===1;
+ // XP
+ const base={L1:10,L2:20,L3:40,L4:80}[cur.lvl];
+ let xp=0;
+ if(correct){xp= firstTry?base:Math.max(5,Math.floor(base/2)); if(!rec.correct){/*newly cleared*/}}
+ if(cur.type==='long'&&!blank)xp+=5; // 白紙ゼロボーナス
+ rec.correct=correct||rec.correct;
+ st.ans[cur.id]=rec;
+ // redo queue
+ if(correct){st.redo=st.redo.filter(id=>id!==cur.id);}
+ else if(!st.redo.includes(cur.id)){st.redo.push(cur.id);}
+ // combo
+ if(correct)combo++;else combo=0;
+ if(combo>st.bestCombo)st.bestCombo=combo;
+ st.xp+=xp;st.lvl=lvOf(st.xp);
+ // rare
+ let rare=null;
+ if(correct&&Math.random()<0.12){const r=pick(RARE);if(!st.rare.find(c=>c.id===r.id)){st.rare.push({...r,date:today()});rare=r;}}
+ save();
+ last={correct,blank,xp,rare,p:cur,firstTry};
+ renderFeedback();
+}
+
+function msgFor(kind,p){
+ const N=st.name||'キミ';
+ const M={
+  correct:["やったね！{s}の考え方が入ってるよ ✨","一発で取れた！順番が合ってた 🎯","ねばって正解！この調子 💪","式の道すじが見えてた。落ち着いて解けたね ⭐","正解！『何を聞かれてるか』を読み取れたね"],
+  correctHard:["お〜！これは難しめなのに取れた 🔥","応用が取れた！本番でも差がつくところだよ","{n}、この粘りが本番で出たら強い ⚡","上のクラスの難しさ。挑戦して取れたのがすごい 🏆"],
+  ng:["おしい！方向は合ってる。もう一回見直そう 🤏","あと一歩！解き方を声に出して読んでみよう","近い！ステップを1つずつ確かめてみる？","まちがいも学び。次は取れるパターンだよ 🌱"],
+  blank:["空らんはもったいない！何か書けば点のチャンス 🛡️","次は一語でもいいから書こう。書いた人だけに点が来る","{n}、記号や式だけでも書く作戦でいこう"],
+  longok:["書けた!! それが超大事 🛡️ 白紙だと0点、書けば部分点のチャンス","自分の言葉で書けたね。答えの例と見くらべてみよう 🌟","型(主語＋〜こと。)で書けてる。これが記述の入り口！"]
+ };
+ let arr;
+ if(kind==='correct')arr= (p.lvl==='L3'||p.lvl==='L4')?M.correctHard:M.correct;
+ else if(kind==='long')arr=M.longok;
+ else if(kind==='blank')arr=M.blank;
+ else arr=M.ng;
+ return pick(arr).replace('{n}',N).replace('{s}',p.subject);
+}
+function renderFeedback(){
+ const p=cur,r=last;
+ const isLong=p.type==='long';
+ let head,cls,ic,msg;
+ if(isLong){head='書けたね！';cls='ok';ic='🛡️';msg=msgFor('long',p);}
+ else if(r.correct){head='せいかい！';cls='ok';ic='🎉';msg=msgFor('correct',p);}
+ else if(r.blank){head='空らんはもったいない！';cls='ng';ic='🙌';msg=msgFor('blank',p);}
+ else{head='おしい！';cls='ng';ic='🤔';msg=msgFor('ng',p);}
+ let h=`<div class="fb ${cls}"><b>${ic} ${head}</b><br>${msg}`;
+ if(r.correct&&combo>=3&&!isLong)h+=`<br><span class="combo">🔥 ${combo}れんぞく正解！</span>`;
+ h+=`</div>`;
+ // answer
+ if(isLong){h+=`<div class="sol"><h4>📝 答えの例（自分で見くらべよう）</h4><p><b>${p.ans}</b></p><p class="muted">キーワードが入っていればOK！主語と『〜こと/から/ため。』の文末をチェック。</p></div>`;}
+ else if(!r.correct){h+=`<div class="sol"><h4>💡 正しい答え</h4><p><b>${p.type==='choice'?'アイウエオ'[p.ansIdx]+'．'+p.choices[p.ansIdx]:p.ans}</b></p></div>`;}
+ // 3-layer reveal
+ h+=`<div id="more" style="display:none;">`;
+ h+=`<div class="sol"><h4>📖 とき方ステップ</h4><ol>${p.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div>`;
+ if(p.why)h+=`<div class="sol"><h4>🌱 なぜこうする？</h4><p>${p.why}</p></div>`;
+ if(p.stumble)h+=`<div class="sol"><h4>⚠️ つまずきポイント</h4><p>${p.stumble}</p></div>`;
+ h+=`</div><div class="reveal" onclick="toggleMore(this)">💡 とき方を見る ▼</div>`;
+ $('pFb').innerHTML=h;
+ $('pActions').style.display='none';
+ setTimeout(()=>{const b=document.createElement('button');b.className='btn';b.style.marginTop='6px';b.textContent='つぎへ ➡️';b.onclick=toResult;$('pFb').appendChild(b);},450);
+}
+function toggleMore(el){const m=$('more');const open=m.style.display==='none';m.style.display=open?'block':'none';el.innerHTML=open?'💡 とき方をとじる ▲':'💡 とき方を見る ▼';}
+
+function toResult(){
+ const r=last;if(!r){goHome();return;}
+ $('rTitle').textContent= (r.p.type==='long')?'🛡️ かけた！':(r.correct?'🎉 クリア！':(r.blank?'🙌 つぎはかこう':'💪 もう一回ボックスへ'));
+ $('rXp').textContent= r.xp>0?`+${r.xp} XP`:'＋0 XP';
+ $('rCombo').innerHTML= (r.correct&&combo>=2)?`<span class="combo">🔥 ${combo}れんぞく正解</span>`:'';
+ $('rMsg').textContent= r.correct? 'いい1歩！この調子でいこう 🌱' : 'まちがえた問題は「もう一回ボックス」に入れたよ。あとでもう一度ね 🔁';
+ if(r.rare){$('rRare').innerHTML=`<div class="rare">✨ レアカード ゲット ✨<div style="font-size:46px;margin:6px 0;">${r.rare.e}</div><b>『${r.rare.n}』</b></div>`;confetti();}
+ else{$('rRare').innerHTML='';if(r.correct&&r.firstTry)confetti(18);}
+ const lastInQueue= qi>=queue.length-1;
+ $('rNext').textContent= lastInQueue?'けっか を見る 🏁':'つぎへ ➡️';
+ show('sResult');
+}
+function nextInQueue(){
+ qi++;
+ if(qi<queue.length){
+   if(qi%5===0)toast(`${qi}問おわった！水分とってOK。あと${queue.length-qi}問 💪`);
+   openByIndex();
+ }else{ // session end
+   toast(`おつかれさま！${queue.length}問やりきった 🌟`);
+   confetti(50);
+   goHome();
+ }
+}
+function goHome(){renderHome();show('sHome');setNav('navHome');}
+function openDex(){renderDex();show('sDex');setNav('navDex');}
+function setNav(id){$('navHome').classList.toggle('on',id==='navHome');$('navDex').classList.toggle('on',id==='navDex');}
+
+// ====== DEX ======
+function renderDex(){
+ const wids=[...new Set(PROBLEMS.map(p=>p.wid))];
+ $('dexGrid').innerHTML=wids.map(wid=>{
+  const ps=PROBLEMS.filter(p=>p.wid===wid);const p0=ps[0];
+  const done=ps.filter(p=>st.ans[p.id]&&st.ans[p.id].correct).length;const tot=ps.length;
+  const pct=Math.round(done/tot*100);const unlocked=done>0;
+  const C=176,off=C-C*pct/100;
+  const col=getComputedStyle(document.documentElement).getPropertyValue('--'+p0.sk).trim()||'#FF7A59';
+  return `<div class="dexc ${unlocked?'':'lock'}">
+   <div class="mini-ring"><svg width="62" height="62" viewBox="0 0 62 62">
+     <circle cx="31" cy="31" r="28" fill="none" stroke="rgba(120,120,150,.18)" stroke-width="6"/>
+     <circle cx="31" cy="31" r="28" fill="none" stroke="${col}" stroke-width="6" stroke-linecap="round" stroke-dasharray="176" stroke-dashoffset="${off}"/>
+   </svg><div class="em">${unlocked?SUBJ_EMOJI[p0.subject]:'🔒'}</div></div>
+   <div class="nm">${p0.w}</div><div class="pg">${done}/${tot} クリア</div></div>`;
+ }).join('');
+ const rg=$('rareGrid');
+ if(st.rare.length){$('rareEmpty').style.display='none';
+  rg.innerHTML=st.rare.map(c=>`<div class="dexc" style="background:linear-gradient(135deg,#FFE08A,#FFAE45);"><div style="font-size:34px;">${c.e}</div><div class="nm" style="color:#5A3410;">${c.n}</div></div>`).join('');
+ }else{$('rareEmpty').style.display='';rg.innerHTML='';}
+}
+
+// ====== CONFETTI ======
+function confetti(n){n=n||60;const c=document.createElement('div');c.className='cf';
+ const cols=['#FF7A59','#FFC23C','#42C28E','#3FA7F0','#FF9EC4','#7C6CF0'];
+ for(let i=0;i<n;i++){const e=document.createElement('i');e.style.background=pick(cols);e.style.left=Math.random()*100+'%';
+  e.style.animationDuration=(2+Math.random()*1.6)+'s';e.style.animationDelay=(Math.random()*.4)+'s';c.appendChild(e);}
+ document.body.appendChild(c);setTimeout(()=>c.remove(),3800);}
+
+// ====== PARENT ======
+let holdT=null;
+function holdStart(){holdT=setTimeout(openParent,1500);}
+function holdEnd(){clearTimeout(holdT);}
+function openParent(){
+ const t=today();
+ const todayItems=Object.entries(st.ans).filter(([_,v])=>v.lastDate===t);
+ const correct=todayItems.filter(([_,v])=>v.correct).length;
+ const blanksAvoided=todayItems.filter(([id,v])=>{const p=PROBLEMS.find(x=>x.id===id);return p&&p.type==='long';}).length;
+ const wmap={};todayItems.forEach(([id])=>{const p=PROBLEMS.find(x=>x.id===id);if(p)wmap[p.w]=(wmap[p.w]||0)+1;});
+ const totalCleared=Object.values(st.ans).filter(a=>a.correct).length;
+ const notes=[
+  `今日は ${todayItems.length} 問に取り組みました（正解 ${correct} 問）。`,
+  st.streak?`${st.streak} 日連続で続けています。習慣化のサインです。`:'',
+  st.redo.length?`「もう一回ボックス」に ${st.redo.length} 問。間違いを寝かせて再挑戦する設計です（間隔をあけた想起＝定着に有効）。`:'今は復習待ちの問題はありません。',
+  blanksAvoided?`記述問題で ${blanksAvoided} 回「白紙にせず書く」ができました。今回の最重要ポイントです。`:'',
+  st.bestCombo>=3?`最高 ${st.bestCombo} 問連続正解。乗ってくると強いです。`:''
+ ].filter(Boolean);
+ $('parentBody').innerHTML=`
+  <div class="card"><h3>📊 今日の取り組み</h3>
+   <p>解いた問題：<b>${todayItems.length}</b>／正解：<b>${correct}</b></p>
+   <p>累計クリア：<b>${totalCleared}</b>／${PROBLEMS.length}問　連続：<b>🔥${st.streak}</b></p></div>
+  <div class="card"><h3>🎯 今日ふれた単元</h3><p>${Object.entries(wmap).map(([w,c])=>`・${w}（${c}問）`).join('<br>')||'（まだ取り組んでいません）'}</p></div>
+  <div class="card"><h3>💬 保護者の方へ</h3>${notes.map(n=>`<p>${n}</p>`).join('')}
+   <p class="muted">褒めるときは「プロセス」を具体的に（例：「後半の大問にも手をつけたね」「空らんを作らなかったね」）。点数より<b>白紙の少なさ</b>を見てあげてください。</p></div>
+  <div class="card"><h3>🧭 今回の作戦の根拠</h3><p class="muted">第1〜14回の通し分析では、お子さんの成績の波は知識より<b>白紙（未着手）</b>で説明できました。算数は計算が強みで、落ち込みは後半大問の白紙が原因。国語の記述が唯一の定着弱点です。このアプリは「空らんを作らない」「記述は書けば加点」「間違いは再挑戦」を中心に設計しています。</p></div>`;
+ show('sParent');
+}
+
+// boot
+init();
+</script>
+</body>
+</html>
