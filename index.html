@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="robots" content="noindex, nofollow">
-<title>レベルアップ道場 ⚡</title>
+<title>組分け第8回 だいさくせん 🎯</title>
 <style>
 :root{
   --bg:#F6F7FF; --bg2:#EEF0FF; --card:#FFFFFF; --text:#22253A; --sub:#6F7590;
@@ -101,6 +101,20 @@ table.t{width:100%;border-collapse:collapse;font-size:13.5px;} table.t td,table.
 .rare{background:linear-gradient(135deg,#FFF6D5,#FFE29A);border:2px solid var(--gold);color:#6B4A00;border-radius:16px;padding:12px 14px;margin:10px 0;animation:pop .5s;}
 details summary{cursor:pointer;font-weight:800;list-style:none;} details summary::-webkit-details-marker{display:none;}
 .kbd{font-family:ui-monospace,monospace;font-size:13px;background:rgba(120,120,150,.12);padding:2px 6px;border-radius:6px;}
+.cd{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border-radius:999px;padding:4px 12px;font-weight:800;font-size:13px;margin-top:8px;}
+.cd b{font-size:17px;}
+.fig{margin:8px 0;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;text-align:center;color:var(--text);}
+.fig svg{max-width:100%;height:auto;}
+.fig .cap{font-size:12.5px;color:var(--sub);margin-top:4px;}
+.dash{position:sticky;top:0;z-index:30;background:var(--bg);padding:6px 0 8px;margin-bottom:4px;display:none;}
+.dash.on{display:block;}
+.dash .tm{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;}
+.dash .bar>i{background:linear-gradient(90deg,#22B07D,#FFC23C,#FF7A59);}
+.plan{display:flex;gap:6px;margin:8px 0 2px;}
+.plan div{flex:1;text-align:center;background:rgba(120,120,150,.10);border-radius:12px;padding:6px 2px;font-size:11.5px;color:var(--sub);font-weight:700;}
+.plan div b{display:block;font-size:17px;color:var(--text);}
+.kai{display:inline-block;font-size:11px;font-weight:800;color:var(--primary);border:1.5px solid var(--primary);border-radius:7px;padding:0 6px;margin-left:4px;vertical-align:middle;}
+table.mini{border-collapse:collapse;margin:6px auto;font-size:15px;} table.mini td,table.mini th{border:1px solid var(--line);padding:4px 10px;text-align:center;} table.mini th{background:rgba(120,120,150,.10);font-weight:700;}
 </style>
 </head>
 <body>
@@ -109,8 +123,8 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
 <!-- ===== 初回設定 ===== -->
 <section id="sName" class="screen">
   <div class="card hero"><div class="orb" style="width:160px;height:160px;right:-40px;top:-50px"></div><div class="orb" style="width:90px;height:90px;left:-20px;bottom:-30px"></div>
-    <h1>⚡ レベルアップ道場</h1><p class="muted">きみ専用の練習アプリ。1日 6問・8分。まちがえた問題は、いちばんいいタイミングでまた出てくる。</p></div>
-  <div class="card"><h2>なまえ（ニックネームでOK）</h2><input type="text" id="nameIn" placeholder="ちはや" maxlength="12" enterkeyhint="done">
+    <h1>🎯 組分け第8回 だいさくせん</h1><p class="muted">12月13日の組分けテスト（4年下 第11〜14回）にむけた、きみ専用の練習アプリ。まちがえた問題は、テストまでにいちばんいいタイミングでまた出てくる。</p></div>
+  <div class="card"><h2>なまえ（ニックネームでOK）</h2><input type="text" id="nameIn" placeholder="ニックネーム" maxlength="12" enterkeyhint="done">
     <h2 style="margin-top:16px">いつやる？ 🕒</h2><p class="muted">「〇〇したらやる」と決めておくと、続く確率が2〜3倍になるよ。</p>
     <div class="choices" id="whenList"></div>
     <div style="height:14px"></div><button class="btn" onclick="saveName()">はじめる 🚀</button></div>
@@ -122,33 +136,36 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
     <div class="row"><div class="ring"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48" cy="48" r="41" stroke="rgba(255,255,255,.25)" stroke-width="9" fill="none"/><circle id="ringArc" cx="48" cy="48" r="41" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="257.6" style="transition:stroke-dashoffset .8s cubic-bezier(.3,1,.4,1)"/></svg><div class="c"><b id="hLv">1</b><small>レベル</small></div></div>
       <div style="flex:1"><h1 id="hTitle">やあ！</h1><div class="muted" id="hSub"></div>
         <div class="hstats"><div class="hstat"><b id="hXp">0</b><span>XP</span></div><div class="hstat"><b><span class="flame">🔥</span><span id="hStreak">0</span></b><span>連続日</span></div><div class="hstat"><b id="hMaster">0</b><span>定着</span></div></div></div></div>
-    <div class="muted" id="hNext" style="margin-top:8px"></div>
+    <div class="row" style="gap:8px;flex-wrap:wrap"><span class="cd" id="hCd"></span><span class="muted" id="hNext" style="margin-top:8px"></span></div>
   </div>
 
   <div class="mission" id="missionBox"></div>
   <div class="card" id="todayCard">
     <div class="row"><h2 style="margin:0">今日のミッション</h2><span class="sp"></span><span class="muted" id="todayMeta"></span></div>
-    <div class="bar" style="margin:8px 0 12px"><i id="todayBar" style="width:0%"></i></div>
+    <div class="bar" style="margin:8px 0 6px"><i id="todayBar" style="width:0%"></i></div><div class="plan" id="planRow"></div><div style="height:6px"></div>
     <div id="todayList"></div>
     <button class="btn" id="startBtn" onclick="startMission()">スタート ▶</button>
-    <div class="btnrow" style="margin-top:10px"><button class="btn sec" onclick="startRedo()">🔁 もう一回ボックス <span id="redoN"></span></button><button class="btn sec" onclick="startDrill()">🗾 都道府県ドリル</button></div>
+    <div class="btnrow" style="margin-top:10px"><button class="btn sec" onclick="startRedo()">🔁 もう一回ボックス <span id="redoN"></span></button><button class="btn sec" onclick="startDrill()">🗾 一問一答ドリル</button></div>
+    <div class="btnrow" style="margin-top:10px"><button class="btn acc" onclick="startDash()">🏁 さいごまで行く練習（5問・5分）</button></div><div class="muted" style="margin-top:6px">時間内に「さいごの問題まで行く」練習。むずかしい問題は とばして OK。正解数より、さいごまで行けたかが大事。</div>
   </div>
 
   <div class="card"><div class="row"><h2 style="margin:0">単元べつに選ぶ</h2><span class="sp"></span><span class="muted">自分で決めてOK</span></div>
     <div class="seg" id="segRow"></div><div id="widList"></div></div>
 
-  <div class="card"><details><summary>🎯 テストの日の作戦（最後の大問まで行く）</summary>
+  <div class="card"><details><summary>🎯 テストの日の作戦（タップでひらく）</summary>
     <ul class="rules">
-      <li><span class="n">1</span><span><b>国語の説明文</b>は、さいごの「内容に合うもの」「要旨」の問いを<b>先に読んでから</b>本文を読む。</span></li>
-      <li><span class="n">2</span><span><b>社会</b>は、大問3（都道府県）に<b>残り8分</b>で必ず入る。時間が来たら、途中の問題は飛ばしてでも行く。</span></li>
-      <li><span class="n">3</span><span><b>算数</b>は、正答率が低そうな最後の(2)(3)はすてていい。そのかわり、<b>各大問の(1)は必ず書く</b>。</span></li>
-      <li><span class="n">4</span><span>選択問題は<b>空らんで出さない</b>。迷ったら消去法で1つ書く。記述は「〜から。」まで書き切る。</span></li>
-      <li><span class="n">5</span><span>「東・西」「単子葉・双子葉」など<b>2択のときは、図で向きを指さして確認</b>してから書く。</span></li>
+      <li><span class="n">1</span><span><b>算数の大問1</b>は全部うめる。逆算は「計算の順に番号→逆からほどく」。帯分数のかけ算・わり算は、まず仮分数に。</span></li>
+      <li><span class="n">2</span><span><b>算数のうしろの大問</b>も、(1)は必ず読んで書く。(2)は30秒考えて、手が動かなければ次の大問の(1)へ。</span></li>
+      <li><span class="n">3</span><span><b>とばした問題</b>は、問題番号に○。さいごに○の問題へ必ず戻る。</span></li>
+      <li><span class="n">4</span><span><b>国語の記述</b>は白紙にしない。先に文末を決める（どういうこと→「〜ということ。」／なぜ→「〜から。」）。「だから」「つまり」のあと＝結論を必ず入れる。</span></li>
+      <li><span class="n">5</span><span><b>ぬき出し</b>は、字数を指で数える。「。」は入れない。うしろの言葉につなげて読んでたしかめる。</span></li>
+      <li><span class="n">6</span><span><b>理科・社会</b>は「正しくないもの」「すべて」「同じ時刻」に線を引く。理由の記述は、まず〈ねだん〉（外国産のほうが安い／高く売れる）を考える。</span></li>
     </ul></details></div>
 </section>
 
 <!-- ===== 問題 ===== -->
 <section id="sQ" class="screen">
+  <div class="dash" id="dashBox"><div class="tm"><span>🏁 さいごまで行く練習</span><span class="sp"></span><span id="dashTime">5:00</span></div><div class="bar" style="margin-top:4px"><i id="dashBar" style="width:100%"></i></div></div>
   <div class="dots" id="dots"></div>
   <div class="card">
     <div id="qHead"></div>
@@ -160,7 +177,7 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
       <div class="conf"><button data-c="1" onclick="setConf(1)"><b>😕</b>たぶんちがう</button><button data-c="2" class="on" onclick="setConf(2)"><b>🙂</b>まあまあ</button><button data-c="3" onclick="setConf(3)"><b>😎</b>ぜったい合ってる</button></div></div>
     <div style="height:12px"></div>
     <div class="btnrow"><button class="btn" id="checkBtn" onclick="check()">答え合わせ ✨</button></div>
-    <div class="btnrow" style="margin-top:8px"><button class="btn sec sm" onclick="skipQ()">あとでやる</button><button class="btn sec sm" onclick="goHome()">やめる（進みは保存）</button></div>
+    <div class="btnrow" style="margin-top:8px"><button class="btn sec sm" id="skipBtn" onclick="skipQ()">あとでやる</button><button class="btn sec sm" onclick="goHome()">やめる（進みは保存）</button></div>
     <div id="fbBox"></div>
   </div>
 </section>
@@ -176,7 +193,7 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
 
 <!-- ===== 都道府県ドリル ===== -->
 <section id="sDrill" class="screen">
-  <div class="card"><div class="row"><h2 style="margin:0">🗾 都道府県ドリル</h2><span class="sp"></span><span class="muted" id="dMeta"></span></div>
+  <div class="card"><div class="row"><h2 style="margin:0">🗾 一問一答ドリル</h2><span class="sp"></span><span class="muted" id="dMeta"></span></div>
     <div class="dots" id="dDots"></div>
     <div class="qbox" id="dQ"></div>
     <div id="dInput"></div>
@@ -187,7 +204,7 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
 
 <!-- ===== 図鑑 ===== -->
 <section id="sDex" class="screen">
-  <div class="card"><h2>📖 図鑑（定着カード）</h2><p class="muted">同じ問題を<b>日をあけて3回</b>正解すると、カードが金色になる＝「定着」。1回できただけでは、まだ半分。</p>
+  <div class="card"><h2>📖 図鑑（定着カード）</h2><p class="muted">同じ問題を<b>別の日に3回</b>正解すると、カードが金色になる＝「定着」。1回できただけでは、まだ半分。</p>
     <div class="bar"><i id="dexBar" style="width:0%"></i></div><div class="muted" id="dexMeta" style="margin-top:6px"></div></div>
   <div class="dex" id="dexGrid"></div>
   <div class="card" id="rareBox"><h2>✨ レアカード</h2><div id="rareList" class="muted">まだない。正解したときに、ときどき出るよ。</div></div>
@@ -202,12 +219,13 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
   <div class="card"><h2>設計メモ（なぜこの作りか）</h2>
     <ul class="rules">
       <li><span class="n">1</span><span><b>思い出す練習（retrieval practice）</b>：答えを見る前に必ず自分で書く。解説は答え合わせ後に3層で開く。</span></li>
-      <li><span class="n">2</span><span><b>間隔反復（spacing）</b>：正解→3日→7日→14日→30日後に再出題。まちがい→翌日。日をあけて3回正解で「定着」。</span></li>
+      <li><span class="n">2</span><span><b>間隔反復（spacing）</b>：テスト前は 正解→2日→4日→6日後（前日までに3回思い出す）、テスト後は 3日→7日→14日→30日後。まちがい→翌日。別の日に3回正解で「定着」。</span></li>
       <li><span class="n">3</span><span><b>交互練習（interleaving）</b>：今日の6問は教科をまぜて出す。同じ型の連続より本番に強くなる。</span></li>
       <li><span class="n">4</span><span><b>自信判断（JOL）</b>：答え合わせ前に自信を選ぶ。高自信の誤りは強調して修正（hypercorrection）。</span></li>
       <li><span class="n">5</span><span><b>記述はルーブリック自己採点</b>：白紙にせず書く→模範解答と比べて要素をチェック。書いただけでもXP。</span></li>
       <li><span class="n">6</span><span><b>成長マインドセットの声かけ</b>：能力ではなく手順をほめる。減点・ペナルティ・他人との比較は一切なし。</span></li>
-      <li><span class="n">7</span><span><b>実行意図</b>：「〇〇したらやる」を最初に決める。ストリークは週末保護＋途切れても半分残す。</span></li>
+      <li><span class="n">7</span><span><b>行動の練習</b>：「さいごまで行く練習」は、最大の失点源＝時間切れの末尾白紙に対して、とばす判断そのものを練習する（正解数ではなく到達を評価）。</span></li>
+      <li><span class="n">8</span><span><b>実行意図</b>：「〇〇したらやる」を最初に決める。ストリークは週末保護＋途切れても半分残す。</span></li>
     </ul></div>
   <div class="card"><h2>データ</h2><div class="btnrow"><button class="btn sec sm" onclick="copySummary()">今日のまとめをコピー</button><button class="btn sec sm" onclick="exportData()">JSONを書き出す</button></div>
     <div class="btnrow" style="margin-top:8px"><button class="btn sec sm" onclick="toggleTheme()">🌗 テーマ切替</button><button class="btn sec sm" onclick="resetAll()" style="color:var(--ng)">進捗をリセット</button></div></div>
@@ -225,131 +243,210 @@ details summary{cursor:pointer;font-weight:800;list-style:none;} details summary
 
 <script>
 /* =====================================================================
-   問題データ（2026-09 通し分析の重点項目 P1〜P3 から設計）
-   type: number / text / choice / multi / long
-   err: K知識 P手続き E実行 R読み取り X表現 B時間 S注意
-   rate: 想定正答率（母集団）  exp: 取れなくてOK（見て慣れる用）
+   問題データ：組分けテスト第8回（2026-12-13、範囲 4年下 第11〜14回＋第15回総合）
+   根拠: カリテ下第11・12回の全失点18問、組分け第6・7回、下第3・4回・第8・9回の答案、
+         9月以降の横断集計（計算 62% vs 母集団77%、記述の要素欠落、ぬき出しの白紙）
+   第13・14回はカリテ前（12/5）なので「予習」単元として基本〜標準を収録（pre:true）
+   type: number / text / choice / multi / long   strict: ぬき出し（句読点も一字一句）
    ===================================================================== */
+const FIG_NET = `<svg viewBox="0 0 290 262" width="270" role="img" aria-label="三角柱の展開図"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="20" y="106" width="96" height="48"/><rect x="116" y="106" width="40" height="48" fill="rgba(91,108,255,.10)"/><rect x="156" y="106" width="104" height="48"/><polygon points="116,106 156,106 116,10" fill="rgba(255,122,89,.14)"/><polygon points="116,154 156,154 116,250" fill="rgba(255,122,89,.14)"/><polyline points="116,98 124,98 124,106" stroke-width="1.3"/></g><g fill="currentColor" font-size="13" font-weight="700" text-anchor="middle"><text x="98" y="60">12cm</text><text x="136" y="122">5cm</text><text x="158" y="52">13cm</text><text x="274" y="134">6cm</text></g></svg>`;
+const FIG_MOON = (() => { const cx = 150, cy = 122, R = 84, r = 12; let s = `<svg viewBox="0 0 340 246" width="300" role="img" aria-label="地球のまわりの月の位置"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 5"/><circle cx="${cx}" cy="${cy}" r="17" fill="#5B9BFF"/><text x="${cx}" y="${cy + 4}" font-size="11" font-weight="700" text-anchor="middle" fill="#fff">地球</text>`;
+  'ABCDEFGH'.split('').forEach((L, i) => { const t = i * Math.PI / 4, x = cx + R * Math.cos(t), y = cy - R * Math.sin(t), lx = cx + (R + 26) * Math.cos(t), ly = cy - (R + 26) * Math.sin(t) + 5;
+    s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#3A3F55"/><path d="M${x.toFixed(1)} ${(y - r).toFixed(1)} A${r} ${r} 0 0 1 ${x.toFixed(1)} ${(y + r).toFixed(1)} Z" fill="#FFD54A"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="none" stroke="currentColor" stroke-opacity=".5"/><text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-size="15" font-weight="800" text-anchor="middle" fill="currentColor">${L}</text>`; });
+  [70, 122, 174].forEach(y => { s += `<path d="M334 ${y} H296 m8 -6 l-8 6 l8 6" fill="none" stroke="#F5A300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`; });
+  return s + `<text x="316" y="205" font-size="12" font-weight="700" text-anchor="middle" fill="currentColor">太陽の光</text></svg>`; })();
+const FIG_CANDLE = `<svg viewBox="0 0 240 230" width="210" role="img" aria-label="ろうそくのほのお"><rect x="96" y="170" width="48" height="54" rx="4" fill="rgba(120,120,150,.25)" stroke="currentColor" stroke-opacity=".5"/><path d="M120 172 V150" stroke="currentColor" stroke-width="3"/><path d="M120 14 C150 70 160 105 160 128 C160 152 142 168 120 168 C98 168 80 152 80 128 C80 105 90 70 120 14Z" fill="rgba(255,214,74,.35)" stroke="#F5A300" stroke-width="2"/><path d="M120 62 C138 100 144 118 144 132 C144 150 133 160 120 160 C107 160 96 150 96 132 C96 118 102 100 120 62Z" fill="rgba(255,150,60,.75)"/><ellipse cx="120" cy="142" rx="11" ry="16" fill="#5A4A6A"/><g fill="currentColor" font-size="16" font-weight="800"><text x="196" y="74">A</text><text x="196" y="118">B</text><text x="196" y="150">C</text></g><g stroke="currentColor" stroke-width="1.5"><path d="M190 69 L152 84"/><path d="M190 113 L138 118"/><path d="M190 145 L128 143"/></g></svg>`;
+
 const WIDS = [
- {id:"算数-1",sub:"算数",name:"約数・倍数",pri:"P1",em:"🔢",note:"第16・17回で24点。連除法の途中で止まる・数え間違いが主因"},
- {id:"算数-2",sub:"算数",name:"分数の計算",pri:"P1",em:"➗",note:"4年下第1・2回：約分もれ・分母のミス"},
- {id:"算数-3",sub:"算数",name:"倍の文章題",pri:"P1",em:"📏",note:"「〜倍より多い」型。基本は満点、応用が白紙"},
- {id:"算数-4",sub:"算数",name:"規則性（維持）",pri:"P3",em:"🔁",note:"6月から上向き。忘れない程度に"},
- {id:"国語-1",sub:"国語",name:"理由記述の型",pri:"P3",em:"✍️",note:"原因と結果の両方＋「〜から。」"},
- {id:"国語-2",sub:"国語",name:"説明文を最後まで",pri:"P1",em:"⏱️",note:"要旨・内容合致を先に見る作戦"},
- {id:"国語-3",sub:"国語",name:"漢字・誤字さがし",pri:"P3",em:"🈴",note:"字形を丁寧に。四字熟語の誤字訂正"},
- {id:"理科-1",sub:"理科",name:"星座早見ばん・星の動き",pri:"P2",em:"🌟",note:"3テストで同じ型の誤り。東西の向き"},
- {id:"理科-2",sub:"理科",name:"植物の分類",pri:"P3",em:"🌱",note:"単子葉/双子葉、道管の位置"},
- {id:"理科-3",sub:"理科",name:"ヒトのからだ・秋の生物",pri:"P3",em:"🍂",note:"4年下の新単元"},
- {id:"社会-1",sub:"社会",name:"都道府県・県庁所在地",pri:"P2",em:"🗾",note:"全期間で最も母集団を下回る領域"},
- {id:"社会-2",sub:"社会",name:"日本の海岸",pri:"P3",em:"🌊",note:"潮目・大陸だな・リアス海岸"},
- {id:"社会-3",sub:"社会",name:"社会の記述",pri:"P3",em:"📝",note:"白紙にしない"},
- {id:"社会-4",sub:"社会",name:"東北・関東",pri:"P3",em:"🏯",note:"4年下の新単元"},
+ {id:"算数-計",sub:"算数",name:"計算（逆算・分数）",pri:"P1",em:"🧮",kai:"毎回",note:"9月以降、計算の得点率は62%（同じ問題の平均77%）。逆算の白紙、帯分数のかけ算、計算の順序"},
+ {id:"算数-11",sub:"算数",name:"角柱と円柱",pri:"P1",em:"🧊",kai:"第11回",note:"展開図で底面と高さを取りちがえ（80→正96）。大問5は白紙"},
+ {id:"算数-12",sub:"算数",name:"消去算（そろえて解く）",pri:"P1",em:"⚖️",kai:"第12回",note:"基本は全問正解。てんびん型（置きかえ）の大問6が白紙"},
+ {id:"算数-13",sub:"算数",name:"速さ",pri:"P2",em:"🏃",kai:"第13回",pre:true,note:"予習：12/5のカリテ前に基本を固める"},
+ {id:"算数-14",sub:"算数",name:"平均",pri:"P2",em:"📊",kai:"第14回",pre:true,note:"予習：平均×個数＝合計 が使えるか"},
+ {id:"算数-復",sub:"算数",name:"図形のおさらい",pri:"P3",em:"📐",kai:"第8・9回",note:"総合回は前の範囲も出る。おうぎ形のまわり・30°の三角形"},
+ {id:"国語-記",sub:"国語",name:"記述「どういうこと」",pri:"P1",em:"✍️",kai:"毎回",note:"後半（結論）がぬけて 3/12点。10点の記述が白紙"},
+ {id:"国語-ぬ",sub:"国語",name:"ぬき出し",pri:"P1",em:"🔎",kai:"毎回",note:"9月以降23問中 白紙5・誤答4。字数と句点、戻りわすれ"},
+ {id:"国語-接",sub:"国語",name:"接続語（順接・逆接）",pri:"P2",em:"🔗",kai:"第11〜14回",note:"「つまり／ところが」「ですから／たとえば」の入れちがい"},
+ {id:"国語-語",sub:"国語",name:"和語・類義語・対義語",pri:"P2",em:"📚",kai:"第11〜14回",note:"「はびこる／すたれる」を入れちがい。類義語・対義語は予習"},
+ {id:"国語-文",sub:"国語",name:"主語・述語",pri:"P3",em:"🧩",kai:"総合",note:"組分け第7回で2問。省略された主語"},
+ {id:"理科-11",sub:"理科",name:"月",pri:"P1",em:"🌙",kai:"第11回",note:"同じ時刻の月は毎日「東」へ。月の海（暗い部分）"},
+ {id:"理科-12",sub:"理科",name:"いろいろな気体",pri:"P3",em:"🫧",kai:"第12回",note:"カリテは全問正解。忘れない程度に"},
+ {id:"理科-13",sub:"理科",name:"物の燃え方",pri:"P2",em:"🕯️",kai:"第13回",pre:true,note:"予習：ほのおの3つの部分、燃える条件"},
+ {id:"理科-14",sub:"理科",name:"音",pri:"P2",em:"🎵",kai:"第14回",pre:true,note:"予習：高さ・大きさ・速さ（秒速340m）"},
+ {id:"社会-11",sub:"社会",name:"米づくり",pri:"P2",em:"🌾",kai:"第11回",note:"「有機」栽培が白紙。用語を漢字で"},
+ {id:"社会-12",sub:"社会",name:"畑の作物・工芸作物",pri:"P1",em:"🍵",kai:"第12回",note:"輸入の理由の記述が0点。「正しくないもの」の読み落とし"},
+ {id:"社会-13",sub:"社会",name:"野菜とくだもの",pri:"P2",em:"🍎",kai:"第13回",pre:true,note:"予習：近郊農業・促成栽培・抑制栽培、くだものの産地"},
+ {id:"社会-14",sub:"社会",name:"肉や牛乳をつくる",pri:"P2",em:"🐄",kai:"第14回",pre:true,note:"予習：酪農、シラス台地、根釧台地"},
+ {id:"社会-都",sub:"社会",name:"川と平野・都道府県",pri:"P2",em:"🗾",kai:"毎回",note:"川と平野の組み合わせ（正答率83%の問題で失点）、橋のルート"},
 ];
+
 const PROBLEMS = [
-/* ---------- 算数-1 約数・倍数 (P) ---------- */
-{id:"m1a",wid:"算数-1",err:"P",lvl:"L1",rate:92,intent:"連除法を『最後まで』やる練習",type:"number",q:"12 と 18 の最大公約数は？",ans:"6",steps:["2）12　18 → 6　9","3）6　9 → 2　3","もう共通でわれない。左の数をかける：2×3＝6"],why:"連除法は「共通でわれなくなるまで」続けて、左にならんだ数を全部かける。",stumble:"途中の数（9や3）を答えにしない。最後にかけ算するまでが連除法。"},
-{id:"m1b",wid:"算数-1",err:"P",lvl:"L1",rate:90,intent:"最小公倍数はL字にかける",type:"number",q:"4 と 6 の最小公倍数は？",ans:"12",steps:["2）4　6 → 2　3","最小公倍数＝左の2 × 下の2×3 ＝ 12"],why:"最大公約数＝左だけ、最小公倍数＝左と下をぜんぶ（L字）。",stumble:"4×6＝24 と答えない（それは公倍数だけど最小ではない）。"},
-{id:"m1c",wid:"算数-1",err:"P",lvl:"L2",rate:85,intent:"本番（第16・17回 2(1)）で途中の数を答えた型",type:"number",q:"280 と 168 の最大公約数は？",ans:"56",steps:["2）280　168 → 140　84","2）140　84 → 70　42","2）70　42 → 35　21","7）35　21 → 5　3","2×2×2×7＝56"],why:"大きい数ほど「途中で止まりやすい」。左の数を最後にかける手順を声に出す。",stumble:"本番では『8』と答えた＝2×2×2で止まった。7でもわれるか最後まで確かめる。"},
-{id:"m1d",wid:"算数-1",err:"P",lvl:"L2",rate:70,intent:"公約数の個数＝最大公約数の約数の個数",type:"number",q:"48 と 72 の公約数は、全部で何個？",ans:"8",accept:["8","8個","8こ"],steps:["最大公約数：48と72 → 24","24の約数：1,2,3,4,6,8,12,24","8個"],why:"公約数は「最大公約数の約数」と同じ。まず最大公約数を出す。",stumble:"約数を書き出すときは 1×24, 2×12, 3×8, 4×6 とペアで数えると数えもれしない。"},
-{id:"m1e",wid:"算数-1",err:"P",lvl:"L2",rate:75,intent:"本番で白紙だった『あまりのあるわり算の約数』",type:"text",q:"40 をわると 8 あまる整数を、すべて書きなさい。（小さい順に「，」で区切って）",ans:"16，32",accept:["16,32","16、32","16，32","16と32","16 32","32,16","32、16"],steps:["40−8＝32 → わる数は 32の約数","32の約数：1,2,4,8,16,32","あまり8より大きいもの：16，32"],why:"「わると□あまる」→ まず「あまりを引いた数の約数」を考える。",stumble:"わる数はあまりより大きくないといけない（8以下は不可）。"},
-{id:"m1f",wid:"算数-1",err:"E",lvl:"L2",rate:65,intent:"本番で1個ずれた『範囲の中の倍数の個数』",type:"number",q:"60 以上 100 以下 の整数のうち、3 の倍数は何個？",ans:"14",accept:["14","14個","14こ"],steps:["1〜100の3の倍数：100÷3＝33あまり1 → 33個","1〜59の3の倍数：59÷3＝19あまり2 → 19個","33−19＝14個"],why:"「〜以上」は、その1つ手前（59）までを引く。",stumble:"60自体が3の倍数だから、60〜を数えるには「1〜59」を引く。ここで1個ずれやすい。"},
-{id:"m1g",wid:"算数-1",err:"P",lvl:"L3",rate:70,intent:"本番で白紙だった『同時に出発』（公倍数の利用）",type:"text",q:"駅からバスは 8分おき、電車は 12分おきに出発します。\n午前9時に同時に出発したあと、次に同時に出発するのは 午前何時何分？",ans:"午前9時24分",accept:["9時24分","9:24","924","午前9時24分","24分後","24"],steps:["8と12の最小公倍数：2）8 12 → 2）4 6 → 2 3 → 2×2×2×3＝24","24分後 → 午前9時24分"],why:"「次に同時に」＝最小公倍数。",stumble:"最大公約数（4）と取りちがえない。"},
-{id:"m1h",wid:"算数-1",err:"P",lvl:"L3",rate:60,intent:"本番（2(7)）で『1辺の長さ』を出して止まった型",type:"number",q:"たて 84cm、よこ 60cm の長方形の紙を、あまりが出ないように 同じ大きさの正方形 に切り分けます。\n正方形をできるだけ大きくするとき、正方形は 何まい できますか。",ans:"35",accept:["35","35まい","35枚"],steps:["1辺＝84と60の最大公約数＝12cm","たてに 84÷12＝7まい、よこに 60÷12＝5まい","7×5＝35まい"],why:"聞かれているのは「何まい」。1辺を出したら、そこからもう1歩。",stumble:"答えを書く前に問題文の最後の1行をもう一度読む。"},
-{id:"m1j",wid:"算数-1",err:"P",lvl:"L3",rate:35,intent:"組分け第4回 2(7) の類題（条件つきの公約数）",type:"number",q:"140 と 196 を、あまりが出ないように 同じ整数 でわります。\n10 より大きい数でわるとき、いちばん小さいわる数は？",ans:"14",steps:["最大公約数：140と196 → 28","28の約数：1,2,4,7,14,28","10より大きくて最小 → 14"],why:"「わる数」＝公約数。全部書き出してから条件で選ぶ。",stumble:"本番は『28』（最大公約数）で止まった。条件（10より大きい最小）を読み落とさない。"},
-{id:"m1i",wid:"算数-1",err:"P",lvl:"L4",rate:30,exp:true,intent:"※取れなくてOK。『でも』の数え方を見て慣れる",type:"number",q:"1 から 200 までの整数のうち、3 でも 5 でも わりきれない数は何個？",ans:"107",accept:["107","107個","107こ"],steps:["3の倍数：200÷3＝66個","5の倍数：200÷5＝40個","15の倍数（両方）：200÷15＝13個","3か5でわりきれる：66＋40−13＝93個","200−93＝107個"],why:"「どちらでもわりきれない」＝全体−（どちらかでわりきれる）。重なり（15の倍数）を1回引く。",stumble:"66＋40 のままだと15の倍数を2回数えている。"},
+/* ================= 算数-計 計算（逆算・分数） ================= */
+{id:"ak1",wid:"算数-計",err:"P",lvl:"L1",rate:92,intent:"逆算の基本：計算の順番に番号をふり、逆からほどく",type:"number",q:"□ にあてはまる数は？\n□ × 6 ＋ 18 ＝ 60",ans:"7",steps:["計算の順番：①×6 → ②＋18","逆からほどく：60−18＝42","42÷6＝7"],why:"逆算は「さいごにした計算」から順にもどす。番号をふると迷わない。",stumble:"たしかめ：7×6＋18＝60。入れてみて合えばOK。"},
+{id:"ak2",wid:"算数-計",err:"P",lvl:"L2",rate:75,intent:"□が「わる数」の位置にある逆算",type:"number",q:"□ にあてはまる数は？\n200 −（84 ÷ □ ＋ 5）× 8 ＝ 104",ans:"12",steps:["（　）×8 をかたまりと見る：200−（かたまり）＝104 → かたまり＝200−104＝96","（84÷□＋5）×8＝96 → 84÷□＋5＝96÷8＝12","84÷□＝12−5＝7","□＝84÷7＝12"],why:"「200−△＝104」の△は 200−104。ひかれる数−答え＝ひく数。",stumble:"さいごは 84÷7。「□がわる数」のときは、わられる数÷答え。"},
+{id:"ak3",wid:"算数-計",err:"P",lvl:"L3",rate:60,intent:"本番（下11・12回 1(3)）で白紙だった4段階の逆算",type:"number",q:"□ にあてはまる数は？\n345 −（345 ÷ □ − 2）× 13 − 8 ＝ 64",ans:"15",steps:["（　）×13 をかたまりにする：345−（かたまり）−8＝64 → かたまり＝345−8−64＝273","（345÷□−2）×13＝273 → 345÷□−2＝273÷13＝21","345÷□＝21＋2＝23","□＝345÷23＝15"],why:"長い逆算も「かたまり」を1つずつ小さくするだけ。本番は正答率86%の問題。とばしても必ず戻る！",stumble:"とばすときは問題番号に○をつける。大問1は必ず全部うめる。"},
+{id:"ak4",wid:"算数-計",err:"P",lvl:"L2",rate:90,intent:"組分け第6回 1(1)：たし算を先にして失点（正答率91%）",type:"number",q:"36 ＋ 144 ÷ 12 × 2 を計算しなさい。",ans:"60",steps:["×と÷を先に、左から：144÷12＝12、12×2＝24","さいごに＋：36＋24＝60"],why:"＋−と×÷がまじったら、×÷が先。式の×÷の部分に下線をひいてから始める。",stumble:"左から順に 36＋144 としない。"},
+{id:"ak5",wid:"算数-計",err:"P",lvl:"L2",rate:70,intent:"組分け第6回 1(3)：帯分数を整数どうし・分数どうしでかけて失点",type:"text",q:"2 2/3 × 1 1/8 を計算しなさい。",ans:"3",steps:["帯分数は仮分数に直す：8/3 × 9/8","かける前に約分：8と8、3と9 → 1/1 × 3/1","＝3"],why:"かけ算・わり算は、帯分数のままではできない。必ず仮分数にしてから。",stumble:"2×1＝2、2/3×1/8＝… と分けてかけるのは×。"},
+{id:"ak6",wid:"算数-計",err:"E",lvl:"L2",rate:50,intent:"下8・9回 1(1)：くり下がりのあるひき算で分子をまちがえ、約分もれ",type:"text",q:"3 1/6 − 1 3/4 を計算しなさい。",ans:"1 5/12",accept:["17/12"],steps:["通分（分母12）：3 2/12 − 1 9/12","2/12 から 9/12 はひけない → 整数から1くり下げる：2 14/12 − 1 9/12","＝1 5/12（これ以上約分できないかチェック）"],why:"くり下げは「整数を1へらして、分子に分母の数をたす」。",stumble:"答えを書く前に「約分できる？」を必ず見る。"},
+{id:"ak7",wid:"算数-計",err:"P",lvl:"L2",rate:45,intent:"組分け第7回 3(1)：わる向きを逆にした（16/17 と解答）",type:"text",q:"6 L で 5 1/4 kg の油があります。\nこの油 1 L の重さは何kg？",ans:"7/8",steps:["1Lあたり＝重さ÷かさ：5 1/4 ÷ 6","21/4 × 1/6 ＝ 21/24 ＝ 7/8 kg"],why:"「1Lあたり」を聞かれたら、Lの数でわる。求めたい単位（kg）が上、「あたり」の単位（L）が下。",stumble:"たしかめ：1Lが 7/8kg なら 6Lで 5 1/4kg。6÷5 1/4 にしない。"},
 
-/* ---------- 算数-2 分数の計算 (E) ---------- */
-{id:"m2a",wid:"算数-2",err:"E",lvl:"L1",rate:95,intent:"答えは必ず約分して終わる",type:"text",q:"24/36 を約分しなさい。",ans:"2/3",accept:["2/3","２/３"],steps:["24と36の最大公約数＝12","24÷12＝2、36÷12＝3 → 2/3"],why:"約分＝分母と分子を最大公約数でわる。約分できる分数は「まだ答えではない」。",stumble:"2でわって12/18、また2で6/9、また3で2/3 のように何回かに分けてもOK。"},
-{id:"m2b",wid:"算数-2",err:"E",lvl:"L1",rate:90,intent:"帯分数のたし算（通分→整数と分数を分けて）",type:"text",q:"2 3/4 ＋ 1 1/2",ans:"4 1/4",accept:["4 1/4","4と1/4","17/4","４と１/４"],steps:["分数部分を通分：3/4 ＋ 2/4 ＝ 5/4 ＝ 1 1/4","整数部分：2＋1＝3","3 ＋ 1 1/4 ＝ 4 1/4"],why:"分数が1をこえたら整数にくり上げる。",stumble:"答えの分数部分（1/4）がこれ以上約分できないか確かめて終わり。"},
-{id:"m2c",wid:"算数-2",err:"E",lvl:"L2",rate:80,intent:"4年下 1(1) の類題。通分ミスと約分もれ",type:"text",q:"5/6 ＋ 6 2/3",ans:"7 1/2",accept:["7 1/2","7と1/2","15/2","７と１/２"],steps:["通分（分母6）：5/6 ＋ 6 4/6","5/6＋4/6＝9/6＝1 3/6＝1 1/2","6＋1 1/2＝7 1/2"],why:"分母をそろえる→たす→くり上げ→約分、の4ステップを毎回同じ順で。",stumble:"9/6 をそのまま書かない。「6/6＝1」をくり上げて、残り3/6は約分して1/2。"},
-{id:"m2d",wid:"算数-2",err:"E",lvl:"L2",rate:75,intent:"4年下 1(2) の類題。仮分数にしてから約分",type:"text",q:"5 1/2 × 1 1/9 ÷ 1 1/4",ans:"4 8/9",accept:["4 8/9","4と8/9","44/9","４と８/９"],steps:["全部を仮分数に：11/2 × 10/9 ÷ 5/4","÷は逆数のかけ算：11/2 × 10/9 × 4/5","かける前に約分：10と2→5と1、5と5→1と1、4と… → 11×1×2 / 1×9×1 ＝ 22/9…（実際は 11/2×10/9×4/5＝440/90＝44/9）","44/9＝4 8/9"],why:"かけ算・わり算は「帯分数→仮分数→約分してからかける」。先に約分すると数が小さくて安全。",stumble:"かけ終わったあとに約分を忘れて「4 80/90」のように書かない。分母が大きい答えは要チェック。"},
-{id:"m2e",wid:"算数-2",err:"E",lvl:"L2",rate:75,intent:"4年下 1(3) で白紙だった『分数と小数の混合』",type:"text",q:"2 5/7 − 1.3 × 2",ans:"4/35",accept:["4/35","４/３５"],steps:["先にかけ算：1.3×2＝2.6","2.6 を分数に：2 6/10＝2 3/5","2 5/7 − 2 3/5 → 通分（分母35）：2 25/35 − 2 21/35 ＝ 4/35"],why:"小数と分数が混じったら、分数にそろえる（小数→分数は「10分の」「100分の」）。",stumble:"かけ算を先に。ひき算を先にしない。"},
-{id:"m2f",wid:"算数-2",err:"P",lvl:"L3",rate:45,intent:"4年下 5(1) で白紙。『どちらにかけても整数』",type:"number",q:"6/7 と 9/10 の どちらにかけても 整数になる、いちばん小さい整数は？",ans:"70",steps:["6/7 × □ が整数 → □は7の倍数","9/10 × □ が整数 → □は10の倍数","7と10の最小公倍数＝70"],why:"分数×整数が整数になる＝「分母が消える」＝整数は分母の倍数。",stumble:"分子（6や9）は関係ない。分母だけ見る。"},
-{id:"m2g",wid:"算数-2",err:"P",lvl:"L4",rate:20,exp:true,intent:"※取れなくてOK。5(2)の型を見て慣れる",type:"text",q:"6/7 と 9/10 の どちらにかけても 整数になる、いちばん小さい分数は？",ans:"70/3",accept:["70/3","23 1/3","23と1/3","２３と１/３"],steps:["求める分数を △/□ とおく","分母□は 6と9の最大公約数＝3（分子を消すため、大きいほど分数は小さい）","分子△は 7と10の最小公倍数＝70（分母を消すため）","70/3 ＝ 23 1/3"],why:"「分子＝分母たちの最小公倍数、分母＝分子たちの最大公約数」。L3（整数）が解けていれば、分母を3にするだけ。",stumble:"取れなくて当たり前の問題。手順を1回読んでおくだけで本番で見た瞬間の「こわさ」が減る。"},
+/* ================= 算数-11 角柱と円柱 ================= */
+{id:"a11a",wid:"算数-11",err:"K",lvl:"L1",rate:88,intent:"角柱の辺・面・頂点の数（N角柱の辺は N×3）",type:"number",q:"六角柱の辺の数は、全部で何本？",ans:"18",accept:["18本"],steps:["上の底面に6本、下の底面に6本、たての辺が6本","6×3＝18本"],why:"N角柱：面 N＋2、辺 N×3、頂点 N×2。",stumble:"面の数（6＋2＝8）とまちがえない。"},
+{id:"a11b",wid:"算数-11",err:"P",lvl:"L2",rate:80,intent:"面の数から何角柱かを決める（本番2(1)の類題）",type:"number",q:"面が全部で 10 ある角柱があります。\nこの角柱の頂点の数は？",ans:"16",accept:["16個","16こ"],steps:["面＝底面2＋側面 → 側面は 10−2＝8 → 八角柱","頂点＝8×2＝16"],why:"まず「何角柱か」を決めると、辺・頂点はかけ算で出る。",stumble:"10角柱としない（底面2つ分をひく）。"},
+{id:"a11c",wid:"算数-11",err:"R",lvl:"L2",rate:80,fig:FIG_NET,cap:"三角柱の展開図（3つの長方形と2つの直角三角形）",intent:"本番（2(3)）で「80」と答えた展開図→体積。正答率80%",type:"number",q:"図は三角柱の展開図です。\n組み立ててできる三角柱の体積は何cm³？",ans:"180",accept:["180cm3","180cm³"],steps:["底面は直角三角形。直角をはさむ2辺は 5cm と 12cm（13cm はななめの辺）","底面積＝5×12÷2＝30cm²","高さ＝長方形のたて 6cm → 30×6＝180cm³"],why:"展開図では、まず「底面はどれ？」「高さはどれ？」に印をつける。三角形の面積に使うのは直角をはさむ2辺だけ。",stumble:"ななめの辺（13cm）は体積には使わない。使うのは表面積のときだけ。"},
+{id:"a11d",wid:"算数-11",err:"P",lvl:"L2",rate:82,intent:"角柱の体積＝底面積×高さ（底面が台形）",type:"number",q:"底面が台形（上底 3cm、下底 6cm、高さ 4cm）で、\n高さが 10cm の四角柱の体積は何cm³？",ans:"180",accept:["180cm3","180cm³"],steps:["底面積＝（3＋6）×4÷2＝18cm²","体積＝18×10＝180cm³"],why:"どんな柱も 体積＝底面積×高さ。",stumble:"台形の「高さ4cm」と柱の「高さ10cm」を取りちがえない。"},
+{id:"a11e",wid:"算数-11",err:"P",lvl:"L2",rate:69,intent:"表面積＝底面積×2＋側面積（本番2(2)②型）",type:"number",q:"底面が台形の四角柱があります。台形の4つの辺は 3cm、6cm、4cm、5cm で、底面積は 18cm² です。\n柱の高さは 10cm です。\nこの四角柱の表面積は何cm²？",ans:"216",accept:["216cm2","216cm²"],steps:["側面積＝底面のまわりの長さ×高さ＝（3＋6＋4＋5）×10＝180cm²","底面は2つ：18×2＝36cm²","36＋180＝216cm²"],why:"側面を広げると1まいの長方形（横＝底面のまわりの長さ、たて＝高さ）。",stumble:"底面を1つしかたさないミスに注意。"},
+{id:"a11f",wid:"算数-11",err:"P",lvl:"L2",rate:80,intent:"円柱の体積（本番3(1)型・正解済みの維持）",type:"number",q:"底面の半径が 5cm、高さが 4cm の円柱の体積は何cm³？\n（円周率は 3.14）",ans:"314",accept:["314cm3","314cm³"],steps:["底面積＝5×5×3.14","体積＝5×5×4×3.14＝100×3.14＝314cm³"],why:"3.14 はさいごに1回だけかける（式をまとめる）と、計算ミスがへる。",stumble:""},
+{id:"a11g",wid:"算数-11",err:"P",lvl:"L3",rate:54,intent:"円柱の表面積（本番3(2)型）",type:"number",q:"底面の半径が 5cm、高さが 4cm の円柱の表面積は何cm²？\n（円周率は 3.14）",ans:"282.6",accept:["282.6cm2","282.6cm²"],steps:["底面2つ：5×5×3.14×2＝50×3.14","側面：（5×2×3.14）×4＝40×3.14","（50＋40）×3.14＝90×3.14＝282.6cm²"],why:"側面の長方形の横＝底面の円周。○×3.14 の形でそろえてから、さいごに計算。",stumble:"側面の横を「直径」にしない（円周＝直径×3.14）。"},
+{id:"a11h",wid:"算数-11",err:"R",lvl:"L3",rate:55,intent:"本番 大問5(1)（白紙・正答率57%）：側面の面積÷高さ＝底面の辺",type:"number",q:"ある四角柱の展開図で、高さにあたる辺の長さは 6cm です。\n4つの側面（長方形）の面積は、48cm²、30cm²、48cm²、30cm² で、底面は長方形です。\nこの四角柱の体積は何cm³？",ans:"240",accept:["240cm3","240cm³"],steps:["側面の面積÷高さ＝底面の辺：48÷6＝8cm、30÷6＝5cm","底面積＝8×5＝40cm²","体積＝40×6＝240cm³"],why:"側面の長方形は「底面の辺×高さ」。面積がわかれば、わり算で底面の辺が出る。",stumble:"大問5の(1)はこの1歩だけで解けた。後ろの大問も(1)は必ず読む！"},
+{id:"a11i",wid:"算数-11",err:"P",lvl:"L4",rate:30,exp:true,intent:"※取れなくてOK。本番 大問5(2)（正答率19%）の考え方を見ておく",type:"number",q:"底面が、1辺 10cm の正方形から、直角をはさむ辺が 4cm と 3cm の直角三角形を1つ切り落とした五角形になっています。\n高さが 5cm のこの五角柱の体積は何cm³？",ans:"470",accept:["470cm3","470cm³"],steps:["切り落とした三角形＝4×3÷2＝6cm²","底面積＝10×10−6＝94cm²","体積＝94×5＝470cm³"],why:"へんな形の底面は「大きい形−切り落とした形」。柱の体積はやっぱり底面積×高さ。",stumble:"取れなくて当たり前の問題。手順を1回見ておけば、本番で(1)だけでも進める。"},
 
-/* ---------- 算数-3 倍の文章題 (P) ---------- */
-{id:"m3a",wid:"算数-3",err:"P",lvl:"L1",rate:90,intent:"部品：『〇倍より△多い』を線分図にする",type:"number",q:"みかんは りんごの 3倍より 2個 多く、合わせて 26個 あります。\nりんごは 何個？",ans:"6",accept:["6","6個","6こ"],steps:["りんご＝①、みかん＝③＋2","合わせて ④＋2＝26 → ④＝24","①＝24÷4＝6個"],why:"「〜倍より多い」は、まず「多い分」を引いて、きれいな倍にする。",stumble:"26÷4 をいきなりしない。先に「＋2」を引く。"},
-{id:"m3b",wid:"算数-3",err:"P",lvl:"L1",rate:90,intent:"部品：差から1つ分を出す",type:"number",q:"A は B の 4倍 で、A と B の差は 36 です。B はいくつ？",ans:"12",steps:["A＝④、B＝①","差＝④−①＝③＝36","①＝12"],why:"「差」は 倍の数−1。",stumble:"36÷4 にしない。差は③。"},
-{id:"m3c",wid:"算数-3",err:"P",lvl:"L2",rate:65,intent:"4年下 4(2) の類題（3人・多い少ないが混ざる）",type:"number",q:"A、B、C の3人でカードを 合わせて 172まい 持っています。\nB は A の 2倍より 4まい 多く、C は A の 3倍より 6まい 少ないです。\nA は 何まい？",ans:"29",accept:["29","29まい","29枚"],steps:["A＝①、B＝②＋4、C＝③−6","合計：①＋②＋③ ＋4−6 ＝ ⑥−2 ＝ 172","⑥＝174 → ①＝29まい"],why:"多い分（＋4）と少ない分（−6）を先にまとめる（＋4−6＝−2）。",stumble:"「少ない」を足してしまわない。符号を線分図で確かめる。"},
-{id:"m3d",wid:"算数-3",err:"P",lvl:"L3",rate:45,intent:"4年下 6(1) で白紙だった『差が分かっている』型",type:"number",q:"貯金箱 A には、貯金箱 B の 3倍より 50円 多く入っていて、A と B の差は 850円 です。\nB には いくら 入っている？",ans:"400",accept:["400","400円"],steps:["B＝①、A＝③＋50","差＝(③＋50)−①＝②＋50＝850","②＝800 → ①＝400円"],why:"差の問題は「差＝倍の数−1 の分＋おまけ」。",stumble:"850÷3 ではない。②＋50＝850 の式を書く。"},
-{id:"m3e",wid:"算数-3",err:"P",lvl:"L4",rate:25,exp:true,intent:"※取れなくてOK。6(2)『やりとりして等しく』を見て慣れる",type:"number",q:"C さんは 10円玉 を D さんの 4倍 持っています。\nC さんが D さんに 9まい わたすと、2人のまい数は等しくなりました。\nC さんは はじめ 何まい 持っていましたか。",ans:"24",accept:["24","24まい","24枚"],steps:["D＝①、C＝④","わたした後：C＝④−9、D＝①＋9 が等しい","④−①＝③ が 9＋9＝18 にあたる → ①＝6","C＝④＝24まい"],why:"「やりとり」は、差が 9×2＝18 ちぢむと考える（あげた人は減り、もらった人は増える）。",stumble:"差が9ちぢむのではなく18ちぢむ。"},
+/* ================= 算数-12 消去算 ================= */
+{id:"a12a",wid:"算数-12",err:"P",lvl:"L1",rate:90,intent:"そろっているものを見つけて、差をとる",type:"number",q:"りんご1個とみかん1個で 230円、\nりんご1個とみかん3個で 410円です。\nみかん1個は何円？",ans:"90",accept:["90円"],steps:["りんごの数は同じ → 差はみかん2個分","410−230＝180円 → 180÷2＝90円"],why:"同じものをひき算で消すのが消去算。",stumble:""},
+{id:"a12b",wid:"算数-12",err:"P",lvl:"L2",rate:70,intent:"一方を何倍かしてそろえる（本番2(4)型・正解済みの維持）",type:"number",q:"えんぴつ3本とノート1冊で 330円、\nえんぴつ4本とノート5冊で 990円です。\nえんぴつ1本は何円？",ans:"60",accept:["60円"],steps:["ノートをそろえる：1つ目を5倍 → えんぴつ15本＋ノート5冊＝1650円","2つ目をひく：えんぴつ（15−4）本＝1650−990＝660円","660÷11＝60円"],why:"そろっていなければ、何倍かしてそろえる。",stumble:"5倍するときは、ねだんも5倍（330×5）。"},
+{id:"a12c",wid:"算数-12",err:"P",lvl:"L2",rate:70,intent:"置きかえ（代入）：本番2(5)型",type:"number",q:"大きいおもり1個は、小さいおもり2個より 50g 重いです。\n大きいおもり2個と小さいおもり3個の重さの合計は 660g です。\n小さいおもり1個は何g？",ans:"80",accept:["80g"],steps:["大1個＝小2個＋50g → 大2個＝小4個＋100g","小4個＋100＋小3個＝660 → 小7個＝560g","560÷7＝80g"],why:"「大＝小でいうと…」と置きかえて、1種類にそろえる。",stumble:"大を2個にするとき、＋50g も2倍（＋100g）。"},
+{id:"a12d",wid:"算数-12",err:"P",lvl:"L2",rate:80,leakOk:true,intent:"3つの和（本番2(6)型・正解済みの維持）",type:"number",q:"赤玉と白玉で 170g、白玉と青玉で 210g、赤玉と青玉で 180g です。（どれも1個ずつ）\n赤玉1個は何g？",ans:"70",accept:["70g"],steps:["3つの式をたす：赤2＋白2＋青2＝170＋210＋180＝560g","赤＋白＋青＝280g","赤＝280−（白＋青）＝280−210＝70g"],why:"2つずつの和が3つ → 全部たして÷2 で3つの和。",stumble:""},
+{id:"a12e",wid:"算数-12",err:"P",lvl:"L3",rate:60,leakOk:true,intent:"関係を見つけてから置きかえる（本番 大問4型）",type:"number",q:"ケーキ1個とプリン3個の代金は、ケーキ2個の代金と同じです。\nケーキ2個とプリン4個を買うと 1500円です。\nプリン1個は何円？",ans:"150",accept:["150円"],steps:["ケーキ1個＋プリン3個＝ケーキ2個 → プリン3個＝ケーキ1個","ケーキ2個＝プリン6個 → プリン6個＋4個＝1500円","1500÷10＝150円"],why:"両がわから同じもの（ケーキ1個）を取ると、関係がかんたんになる。",stumble:""},
+{id:"a12f",wid:"算数-12",err:"P",lvl:"L3",rate:50,intent:"本番 大問6(1)（白紙・正答率50%）：てんびんを式に直して置きかえる",type:"number",q:"3種類のおもり ア・イ・ウ があります。てんびんにのせると、\n・ア2個 と（イ1個＋ウ1個）がつり合う\n・（ア1個＋ウ2個）と イ1個 がつり合う\nア1個は、ウ何個とつり合いますか。",ans:"3",accept:["3個","3こ"],steps:["式にする：ア×2＝イ＋ウ …①　ア＋ウ×2＝イ …②","①のイを②で置きかえる：ア×2＝（ア＋ウ×2）＋ウ","両がわからアを1個取る：ア＝ウ×3 → 3個"],why:"てんびんは「＝」の式。イを「ア＋ウ×2」に置きかえるとイが消える。",stumble:"本番はこの大問が白紙。図を式に書くだけで(1)は半分おわり。"},
+{id:"a12g",wid:"算数-12",err:"P",lvl:"L4",rate:22,exp:true,intent:"※取れなくてOK。本番 大問6(2)（正答率22%）：全部を1種類にそろえる",type:"number",q:"3種類のおもり ア・イ・ウ があります。てんびんにのせると、\n・ア2個 と（イ1個＋ウ1個）がつり合う\n・（ア1個＋ウ2個）と イ1個 がつり合う\n・（ア1個＋イ1個）と（ウ5個＋24gの分銅）がつり合う\nイ1個は何g？",ans:"40",accept:["40g"],steps:["はじめの2つから ア＝ウ×3（ア×2＝ア＋ウ×2＋ウ）、イ＝ア＋ウ×2＝ウ×5","ア＋イ＝ウ×8。これが ウ×5＋24g → ウ×3＝24g → ウ＝8g","イ＝8×5＝40g"],why:"アもイも「ウ何個分」で表せば、ふつうの1種類の問題になる。",stumble:"(1)ができれば道は1本。取れなくてOKだけど、(1)の答えを使うことを知っておく。"},
 
-/* ---------- 算数-4 規則性（維持） ---------- */
-{id:"m4a",wid:"算数-4",err:"E",lvl:"L2",rate:70,intent:"維持確認：周期の和（あまりあり）",type:"number",q:"{ 2，7，4 } が この順にくりかえします。\nはじめから 25番目 までを全部たすと いくつ？",ans:"106",steps:["1組の和＝2＋7＋4＝13","25÷3＝8 あまり1","13×8＝104、あまり1個（2）→ 104＋2＝106"],why:"あまりは「先頭から」取る。",stumble:"1組の和は2回たして確かめる。"},
-{id:"m4b",wid:"算数-4",err:"P",lvl:"L3",rate:45,intent:"維持確認：『できるだけ多く』の等差数列",type:"number",q:"2けたの整数を、11 から 4 ずつ 増やしながら できるだけ多く ならべます。\n11，15，19，…　全部で 何個 ならぶ？",ans:"23",accept:["23","23個","23こ"],steps:["(99−11)÷4＝22 → 最後の数は 11＋4×22＝99","個数＝22＋1＝23個"],why:"「できるだけ多く」＝99以下の最後の数をさがす。個数は「差の回数＋1」。",stumble:"＋1（植木算と同じ）を忘れない。"},
+/* ================= 算数-13 速さ（予習） ================= */
+{id:"a13a",wid:"算数-13",err:"K",lvl:"L1",rate:92,intent:"速さ＝道のり÷時間",type:"number",q:"240m を 4分で歩く人の速さは、分速何m？",ans:"60",accept:["60m","分速60m"],steps:["速さ＝道のり÷時間","240÷4＝60 → 分速60m"],why:"分速＝1分間に進む道のり。",stumble:""},
+{id:"a13b",wid:"算数-13",err:"K",lvl:"L1",rate:90,intent:"道のり＝速さ×時間",type:"number",q:"時速 45km の自動車が 3時間で進む道のりは何km？",ans:"135",accept:["135km"],steps:["道のり＝速さ×時間","45×3＝135km"],why:"「は・じ・き」：道のり＝速さ×時間、時間＝道のり÷速さ。",stumble:""},
+{id:"a13c",wid:"算数-13",err:"K",lvl:"L1",rate:88,intent:"時間＝道のり÷速さ",type:"number",q:"分速 80m で 1200m 歩くと、何分かかりますか。",ans:"15",accept:["15分"],steps:["時間＝道のり÷速さ","1200÷80＝15分"],why:"時間＝道のり÷速さ。3つの式は「は・じ・き」の図で1つにまとめて覚える。",stumble:"単位をそろえる（mと分速m）。"},
+{id:"a13d",wid:"算数-13",err:"P",lvl:"L2",rate:65,intent:"単位の変換：時速→秒速（いちばんまちがえやすい）",type:"number",q:"時速 72km は、秒速何m？",ans:"20",accept:["20m","秒速20m"],steps:["72km＝72000m、1時間＝3600秒","72000÷3600＝20 → 秒速20m"],why:"時速→分速は÷60、分速→秒速も÷60。kmはmに直す。",stumble:"×60 と ÷60 を逆にしない。「1秒は1時間より短いから、進む道のりは小さくなる」。"},
+{id:"a13e",wid:"算数-13",err:"P",lvl:"L2",rate:70,intent:"同じ道のりを別の速さで",type:"number",q:"家から駅まで、分速 60m で歩くと 20分かかります。\n同じ道を分速 150m の自転車で行くと、何分かかりますか。",ans:"8",accept:["8分"],steps:["道のり＝60×20＝1200m","1200÷150＝8分"],why:"まず「道のり」を出す。道のりは変わらない。",stumble:""},
+{id:"a13f",wid:"算数-13",err:"P",lvl:"L3",rate:50,intent:"時間の単位に注意（2時間30分＝2.5時間）",type:"number",q:"2時間30分で 100km 進む自動車の速さは、時速何km？",ans:"40",accept:["40km","時速40km"],steps:["2時間30分＝2.5時間（または 5/2 時間）","100÷2.5＝40 → 時速40km"],why:"時速を出すときは、時間を「時間」の単位に直す。30分＝0.5時間。",stumble:"2.3時間としない（30分は0.5時間）。"},
 
-/* ---------- 国語-1 理由記述の型 (X) ---------- */
-{id:"j1a",wid:"国語-1",err:"X",lvl:"L1",rate:85,intent:"型をうめる：『（原因）から。』",type:"text",passage:"リスは秋になると、どんぐりを地面にうめる。冬になると食べ物が少なくなるからだ。",q:"リスが秋にどんぐりをうめるのは なぜ？\n次の（　）に入る言葉を本文から書きなさい。\n「冬になると（　　　　）から。」",ans:"食べ物が少なくなる",accept:["食べ物が少なくなる","食べものが少なくなる","たべものが少なくなる","食べ物が少なく"],steps:["「なぜ」→ 本文の「〜からだ」をさがす","「食べ物が少なくなる」を（　）に入れる"],why:"理由を聞かれたら、本文の「から」「ため」「ので」の直前が答えの部品。",stumble:"（　）の外にある「冬になると」を二重に書かない。"},
-{id:"j1b",wid:"国語-1",err:"X",lvl:"L2",rate:55,intent:"原因（出来事）と結果（気持ち）の両方を入れる",type:"long",passage:"ぼくは、弟にたのまれていた本を買うのをすっかり忘れてしまった。弟は前の日からその本を楽しみにしていたので、なにも言わずにうつむいた。ぼくは胸がちくりとした。",q:"「ぼくは胸がちくりとした」のは なぜですか。30字程度で書きなさい。",model:"楽しみにしていた弟にたのまれた本を買うのを忘れ、弟をがっかりさせてしまったから。",rubric:["「本を買うのを忘れた」（自分がしたこと）が入っている","「弟が楽しみにしていた／うつむいた」（弟の様子）が入っている","文の終わりが「〜から。」になっている"],steps:["「なぜ」→ 気持ちの原因になった出来事をさがす（本を買い忘れた）","相手の様子（楽しみにしていた、うつむいた）を加える","「〜から。」で結ぶ"],why:"理由の記述は「①出来事 ＋ ②相手や状況 ＋ から。」の3点セット。1つ抜けると部分点。",stumble:"「弟がうつむいたから」だけだと、自分のしたこと（原因）が抜けて半分の点。"},
-{id:"j1c",wid:"国語-1",err:"X",lvl:"L3",rate:30,intent:"組分け第4回 問3 の型：原因→結果の両方（説明文）",type:"long",passage:"ゲームで勝つと、脳の中に「ドーパミン」という物質が出て、気持ちよくなる。この気持ちよさが長く続くと、脳はもっと強い刺激をほしがるようになる。すると、読書や散歩のようなふつうの楽しみでは、満足できなくなってしまう。",q:"筆者が「ゲームのやりすぎはこわい」と考える理由を、原因と結果の両方を入れて 45字程度で書きなさい。",model:"ドーパミンによる気持ちよさが長く続くと脳が強い刺激をほしがり、ふつうの楽しみで満足できなくなるから。",rubric:["原因：「ドーパミン（気持ちよさ）が長く続く」が入っている","結果：「強い刺激をほしがる／ふつうの楽しみで満足できなくなる」が入っている","文の終わりが「〜から。」になっている"],steps:["「理由」→ 本文の因果関係の文を2つさがす（続くと→ほしがる→満足できない）","原因と結果を「〜と、〜から。」でつなぐ","字数を数える（40〜50字）"],why:"本番では「結果」だけ書いて原因が抜け、半分の点だった。「〜と（原因）、〜（結果）から。」の形にすると両方入る。",stumble:"自分の意見（ゲームは悪い）を書かない。本文の言葉で。"},
+/* ================= 算数-14 平均（予習） ================= */
+{id:"a14a",wid:"算数-14",err:"K",lvl:"L1",rate:92,intent:"平均＝合計÷個数",type:"number",q:"5回のテストの点数は 70、85、90、65、80 点でした。\n平均は何点？",ans:"78",accept:["78点"],steps:["合計＝70＋85＋90＋65＋80＝390","390÷5＝78点"],why:"平均＝合計÷個数。",stumble:""},
+{id:"a14b",wid:"算数-14",err:"K",lvl:"L1",rate:88,intent:"合計＝平均×個数（平均の問題のカギ）",type:"number",q:"4回のテストの平均が 82点でした。\n4回の合計は何点？",ans:"328",accept:["328点"],steps:["合計＝平均×個数","82×4＝328点"],why:"平均がわかれば合計がわかる。平均の文章題は、まず合計に直す。",stumble:""},
+{id:"a14c",wid:"算数-14",err:"P",lvl:"L2",rate:68,intent:"「あと何点とれば」型",type:"number",q:"4回のテストの平均が 76点です。\n5回目に何点とれば、5回の平均が 80点になりますか。",ans:"96",accept:["96点"],steps:["5回の合計がいくつ必要？ 80×5＝400点","今の合計＝76×4＝304点","400−304＝96点"],why:"平均を合計に直して、合計どうしをくらべる。",stumble:"80−76＝4 を そのままたして 84点としない（4点×5回分＝20点ふやす必要がある）。"},
+{id:"a14d",wid:"算数-14",err:"P",lvl:"L2",rate:65,intent:"2つのグループの平均（平均どうしをたして÷2にしない）",type:"number",q:"Aグループ4人の平均は 50点、Bグループ6人の平均は 60点です。\n10人全体の平均は何点？",ans:"56",accept:["56点"],steps:["Aの合計＝50×4＝200、Bの合計＝60×6＝360","全体の合計＝560点","560÷10＝56点"],why:"人数がちがうときは、合計にもどしてから人数でわる。",stumble:"（50＋60）÷2＝55 は×。人数が多いBのほうに近くなる。"},
+{id:"a14e",wid:"算数-14",err:"P",lvl:"L3",rate:40,intent:"平均が上がった回数を求める（面積図の考え方）",type:"number",q:"これまでのテストの平均は 72点でした。\n今回 90点をとったので、今回をふくめた平均は 75点になりました。\n今回のテストは何回目？",ans:"6",accept:["6回目","6回"],steps:["今回の90点は、新しい平均75点より 15点多い","その15点を、これまでの回に 3点ずつ（72→75）配った","15÷3＝5回 → 今回は 5＋1＝6回目"],why:"平均より多い分を、少ない人に配ってならす。これが平均の考え方。",stumble:"「5」で止めない。聞かれているのは「今回は何回目」。"},
 
-/* ---------- 国語-2 説明文を最後まで (B) ---------- */
-{id:"j2a",wid:"国語-2",err:"B",lvl:"L1",rate:80,intent:"作戦の確認（メタ認知）",type:"choice",q:"説明文の大問で 残り時間が少ない とき、先に見ておくとよいのは どれ？",choices:["問1の漢字の読み","いちばん最後の「内容に合うもの」「要旨」の問い","まん中の記述問題"],ansIdx:1,steps:["最後の問いは「文章全体」を聞く→本文を読む前に見ると、読むときの目印になる","選択問題なので、時間がなくても記号は書ける"],why:"本番3回連続で、説明文の最後の2〜3問が白紙だった。先に見ておけば、時間がなくても「読みながら答え」られる。",stumble:"記述に時間をかけすぎて最後に届かないのが一番もったいない。"},
-{id:"j2b",wid:"国語-2",err:"B",lvl:"L2",rate:70,intent:"要旨をつかむ（短い文章で練習）",type:"choice",passage:"わたり鳥は、季節によって住む場所を変える。日本で冬をこすハクチョウは、春になると北のシベリアへ帰る。長い旅は危険もあるが、えさの多い場所とひなを育てやすい場所を、季節ごとに使い分けられる。だから多くの鳥が、命がけの旅を続けているのだ。",q:"この文章の 要旨 として、最も適切なものを選びなさい。",choices:["ハクチョウは春になるとシベリアへ帰る。","わたり鳥の旅はとても危険なので、やめたほうがよい。","わたり鳥は危険でも、季節ごとにえさや子育てに向く場所を使い分けるために旅をする。"],ansIdx:2,steps:["要旨＝筆者が一番言いたいこと。「だから」の後ろに注目","ア は具体例の1つ、イ は本文にない意見","ウ が理由と結論の両方を含む"],why:"要旨は「だから」「つまり」「このように」の後ろにある。",stumble:"具体例（ハクチョウ）だけの選択肢は要旨ではない。"},
-{id:"j2c",wid:"国語-2",err:"B",lvl:"L2",rate:72,intent:"内容に合うものを消去法で",type:"choice",passage:"カタツムリのからは、体の一部である。生まれたときから小さなからを持っていて、成長にあわせてからも大きくなる。ヤドカリのように、ほかの貝のからを借りることはない。だから、からがこわれると命にかかわる。",q:"本文の内容に 合うもの を選びなさい。",choices:["カタツムリは大きくなると、新しいからにひっこす。","カタツムリのからは体の一部で、成長とともに大きくなる。","カタツムリのからは、こわれても自然に元にもどる。"],ansIdx:1,steps:["1つずつ本文と照らして○×をつける","ア：ヤドカリの話と逆 ×／ウ：本文にない ×／イ：本文どおり ○"],why:"「合うもの」は消去法。本文にない言葉（ひっこす・元にもどる）が入っていたら×。",stumble:"知っている知識ではなく、本文に書いてあるかで判断する。"},
+/* ================= 算数-復 図形のおさらい（第8・9回） ================= */
+{id:"af1",wid:"算数-復",err:"R",lvl:"L2",rate:45,intent:"下8・9回 2(5)：弧だけ答えて半径2本をたしわすれ",type:"number",q:"半径 6cm、中心角 60°のおうぎ形の「まわりの長さ」は何cm？\n（円周率は 3.14）",ans:"18.28",accept:["18.28cm"],steps:["弧＝6×2×3.14×60/360＝2×3.14＝6.28cm","まわり＝弧＋半径2本＝6.28＋12＝18.28cm"],why:"「まわりの長さ」は、ぐるっと1周。おうぎ形はまっすぐな辺（半径）が2本ある。",stumble:"弧の長さ（6.28）で止めない。図のまわりを指でなぞって確認。"},
+{id:"af2",wid:"算数-復",err:"P",lvl:"L2",rate:45,intent:"下8・9回 2(3)：30°の三角形の高さ",type:"number",q:"2つの辺の長さが 10cm と 8cm で、その間の角が 30°の三角形があります。\nこの三角形の面積は何cm²？",ans:"20",accept:["20cm2","20cm²"],steps:["10cm の辺を底辺にする","高さは、8cm の辺を使った「30°・60°・90°の三角形」→ 8÷2＝4cm","10×4÷2＝20cm²"],why:"30°を見たら、正三角形の半分。ななめの辺の半分が高さ。",stumble:"高さを 8cm や 5cm にしない。半分にするのは「ななめの辺」。"},
+{id:"af3",wid:"算数-復",err:"P",lvl:"L2",rate:70,intent:"組分け第6回 4(1)（白紙・正答率76%）：円周の等分と二等辺三角形",type:"number",q:"円周を 10等分する点を、順に A、B、C… とします。円の中心を O とすると、\n三角形 OAC（A と C は1つとばしの点）の角 OAC は何度？",ans:"54",accept:["54度","54°"],steps:["となりどうしの中心角＝360÷10＝36° → 角AOC＝36×2＝72°","OA＝OC（半径）だから二等辺三角形","（180−72）÷2＝54°"],why:"円の問題は「半径が等しい → 二等辺三角形」を見つける。",stumble:"半径に同じ印をつけると二等辺三角形が見える。"},
 
-/* ---------- 国語-3 漢字・誤字さがし (K/S) ---------- */
-{id:"j3a",wid:"国語-3",err:"K",lvl:"L1",rate:70,intent:"四字熟語の誤字訂正（組分け第5回で0/6）",type:"text",q:"次の四字熟語には、まちがった漢字が 1字 あります。\n正しい漢字 1字 を書きなさい。\n「絶対絶命」",ans:"体",accept:["体","絶体絶命"],steps:["意味：体も命も絶えそうなほど、追いつめられた状態","「対」ではなく「体」"],why:"意味から漢字を決める。「からだ」があぶないから「体」。",stumble:"「絶対」という言葉に引っぱられやすい。"},
-{id:"j3b",wid:"国語-3",err:"K",lvl:"L1",rate:70,intent:"同上",type:"text",q:"まちがった漢字を直しなさい（正しい漢字 1字）。\n「短刀直入」",ans:"単",accept:["単","単刀直入"],steps:["意味：前置きなしに、いきなり本題に入る","「一本の刀（単刀）で切りこむ」→「単」"],why:"「短い刀」ではない。1人・1本の「単」。",stumble:"本番では誤字は見つけたのに、正しい字が書けなかった。意味とセットで覚える。"},
-{id:"j3c",wid:"国語-3",err:"K",lvl:"L2",rate:60,intent:"同上（少しむずかしい）",type:"text",q:"まちがった漢字を直しなさい（正しい漢字 1字）。\n「意心伝心」",ans:"以",accept:["以","以心伝心"],steps:["意味：言葉にしなくても、心で通じ合うこと","「心を以て（もって）心に伝える」→「以」"],why:"読み方が同じ漢字のすりかえに注意（意・以・異）。",stumble:""},
-{id:"j3d",wid:"国語-3",err:"S",lvl:"L1",rate:75,intent:"4年下で×だった漢字（字形をていねいに）",type:"text",q:"漢字で書きなさい。\n「しゅふ」（国の政治の中心になる都市）",ans:"首府",steps:["「首」＝いちばん上・中心、「府」＝役所"],why:"「主」ではなく「首」。首相・首都と同じ「首」。",stumble:"本番は「主府」と書いた。"},
-{id:"j3e",wid:"国語-3",err:"S",lvl:"L1",rate:80,intent:"同上",type:"text",q:"漢字で書きなさい。\n「まんかい」（花がすっかりひらくこと）",ans:"満開",steps:["「満」＝いっぱい、「開」＝ひらく"],why:"「関」と「開」はにている。門の中が「开」なら開く。",stumble:"本番は「満関」と書いた。門の中をよく見て。"},
-{id:"j3f",wid:"国語-3",err:"S",lvl:"L1",rate:78,intent:"第16・17回で×だった漢字",type:"text",q:"漢字で書きなさい。\n「けっそく」（心を1つにしてまとまること）",ans:"結束",steps:["「結」＝むすぶ、「束」＝たば"],why:"「集」ではなく「束」（たばねる）。",stumble:"本番は「結集」と書いた。意味（たばねる）から字を決める。"},
-{id:"j3g",wid:"国語-3",err:"S",lvl:"L2",rate:60,intent:"同上",type:"text",q:"漢字で書きなさい。\n「しょうめい」（部屋を明るくする明かり）",ans:"照明",steps:["「照」＝てらす、「明」＝あかるい"],why:"「暗」ではなく「照」。てらすから明るい。",stumble:"本番は「暗明」と書いた。意味が逆の字を入れていないか見直す。"},
+/* ================= 国語-記 記述「どういうこと」 ================= */
+{id:"kk1",wid:"国語-記",err:"X",lvl:"L1",rate:85,intent:"聞かれ方と文末をそろえる",type:"choice",q:"「――とは どういうことですか」と聞かれたとき、答えの文の終わりは？",choices:["「〜から。」","「〜ということ。」","「〜と思う。」"],ansIdx:1,steps:["「どういうこと」→「〜ということ。」","「なぜ」→「〜から。」","「どんな気持ち」→「〜気持ち。」"],why:"記述は、書き始める前に文末を決める。本番は「どういうこと」に「〜から。」で答えていた。",stumble:"解答らんの最後に、先に小さく「こと。」と書いてしまうのも手。"},
+{id:"kk2",wid:"国語-記",err:"X",lvl:"L1",rate:75,intent:"指示語の内容を「〜こと。」でまとめる（基本）",type:"long",passage:"毎朝、ぼくは犬のコロと川ぞいを走る。それを始めてから、朝ごはんがおいしくなった。",q:"「それ」とは、どんなことですか。「〜こと。」で終わるように書きなさい。",model:"毎朝、犬のコロと川ぞいを走ること。",rubric:["「（毎朝）コロと川ぞいを走る」が入っている","文の終わりが「〜こと。」になっている"],steps:["「それ」のすぐ前を見る","「走る」を「走ること。」にする"],why:"指示語（それ・そう・これ）の中身は、ほとんどの場合すぐ前にある。",stumble:""},
+{id:"kk3",wid:"国語-記",err:"B",lvl:"L2",rate:56,intent:"本番 問八（10点・白紙）の類題：直前の2文をつなぐだけ",type:"long",passage:"試合には負けた。けれど、最後まであきらめずにボールを追いかけた自分を、少しだけほこらしく思えた。それは、勝つことよりも大きな収穫（しゅうかく）だったのかもしれない。",q:"「それ」とは、どんなことですか。文章中の言葉を使って 40字以内で書きなさい。",model:"最後まであきらめずにボールを追いかけた自分を、少しほこらしく思えたこと。",rubric:["「最後まであきらめずにボールを追いかけた」が入っている","「（その自分を）ほこらしく思えた」が入っている","文の終わりが「〜こと。」になっている"],steps:["「それ」の直前の文を見つける","その文を「〜こと。」の形に直す","字数を数える"],why:"本番では、この型の10点が白紙だった（正答率56%）。直前の文を写すだけで点が入る。記述は白紙がいちばんもったいない。",stumble:"選択問題より先に、記述のらんに1行でも書く。"},
+{id:"kk4",wid:"国語-記",err:"X",lvl:"L2",rate:40,intent:"本番 問五（3/12点）の類題：「だから」のあと（結論）を必ず入れる",type:"long",passage:"ミキは、わたしの話をいつも笑って聞いてくれた。その笑顔を見ると、わたしは安心できた。だから、ミキにはずっととなりにいてほしいと願っていた。わたしは「自分のために」ミキを大切にしていたのだ。",q:"「『自分のために』ミキを大切にしていた」とは、どういうことですか。文章中の言葉を使って 50字以内で書きなさい。",model:"話を笑って聞いてくれるミキといると安心できるので、ずっととなりにいてほしいと願っていたということ。",rubric:["「ミキ（の笑顔）で自分が安心できた」が入っている","「ずっととなりにいてほしいと願っていた」（＝「だから」のあと）が入っている","文の終わりが「〜ということ。」になっている"],steps:["文末を先に決める：「〜ということ。」","「自分のため」の中身＝自分がしてほしかったこと →「だから」のあとを見る","前半（安心できた）は短くして、後半（願っていた）を必ず入れる"],why:"本番は前半だけ書いて字数がなくなり、いちばん大事な「だから〜と願っていた」がぬけた。結論は「だから」「つまり」「〜のだ」のあとにある。",stumble:"本文を前から順に写さない。具体例をけずって、結論から入れる。"},
+{id:"kk5",wid:"国語-記",err:"X",lvl:"L3",rate:38,intent:"組分け第7回（6/12・6/10）の類題：要素を2つ入れる",type:"long",passage:"シマウマのしま模様は、草原ではかえって目立つように見える。しかし、むれで走ると、しまが重なり合って一頭一頭の輪かくがわからなくなる。ライオンは、ねらいを一頭にしぼれなくなるのだ。つまり、しま模様は、むれ全体で身を守るための工夫なのである。",q:"「むれ全体で身を守るための工夫」とは、どういうことですか。60字以内で書きなさい。",model:"むれで走るとしまが重なって一頭一頭の輪かくがわからなくなり、ライオンがねらいを一頭にしぼれなくなるということ。",rubric:["「しまが重なって輪かくがわからなくなる」が入っている","「ライオン（敵）がねらいをしぼれなくなる」が入っている","文の終わりが「〜ということ。」になっている"],steps:["「工夫」の中身を本文からさがす：どうなる？→その結果どうなる？","2つをつなぐ：「〜なり、〜ということ。」","解答らんがあまっていたら、要素が足りないサイン"],why:"10点以上の記述は、採点の要素が2つ以上ある。1つ書いて満足せず「それで、どうなる？」をもう1つ。",stumble:"組分け第7回は2問とも前半だけで半分の点だった。"},
 
-/* ---------- 理科-1 星座早見ばん・星の動き (R) ---------- */
-{id:"r1a",wid:"理科-1",err:"R",lvl:"L1",rate:80,intent:"早見ばんの東西は地図と逆（3テストで同じ誤り）",type:"choice",q:"星座早見ばんの「東」は、ふつうの地図とくらべて どちら側 に書いてある？",choices:["地図と同じ、右側","地図と反対の、左側"],ansIdx:1,steps:["早見ばんは 頭の上にかざして 空と見くらべる道具","南を向いて持ち上げると、自分の左手が東になる","だから「東」は左に書いてある"],why:"地図は「上から見下ろす」、早見ばんは「下から見上げる」。裏返しになるから東西が逆。",stumble:"本番2回、早見ばんの方位で東西を逆に答えた。「見上げる道具＝東西が逆」と唱える。"},
-{id:"r1b",wid:"理科-1",err:"R",lvl:"L2",rate:70,intent:"見たい方角を下にして持つ",type:"choice",q:"南の空の星を見るとき、星座早見ばんは どの方位を下 にして持つ？",choices:["北","南","東","西"],ansIdx:1,steps:["見る方角の文字を下にして、頭の上にかかげる","南の空を見るなら「南」を下に"],why:"早見ばんの下側＝自分の目の前の地平線。",stumble:"「北を上」にする地図の感覚で持たない。"},
-{id:"r1c",wid:"理科-1",err:"R",lvl:"L2",rate:82,intent:"第18・19回で落とした『東の空の動き』",type:"choice",q:"東の空 の星は、時間がたつと どの向きに動いて見える？",choices:["右ななめ上へ のぼっていく","左ななめ上へ のぼっていく","まっすぐ下へ しずんでいく"],ansIdx:0,steps:["星は東からのぼって南を通り西にしずむ","東を向いて立つと、南は右手 → 星は右ななめ上へ"],why:"「東は右上へのぼる、西は右下へしずむ、南は左から右へ、北は反時計回り」の4パターンをセットで覚える。",stumble:"写真の問題は、まず「どの方角の空か」を確認してから向きを決める。"},
-{id:"r1d",wid:"理科-1",err:"R",lvl:"L2",rate:89,intent:"第18・19回で落とした『南の空の動き』",type:"choice",q:"南の空 の星は、時間がたつと どの向きに動く？",choices:["左（東）から 右（西）へ","右（西）から 左（東）へ","上下にゆれるだけで動かない"],ansIdx:0,steps:["南を向くと左手が東、右手が西","星は東→西 なので 左から右へ"],why:"太陽と同じ動き（東からのぼり西にしずむ）。",stumble:"南の空だけは「時計回りの弧」をえがくように動く。"},
-{id:"r1e",wid:"理科-1",err:"R",lvl:"L2",rate:65,intent:"第16・17回 3問5 の類題（前の季節の星座）",type:"choice",q:"冬の星座 が南の空に見えているとき、西の空にしずもうとしているのは 何の季節 の星座？",choices:["春の星座","秋の星座","夏の星座"],ansIdx:1,steps:["星は東→南→西 と動く","西にあるのは「南を通りすぎた」星座＝先に見えていた季節","冬の1つ前 → 秋の星座"],why:"「西にしずむのは前の季節、東からのぼるのは次の季節」。",stumble:"本番は「春」と答えた。時間の向きを図で指さして確認。"},
-{id:"r1f",wid:"理科-1",err:"K",lvl:"L3",rate:58,intent:"組分け第5回 5問5 の類題（動いて見える理由）",type:"choice",q:"星が時間とともに 動いて見える のは なぜ？",choices:["星が地球のまわりを回っているから","地球が自転しているから","地球が太陽のまわりを回っているから"],ansIdx:1,steps:["1日の動き（日周運動）＝地球の自転","1年の動き（年周運動）＝地球の公転"],why:"「1日で1周」は自転、「1年で1周」は公転。時間の長さで見分ける。",stumble:"公転（1年）と混同しない。"},
-{id:"r1g",wid:"理科-1",err:"K",lvl:"L3",rate:50,intent:"北の空の回り方と速さ",type:"choice",q:"北の空の星は、北極星を中心に どちら回り に、1時間に 約何度 動く？",choices:["時計回りに 15度","反時計回りに 15度","反時計回りに 30度"],ansIdx:1,steps:["1日（24時間）で1周（360度）→ 1時間に 15度","北の空は反時計回り"],why:"360÷24＝15。この15度は日周運動の基本の数。",stumble:"1か月で30度（年周運動）とごちゃまぜにしない。"},
-{id:"r1h",wid:"理科-1",err:"P",lvl:"L4",rate:20,exp:true,intent:"※取れなくてOK。日周＋年周の合わせ技（組分け第5回 5問6）",type:"choice",q:"2月5日 午後9時 に南の空に見えた星Aは、3月5日 午後11時 には どの向きに どれだけ 動いた位置に見える？",choices:["西へ 約60度","西へ 約30度","東へ 約60度"],ansIdx:0,steps:["1か月後の同じ時刻 → 西へ30度（年周運動）","さらに2時間後 → 西へ 15×2＝30度（日周運動）","合計 西へ60度"],why:"「1か月30度」と「1時間15度」を足すだけ。どちらも西向き。",stumble:"取れなくてOK。「足せばいい」と分かっていれば本番でこわくない。"},
+/* ================= 国語-ぬ ぬき出し ================= */
+{id:"kn1",wid:"国語-ぬ",err:"B",lvl:"L1",rate:85,intent:"ぬき出しで止まらない作戦",type:"choice",q:"ぬき出し問題で、30秒さがしても見つかりません。どうする？",choices:["見つかるまで、ずっとさがし続ける","問題番号に○をつけて次へ進み、最後に必ず戻る","空らんのままにして、わすれる"],ansIdx:1,steps:["ぬき出しは時間を使いやすい","○をつけて先へ → ほかの問題を読むうちに見つかることが多い","最後に○の問題へ戻る"],why:"9月以降、ぬき出し23問のうち5問が白紙。とばすのはOK、戻らないのがダメ。",stumble:""},
+{id:"kn2",wid:"国語-ぬ",err:"R",lvl:"L2",rate:72,strict:true,intent:"本番 問一B（白紙・正答率72%）の類題：指示語の直前をさがす",type:"text",passage:"いつもは元気なサキが、うつむいたまま小さな声で話し始めた。とぎれとぎれの言葉、ぎゅっとにぎった両手。そんな様子を見て、わたしは胸が苦しくなった。",q:"「そんな様子」を説明した次の文の〔　〕に入る言葉を、本文から 9字 でぬき出しなさい。\n「うつむいたサキが、小さな声で〔　　〕を話し、両手をにぎっていること。」",ans:"とぎれとぎれの言葉",steps:["指示語「そんな」→ すぐ前の文を見る","〔　〕の前後（小さな声で／を話し）と同じ言葉を本文でさがす","「とぎれとぎれの言葉」＝9字。数えてたしかめる"],why:"説明の文と本文で、同じ言葉（小さな声・両手）をさがすと場所がわかる。",stumble:"遠くからさがし始めない。まず指示語の直前。"},
+{id:"kn3",wid:"国語-ぬ",err:"S",lvl:"L2",rate:48,strict:true,intent:"本番 問六（6点）：句点「。」を入れて全部失点。字数を数える",type:"text",passage:"友だちは、自分の持ち物ではない。そんな当たり前のことを、ぼくはわすれていた。",q:"「ぼく」がわすれていたのは、どんなことですか。\n「〜ということ」につながる言葉を、本文から 15字 でぬき出しなさい。",ans:"友だちは、自分の持ち物ではない",steps:["「そんな当たり前のこと」→ 直前の文","「友だちは、自分の持ち物ではない」＝15字（「、」は1字に数える）","うしろにつなげて読む：「…ではない ということ」→ OK"],why:"「。」を入れると16字になり、「…ない。ということ」ではつながらない。字数を数える＋うしろにつなげて読む、の2つで防げる。",stumble:"本番は場所が合っていたのに「。」を入れて6点を落とした。"},
+{id:"kn4",wid:"国語-ぬ",err:"S",lvl:"L3",rate:45,strict:true,intent:"「終わりの3字」を答える形（本番 問六と同じ形）",type:"text",passage:"祖母は言った。「道具は、使う人の心をうつす鏡なんだよ。」わたしは、きれいにみがかれた包丁を見て、はっとした。",q:"「わたし」は、どんなことに気づかされたのですか。\n「〜ということ」につながる 14字 の言葉を本文からさがし、その「終わりの3字」を書きなさい。",ans:"つす鏡",steps:["気づかされたこと＝祖母の言葉の中","「道具は、使う人の心をうつす鏡」＝14字","終わりの3字＝「つす鏡」（「なんだよ」は入れると字数が合わない）"],why:"指定の字数にぴったり合うところで切る。字数が合わなければ、切る場所がちがう。",stumble:"はじめ・終わりの3字を書いたら、もう一度14字を指で数える。"},
 
-/* ---------- 理科-2 植物の分類 (K) ---------- */
-{id:"r2a",wid:"理科-2",err:"K",lvl:"L1",rate:80,intent:"『すべて選ぶ』形式（組分け第5回で失点）",type:"multi",q:"単子葉類 を すべて 選びなさい。",choices:["イネ","ホウセンカ","トウモロコシ","アブラナ","ユリ"],ansIdxs:[0,2,4],steps:["単子葉類＝子葉が1まい。イネ・ムギ・トウモロコシ・ユリ・チューリップなど","双子葉類＝ホウセンカ・アブラナ・ヒマワリ・アサガオなど"],why:"「イネのなかま＋ユリのなかま」が単子葉、と覚える。",stumble:"「すべて」は1つずつ○×をつける。1つ足りないと0点。"},
-{id:"r2b",wid:"理科-2",err:"K",lvl:"L1",rate:75,intent:"葉脈のちがい",type:"choice",q:"双子葉類 の葉脈は？",choices:["平行に通る","あみ目のように分かれる"],ansIdx:1,steps:["双子葉類＝あみ目状（網状脈）","単子葉類＝平行（平行脈）"],why:"「二（双）＝あみ目」「一（単）＝まっすぐ平行」。",stumble:""},
-{id:"r2c",wid:"理科-2",err:"K",lvl:"L2",rate:65,intent:"組分け第3回で内外を逆にした『道管の位置』",type:"choice",q:"根からすい上げた水が通る 道管 は、くきの断面の どちら側 にある？",choices:["内側","外側"],ansIdx:0,steps:["道管（水）＝内側","師管（養分）＝外側"],why:"「水は中（内側）を通る」。外側の師管は葉で作った養分を運ぶ。",stumble:"道管・師管の名前は合っていても、内外を逆にすると0点。"},
-{id:"r2d",wid:"理科-2",err:"K",lvl:"L2",rate:60,intent:"根のちがい",type:"choice",q:"双子葉類 の根は？",choices:["太い主根と、そこから出る側根","同じ太さのひげ根"],ansIdx:0,steps:["双子葉類＝主根・側根","単子葉類＝ひげ根"],why:"ホウセンカを抜くと太い根、イネを抜くとひげのような根。",stumble:""},
-{id:"r2e",wid:"理科-2",err:"K",lvl:"L3",rate:45,intent:"特ちょうを『すべて』",type:"multi",q:"双子葉類 の特ちょうを すべて 選びなさい。",choices:["子葉が2まい","葉脈が平行","くきの維管束が輪のようにならぶ","根はひげ根","子葉が1まい"],ansIdxs:[0,2],steps:["双子葉：子葉2まい／あみ目状の葉脈／維管束は輪／主根と側根","単子葉：子葉1まい／平行脈／維管束はばらばら／ひげ根"],why:"4つの特ちょうをセットで表にして覚える。",stumble:"1つ選んで満足しない。5つ全部に○×。"},
+/* ================= 国語-接 接続語 ================= */
+{id:"ks1",wid:"国語-接",err:"K",lvl:"L1",rate:92,intent:"順接（前が原因・理由 → 後ろが結果）",type:"choice",q:"（　）に入る言葉は？\n「雨が強くなった。（　）、試合は中止になった。」",choices:["だから","しかし","たとえば"],ansIdx:0,steps:["前：雨が強い（原因）→ 後ろ：中止（結果）","原因→結果 は順接「だから」"],why:"順接＝前のことから当然そうなる。だから・それで・したがって・すると。",stumble:""},
+{id:"ks2",wid:"国語-接",err:"K",lvl:"L1",rate:90,intent:"逆接（前から予想されることと反対）＝第13・14回",type:"choice",q:"（　）に入る言葉は？\n「必死に走った。（　）、電車に間に合わなかった。」",choices:["だから","しかし","つまり"],ansIdx:1,steps:["走った → 間に合うはず → でも間に合わなかった","予想と反対 → 逆接「しかし」"],why:"逆接＝しかし・けれども・ところが・だが・のに。",stumble:""},
+{id:"ks3",wid:"国語-接",err:"K",lvl:"L2",rate:85,intent:"順接が入る文を「2つ」選ぶ（本番型）",type:"multi",q:"（　）に〈順接〉の接続語が入るものを すべて 選びなさい。",choices:["毎日練習した。（　）、試合に勝てた。","毎日練習した。（　）、試合に負けた。","かぜをひいた。（　）、学校を休んだ。","かぜをひいた。（　）、学校に行った。"],ansIdxs:[0,2],steps:["1つずつ「だから」を入れて読む","ア：練習→勝てた ○　ウ：かぜ→休んだ ○","イ・エは予想と反対 → 逆接（しかし）"],why:"「だから」を入れて自然なら順接、「しかし」が自然なら逆接。",stumble:""},
+{id:"ks4",wid:"国語-接",err:"K",lvl:"L2",rate:75,intent:"文の中の逆接（〜のに／〜が／〜けれど）",type:"multi",q:"〈逆接〉で結びつけている文を すべて 選びなさい。",choices:["急いだのに、間に合わなかった。","急いだので、間に合った。","雨だが、試合は行われた。","雨だから、試合は中止だ。","何度も読んだけれど、わからない。"],ansIdxs:[0,2,4],steps:["逆接：〜のに、〜が、〜けれど","順接：〜ので、〜から","ア・ウ・オが逆接"],why:"「ので・から」は順接、「のに・が・けれど」は逆接。",stumble:"「すべて」は1つずつ○×をつける。"},
+{id:"ks5",wid:"国語-接",err:"R",lvl:"L3",rate:42,intent:"組分け第7回 4問一A：対比なのに「つまり」を選んだ",type:"choice",passage:"人間は、道具を使って、まわりの環境を自分に合うように変えてきた。（　）、野生動物は、自分の体を環境に合わせて生きている。",q:"（　）に入る言葉として、最もふさわしいものは？",choices:["つまり","ところが","たとえば"],ansIdx:1,steps:["前：人間は環境を変える　後ろ：動物は環境に合わせる","反対のことをくらべている（対比）→ 逆接「ところが」","「つまり」は言いかえ・まとめ、「たとえば」は具体例"],why:"接続語は、前と後ろの内容を短く言ってから決める。主語が「人間」→「野生動物」と変わったら対比を疑う。",stumble:"なんとなく入れない。前と後ろを一言でまとめる。"},
 
-/* ---------- 理科-3 ヒトのからだ・秋の生物 (K) ---------- */
-{id:"r3a",wid:"理科-3",err:"K",lvl:"L1",rate:75,intent:"4年下で×だった『目のつくり』",type:"choice",q:"目で、光が 像としてうつる 部分はどこ？",choices:["ひとみ","網膜（もうまく）","レンズ"],ansIdx:1,steps:["ひとみ＝光が入る穴","レンズ＝光を集める","網膜＝像がうつる（カメラのフィルム）"],why:"カメラにたとえると、ひとみ＝しぼり、レンズ＝レンズ、網膜＝フィルム。",stumble:"「ひとみ」は光の入り口。うつる場所ではない。"},
-{id:"r3b",wid:"理科-3",err:"K",lvl:"L2",rate:65,intent:"筋肉の縮み・ゆるみ",type:"choice",q:"うでを 曲げる とき、うでの内側（力こぶ側）の筋肉は どうなる？",choices:["ちぢむ","ゆるむ"],ansIdx:0,steps:["曲げる：内側がちぢみ、外側がゆるむ","のばす：内側がゆるみ、外側がちぢむ"],why:"筋肉は「ちぢむ」ことでしか力を出せない。2つの筋肉が交代でちぢむ。",stumble:"力こぶができる＝ちぢんでいる。"},
-{id:"r3c",wid:"理科-3",err:"K",lvl:"L1",rate:80,intent:"4年下で逆にした『落葉樹・常緑樹』",type:"multi",q:"冬も緑の葉をつけている木（常緑樹）を すべて 選びなさい。",choices:["ツバキ","イチョウ","マツ","サクラ"],ansIdxs:[0,2],steps:["常緑樹：ツバキ・マツ・スギ・サザンカ","落葉樹：イチョウ・サクラ・カエデ・ツタ"],why:"紅葉する木＝落葉樹。ツバキは冬に花がさく＝葉も冬にある。",stumble:"本番はツバキとツタを逆にした。「冬に花がさく木は常緑」と覚える。"},
-{id:"r3d",wid:"理科-3",err:"K",lvl:"L2",rate:60,intent:"4年下で白紙だった『昆虫の産卵場所』",type:"choice",q:"アキアカネ（トンボ）は どこに 卵を産む？",choices:["水の中や水面","土の中","木のみき"],ansIdx:0,steps:["トンボの幼虫（ヤゴ）は水中で育つ → 卵は水に","バッタ → 土の中、カマキリ → 枝（卵のう）"],why:"「幼虫がどこで育つか」を考えると産卵場所が分かる。",stumble:"白紙にせず、幼虫のすみかから考える。"},
-{id:"r3e",wid:"理科-3",err:"K",lvl:"L2",rate:62,intent:"同上（バッタ）",type:"choice",q:"バッタ は どこに 卵を産む？",choices:["水の中","土の中","葉の裏"],ansIdx:1,steps:["バッタは腹を土にさして産む","幼虫は土から出てきて草を食べる"],why:"セミも土の中で幼虫が育つが、卵は木の枝に産む（ひっかけ注意）。",stumble:""},
-{id:"r3f",wid:"理科-3",err:"K",lvl:"L2",rate:60,intent:"4年下で×だった『ヒガンバナ』",type:"choice",q:"ヒガンバナ は、花と葉の どちらが先 に出る？",choices:["花が先で、葉はあと","葉が先で、花はあと","花と葉が同時"],ansIdx:0,steps:["秋のお彼岸に、葉がないまま花がさく","花が終わってから葉が出て、冬に光合成"],why:"「葉見ず花見ず」と呼ばれる特別な植物。",stumble:"ふつうの植物（葉→花）と逆。"},
+/* ================= 国語-語 和語・類義語・対義語 ================= */
+{id:"kg1",wid:"国語-語",err:"K",lvl:"L1",rate:73,intent:"本番で「すたれる」と入れちがえた和語",type:"choice",q:"（　）に入る言葉は？\n「手入れをしない畑に、雑草が（　）。」",choices:["はびこる","すたれる","うるおう"],ansIdx:0,steps:["はびこる＝よくないものが、広がって勢いをもつ","雑草・害虫・悪いうわさ などに使う"],why:"「はびこる」は広がる（ふえる）、「すたれる」はおとろえる（へる）。向きが反対。",stumble:""},
+{id:"kg2",wid:"国語-語",err:"K",lvl:"L1",rate:75,intent:"同上（すたれる）",type:"choice",q:"（　）に入る言葉は？\n「わかい人がへって、昔からの祭りが（　）。」",choices:["はびこる","すたれる","もくろむ"],ansIdx:1,steps:["すたれる＝はやらなくなる、おとろえる","はやる ⇔ すたれる"],why:"「はやる」の反対が「すたれる」と覚える。",stumble:""},
+{id:"kg3",wid:"国語-語",err:"K",lvl:"L2",rate:70,intent:"思い出す練習：反対の言葉から",type:"text",q:"「はやる（流行する）」と反対の意味の和語を、ひらがな4字で書きなさい。\n（ヒント：す◯◯る）",ans:"すたれる",accept:["廃れる"],steps:["はやる ⇔ すたれる"],why:"選ぶより、自分で思い出して書くほうが記憶に残る。",stumble:""},
+{id:"kg4",wid:"国語-語",err:"K",lvl:"L1",rate:85,intent:"対義語（第14回）",type:"text",q:"「増加」の対義語（反対の意味の言葉）を、漢字2字で書きなさい。",ans:"減少",accept:["げんしょう"],steps:["増える ⇔ 減る、加える ⇔ 少なくなる","増加 ⇔ 減少"],why:"対義語は、1字ずつ反対になっているものが多い（増⇔減）。",stumble:"「減小」ではなく「減少」。"},
+{id:"kg5",wid:"国語-語",err:"K",lvl:"L2",rate:70,intent:"対義語（社会でも使う言葉）",type:"text",q:"「生産」の対義語を、漢字2字で書きなさい。\n（ヒント：つくる ⇔ 使ってなくす）",ans:"消費",accept:["しょうひ"],steps:["生産＝つくること","消費＝使ってなくすこと"],why:"社会の「生産量・消費量」とセットで覚える。",stumble:""},
+{id:"kg6",wid:"国語-語",err:"K",lvl:"L1",rate:85,intent:"類義語（第13回）",type:"choice",q:"「欠点」と似た意味の言葉（類義語）は？",choices:["短所","長所","美点"],ansIdx:0,steps:["欠点＝よくないところ＝短所","長所・美点は反対の意味"],why:"類義語＝似た意味、対義語＝反対の意味。問題がどちらを聞いているか、先に○でかこむ。",stumble:"類義語を聞かれているのに対義語を選ばない。"},
+{id:"kg7",wid:"国語-語",err:"K",lvl:"L2",rate:75,intent:"類義語を思い出して書く",type:"text",q:"「準備」と似た意味の言葉を、漢字2字で書きなさい。\n（ヒント：用◯）",ans:"用意",accept:["ようい"],steps:["準備＝用意＝したく"],why:"類義語は、短い文に入れかえて意味が通るかでたしかめる（遠足の準備＝遠足の用意）。",stumble:""},
+{id:"kg8",wid:"国語-語",err:"K",lvl:"L2",rate:18,intent:"下8・9回で×（正答率18%）：同訓異字「たつ」",type:"choice",q:"「長年の思いをたつ。」の「たつ」を漢字で書くと？",choices:["立つ","断つ","建つ"],ansIdx:1,steps:["断つ＝つながりを切る、やめる（思いを断つ・関係を断つ）","立つ＝おきあがる、建つ＝建物ができる"],why:"同訓異字は、意味を言いかえて決める（思いを「切る」→ 断）。",stumble:""},
 
-/* ---------- 社会-1 都道府県・県庁所在地 (K) ---------- */
-{id:"h1a",wid:"社会-1",err:"K",lvl:"L1",rate:86,intent:"組分け第5回で白紙だった易問",type:"text",q:"岩手県 の県庁所在地は？",ans:"盛岡市",accept:["盛岡市","盛岡","もりおか市","もりおか"],steps:["岩手県＝盛岡市"],why:"県名と県庁所在地がちがう県は18。ドリルで毎日5つ。",stumble:"「岩手市」は無い。"},
-{id:"h1b",wid:"社会-1",err:"K",lvl:"L2",rate:68,intent:"組分け第3回・第5回で2回失点",type:"text",q:"日本でいちばん大きい湖「琵琶湖」がある県と、その県庁所在地を書きなさい。（例：〇〇県・〇〇市）",ans:"滋賀県・大津市",all:["滋賀","大津"],steps:["琵琶湖＝滋賀県","滋賀県の県庁所在地＝大津市"],why:"県名と県庁所在地がちがう近畿の県：滋賀（大津）・兵庫（神戸）・三重（津）。",stumble:"2回聞かれた問題。どちらか片方だけでは×。"},
-{id:"h1c",wid:"社会-1",err:"K",lvl:"L2",rate:67,intent:"『正しい文を選ぶ』形式",type:"choice",q:"鳥取県 と 島根県 について 正しいもの を選びなさい。",choices:["どちらも日本海に面している","どちらも太平洋に面している","鳥取県の県庁所在地は松江市である"],ansIdx:0,steps:["鳥取・島根は中国地方の日本海側（山陰）","県庁所在地：鳥取＝鳥取市、島根＝松江市"],why:"「山陰＝日本海側」「山陽＝瀬戸内側」。",stumble:"松江市は島根県。"},
-{id:"h1d",wid:"社会-1",err:"K",lvl:"L2",rate:52,intent:"組分け第3回で失点した旧国名",type:"multi",q:"鹿児島県 の昔の国の名を すべて 選びなさい。",choices:["薩摩（さつま）","大隅（おおすみ）","土佐（とさ）","日向（ひゅうが）"],ansIdxs:[0,1],steps:["鹿児島県＝薩摩＋大隅","土佐＝高知県、日向＝宮崎県"],why:"薩摩芋（さつまいも）・大隅半島 のように地名に残っている。",stumble:"「すべて」は2つとも選ぶ。"},
-{id:"h1e",wid:"社会-1",err:"K",lvl:"L3",rate:45,intent:"組分け第5回で白紙だった四国の旧国名",type:"choice",q:"四国地方の 昔の国の名 と 今の県名 の組み合わせで 正しいもの はどれ？",choices:["讃岐（さぬき）＝香川県","土佐（とさ）＝愛媛県","伊予（いよ）＝徳島県"],ansIdx:0,steps:["讃岐＝香川、土佐＝高知、伊予＝愛媛、阿波＝徳島"],why:"讃岐うどん（香川）、伊予かん（愛媛）、阿波おどり（徳島）、土佐犬（高知）。",stumble:"名物とセットで覚えると忘れない。"},
-{id:"h1f",wid:"社会-1",err:"K",lvl:"L3",rate:55,intent:"組分け第5回で白紙だった『正しくないもの』",type:"choice",q:"九州地方について 正しくないもの を選びなさい。",choices:["福岡市は九州でいちばん人口が多い都市である","長崎県は島の数が日本で最も多い","佐賀県は太平洋に面している"],ansIdx:2,steps:["佐賀県が面するのは有明海と玄界灘（日本海側）。太平洋ではない","ア・イは正しい"],why:"「正しくないもの」は、正しい文に○をつけて残りを選ぶ。",stumble:"問いが「正しい」か「正しくない」かを最初に丸で囲む。"},
+/* ================= 国語-文 主語・述語 ================= */
+{id:"kb1",wid:"国語-文",err:"P",lvl:"L1",rate:60,intent:"組分け第7回 2問一1：述語を先に決めて「だれが？」",type:"choice",q:"次の文の主語は？\n「われわれは、次の大会では必ず勝たねばならない。」",choices:["われわれは","大会では","必ず"],ansIdx:0,steps:["まず述語（文の終わり）：「勝たねばならない」","「だれが」勝たねばならない？ → われわれは"],why:"主語をさがすときは、必ず述語から。「〜は」「〜が」「〜も」の形が主語。",stumble:"「大会では」は場所・ときを表す言葉で、主語ではない。"},
+{id:"kb2",wid:"国語-文",err:"K",lvl:"L2",rate:45,intent:"組分け第7回 2問一2：主語がない文（省略）",type:"choice",q:"次の文の主語は？\n「友だちに手伝ってもらって、とてもうれしかったよ。」",choices:["友だちに","手伝ってもらって","書かれていない（省略されている）"],ansIdx:2,steps:["述語：「うれしかったよ」","「だれが」うれしかった？ →（わたしは）が書かれていない","主語は省略 → 答えは「×（ない）」"],why:"日本語は主語をよく省略する。「〜は・〜が」が見つからなければ「ない」と答える。",stumble:"無理に「友だちに」などを主語にしない。"},
+{id:"kb3",wid:"国語-文",err:"K",lvl:"L2",rate:55,intent:"倒置（順番が逆の文）の述語",type:"choice",q:"次の文の述語は？\n「きれいだなあ、あの夕焼けは。」",choices:["きれいだなあ","あの","夕焼けは"],ansIdx:0,steps:["ふつうの順に直す：「あの夕焼けは、きれいだなあ。」","述語＝きれいだなあ、主語＝夕焼けは"],why:"述語が文の終わりにないとき（倒置）は、ふつうの順に直してから考える。",stumble:""},
 
-/* ---------- 社会-2 日本の海岸 (K) ---------- */
-{id:"h2a",wid:"社会-2",err:"K",lvl:"L1",rate:85,intent:"第18・19回で『海境』と書いた用語",type:"text",q:"暖流と寒流がぶつかり、プランクトンや魚が多く集まる海の場所を 何という？",ans:"潮目",accept:["潮目","しおめ","潮境","しおざかい"],steps:["暖流（黒潮）と寒流（親潮）がぶつかる → 潮目（潮境）","三陸海岸の沖が有名"],why:"「潮（しお）の目」＝2つの流れの境目。",stumble:"漢字は「潮目」。"},
-{id:"h2b",wid:"社会-2",err:"K",lvl:"L1",rate:82,intent:"第18・19回で×だった用語",type:"text",q:"山地が海にしずんでできた、入り組んだギザギザの海岸を 何海岸 という？",ans:"リアス海岸",accept:["リアス海岸","リアス式海岸","りあす海岸","リアス"],steps:["三陸海岸・志摩半島・若狭湾が代表"],why:"入り江が深く波がおだやか → 港や養殖に向く。",stumble:"「リアス」のカタカナを正確に。"},
-{id:"h2c",wid:"社会-2",err:"K",lvl:"L2",rate:70,intent:"第18・19回で『遠浅』と書いた用語",type:"text",q:"陸地の近くに広がる、深さ 200m くらいまでの ゆるやかな海底を 何という？",ans:"大陸だな",accept:["大陸だな","大陸棚","たいりくだな"],steps:["陸のつづきのゆるやかな海底＝大陸だな","日光がとどき魚が多い → 良い漁場"],why:"「棚（たな）」のように平らに広がる。",stumble:"「遠浅」は海岸の様子を表す言葉で、用語としては別。"},
-{id:"h2d",wid:"社会-2",err:"K",lvl:"L2",rate:65,intent:"『正しいもの』形式",type:"choice",q:"リアス海岸 について 正しいもの を選びなさい。",choices:["入り江の波がおだやかで、養殖（ようしょく）に向いている","遠浅で、広い砂浜が続いている","平らな土地が多く、大きな工場が建てやすい"],ansIdx:0,steps:["入り江→波がおだやか→カキ・ワカメ・真珠の養殖","平地は少ない"],why:"地形の特ちょう→くらしへの影響、をセットで。",stumble:""},
-{id:"h2e",wid:"社会-2",err:"K",lvl:"L3",rate:74,intent:"第18・19回で×だった『日本海に面する国』",type:"choice",q:"日本海 に面している国の組み合わせとして 正しいもの はどれ？",choices:["韓国・北朝鮮・ロシア","中国・台湾・フィリピン","アメリカ・カナダ"],ansIdx:0,steps:["日本海の向こう側：朝鮮半島（韓国・北朝鮮）とロシア","中国は日本海には面していない（黄海・東シナ海）"],why:"地図で日本海をぐるっとなぞると分かる。",stumble:"中国を入れない。"},
+/* ================= 理科-11 月 ================= */
+{id:"r11a",wid:"理科-11",err:"R",lvl:"L1",rate:85,fig:FIG_MOON,cap:"北極の上から見た図。月は A→B→C→…→H の順に地球のまわりを回る",intent:"月の位置と形（図を使って）",type:"choice",q:"図で、日本から「上弦（じょうげん）の月」（右半分が光る半月）が見えるのは、月がどの位置にあるとき？",choices:["A","C","E","G"],ansIdx:1,steps:["A＝太陽と同じ方向 → 新月","A から 1/4 回った C → 右半分が光る上弦の月","E＝太陽と反対がわ → 満月、G＝下弦の月"],why:"新月(A)→三日月(B)→上弦(C)→満月(E)→下弦(G)→新月。約29.5日で1まわり。",stumble:"図の月は、いつも太陽がわ（右）半分が光っている。地球から見える形を考える。"},
+{id:"r11b",wid:"理科-11",err:"K",lvl:"L1",rate:94,intent:"本番 1問3（正答率94%）で×：月の海",type:"choice",q:"月の表面の「暗く見える部分」について、正しいものは？",choices:["月の海とよばれ、水がある","月の海とよばれるが、水はない","月の高地とよばれ、高い山がある"],ansIdx:1,steps:["暗く見える部分＝月の海（水はない。黒っぽい岩石でできた平らな所）","白っぽく明るい部分＝高地（クレーターが多い）"],why:"「海」という名前でも水はない。暗い＝海、明るい＝陸（高地）。",stumble:"本番は「高地」を選んだ。暗い・明るいと名前をセットで。"},
+{id:"r11c",wid:"理科-11",err:"K",lvl:"L2",rate:77,intent:"月の形と南中の時刻",type:"choice",q:"上弦の月が南の空にくる（南中する）のは、いつごろ？",choices:["明け方（午前6時ごろ）","正午ごろ","夕方（午後6時ごろ）","真夜中（午前0時ごろ）"],ansIdx:2,steps:["新月：正午に南中（太陽といっしょ）","上弦：夕方、満月：真夜中、下弦：明け方","6時間ずつおそくなる"],why:"新月→上弦→満月→下弦 と進むごとに、南中が6時間ずつおそくなる。",stumble:"満月は夕方に東からのぼり、真夜中に南中、明け方に西にしずむ。"},
+{id:"r11d",wid:"理科-11",err:"K",lvl:"L2",rate:56,intent:"本番 3問3（正答率56%）で×：「やや西」と答えた",type:"choice",q:"毎日「同じ時刻」に月を観察します。\n月の位置は、前の日とくらべてどうなっていますか。",choices:["やや東に見える","やや西に見える","変わらない"],ansIdx:0,steps:["月は地球のまわりを、西から東へ公転している","だから同じ時刻で見ると、1日に約12度ずつ東へずれる","そのぶん、月の出は毎日 約50分ずつおそくなる"],why:"「1日の中では東→西へ動く」と「同じ時刻で毎日くらべると東へずれる」は別の話。問題文に「同じ時刻」とあったら「東」。",stumble:"本番は1日の中の動きとまぜて「西」と答えた。「同じ時刻」に線を引く。"},
+{id:"r11e",wid:"理科-11",err:"K",lvl:"L2",rate:60,intent:"月の出がおそくなる時間（数字で覚える）",type:"number",q:"月の出の時刻は、1日に約何分ずつおそくなりますか。",ans:"50",accept:["50分","約50分","48","49","48分","49分"],steps:["月は1日に約12度、東へずれる","地球が12度回るのに約50分かかる","→ 月の出は毎日 約50分おそくなる"],why:"「毎日東へ12度・50分おそく」はセット。",stumble:""},
+{id:"r11f",wid:"理科-11",err:"P",lvl:"L2",rate:56,intent:"本番 3問4型（正解済みの維持）：1週間後の月",type:"choice",q:"ある日の夕方、南の空に上弦の月が見えました。\n1週間後の同じ時刻には、どんな月が、どの方角に見えますか。",choices:["満月が、東の空に見える","満月が、西の空に見える","下弦の月が、南の空に見える","新月なので、見えない"],ansIdx:0,steps:["上弦の約7日後は満月","満月は夕方に東からのぼる → 東の空","（毎日東へずれて、1週間で南→東まできた）"],why:"月の形（何日後か）→ その月が夕方どこにあるか、の2段で考える。",stumble:""},
+{id:"r11g",wid:"理科-11",err:"K",lvl:"L2",rate:74,intent:"日食・月食のときの月",type:"choice",q:"日食が起こるときの月は？",choices:["新月","上弦の月","満月","下弦の月"],ansIdx:0,steps:["日食：太陽―月―地球 の順にならび、月が太陽をかくす → 新月","月食：太陽―地球―月 の順で、月が地球のかげに入る → 満月"],why:"日食＝新月、月食＝満月。ならぶ順番を図でかけるように。",stumble:""},
+{id:"r11h",wid:"理科-11",err:"K",lvl:"L3",rate:50,intent:"下弦の月（明け方・左半分）",type:"choice",q:"明け方、南の空に見える半月は？",choices:["上弦の月（右半分が光る）","下弦の月（左半分が光る）","満月"],ansIdx:1,steps:["明け方に南中するのは下弦の月","下弦の月は、南の空では左半分が光る"],why:"太陽は明け方、東（左がわ）にある → 月の左がわが光る。",stumble:"光っているがわに太陽がある、と考える。"},
+{id:"r11i",wid:"理科-11",err:"P",lvl:"L3",rate:45,intent:"月の出の時刻の計算",type:"text",q:"ある日の月の出は 午後5時30分 でした。\n月の出が1日に50分ずつおそくなるとすると、3日後の月の出は 午後何時何分？",ans:"午後8時",accept:["8時","午後8時0分","午後8時00分","8時0分","8時00分","8:00","20時","20:00","午後8時ごろ","8"],steps:["50分×3日＝150分＝2時間30分","午後5時30分＋2時間30分＝午後8時"],why:"「毎日50分おそくなる」を使う計算。",stumble:""},
 
-/* ---------- 社会-3 社会の記述 (X) ---------- */
-{id:"h3a",wid:"社会-3",err:"X",lvl:"L2",rate:45,intent:"4年下で白紙だった『流域面積』",type:"long",q:"「流域面積」とは どのような面積 のことか、説明しなさい。",model:"雨や雪の水が、その川に流れこむ土地全体の面積。",rubric:["「雨や雪の水が、その川に流れこむ」という意味が入っている","「土地（範囲）の面積」という言葉が入っている"],steps:["「流域」＝水が流れこむ土地の範囲","「面積」＝その広さ"],why:"利根川は「流域面積が日本一」（長さは信濃川が一）。用語の意味を1文で言えるようにする。",stumble:"「川の面積」だけでは×。「流れこむ土地」が必要。"},
-{id:"h3b",wid:"社会-3",err:"X",lvl:"L2",rate:44,intent:"第16・17回で白紙だった型（理由の説明）",type:"long",q:"雪の多い地域で、昔から冬に 家の中で織物などの仕事 が行われてきたのは なぜですか。",model:"冬は雪で外の農作業ができないので、家の中でできる仕事をして収入を得るため。",rubric:["「雪で外の農作業ができない」（原因）が入っている","「家の中でできる仕事／収入」（結果・目的）が入っている"],steps:["原因：雪→農作業ができない","目的：その間の収入","「〜ため。」「〜から。」で結ぶ"],why:"社会の記述も国語と同じ「原因＋目的＋から。」。",stumble:"白紙が一番もったいない。1つの要素だけでも書けば部分点。"},
+/* ================= 理科-12 いろいろな気体（維持） ================= */
+{id:"r12a",wid:"理科-12",err:"K",lvl:"L1",rate:88,intent:"気体の発生（正解済みの維持）",type:"choice",q:"酸素を発生させる組み合わせは？",choices:["過酸化水素水（オキシドール）と二酸化マンガン","石灰石とうすい塩酸","食塩と水"],ansIdx:0,steps:["酸素：過酸化水素水＋二酸化マンガン","二酸化炭素：石灰石＋うすい塩酸"],why:"液体と固体の組み合わせをセットで。",stumble:""},
+{id:"r12b",wid:"理科-12",err:"K",lvl:"L2",rate:62,intent:"本番 4問5型：二酸化マンガンは自分は変化しない",type:"choice",q:"酸素の発生が止まりました。もっと酸素を発生させるには、何を加えますか。",choices:["二酸化マンガン","過酸化水素水","水"],ansIdx:1,steps:["酸素は、過酸化水素水が分解してできる","二酸化マンガンは分解を速めるだけで、自分は変化しない（へらない）","→ 加えるのは過酸化水素水"],why:"二酸化マンガンをふやしても、できる酸素の量は変わらない。量を決めるのは過酸化水素水。",stumble:""},
+{id:"r12c",wid:"理科-12",err:"K",lvl:"L2",rate:65,intent:"酸素の性質を「すべて」（本番 4問2型）",type:"multi",q:"酸素の性質として正しいものを すべて 選びなさい。",choices:["色もにおいもない","水にとけにくい","酸素そのものがよく燃える","ものが燃えるのを助ける","石灰水を白くにごらせる"],ansIdxs:[0,1,3],steps:["酸素：無色・無臭、水にとけにくい、空気より少し重い、ものを燃やすはたらき","酸素自身は燃えない","石灰水を白くにごらせるのは二酸化炭素"],why:"「燃やすのを助ける」と「自分が燃える」はちがう。",stumble:""},
+{id:"r12d",wid:"理科-12",err:"K",lvl:"L2",rate:77,intent:"水上置換で集める理由（本番 2問3型）",type:"choice",q:"二酸化炭素は水に少しとけますが、水上置換法で集めることがあります。その理由は？",choices:["空気より軽いから","空気がまざらない、純すいな気体を集められるから","水によくとけるから"],ansIdx:1,steps:["水上置換：びんの中の水と気体を置きかえる → 空気がまざらない","二酸化炭素は空気より重いので、下方置換でも集められる"],why:"集め方：水にとけにくい→水上置換／とけやすく空気より重い→下方置換／軽い→上方置換。",stumble:""},
 
-/* ---------- 社会-4 東北・関東 (K) ---------- */
-{id:"h4a",wid:"社会-4",err:"R",lvl:"L1",rate:75,intent:"4年下で県名を書いた『都市名』の問題",type:"text",q:"日本三名園の1つ「偕楽園（かいらくえん）」がある 都市 はどこ？（都市名で）",ans:"水戸市",accept:["水戸市","水戸","みと市","みと"],steps:["偕楽園＝茨城県 水戸市","三名園：偕楽園（水戸）・兼六園（金沢）・後楽園（岡山）"],why:"「都市名」と聞かれたら市で答える。県名では×。",stumble:"問題文の「都市」「県」「地方」を丸で囲んでから答える。"},
-{id:"h4b",wid:"社会-4",err:"R",lvl:"L1",rate:70,intent:"4年下で記号を取りちがえた『日本三景』",type:"choice",q:"日本三景のうち、宮城県 にあるのはどれ？",choices:["松島","宮島","天橋立（あまのはしだて）"],ansIdx:0,steps:["松島＝宮城県、宮島＝広島県、天橋立＝京都府"],why:"「松島」と「宮島」は字がにている。宮城の「宮」と宮島の「宮」は無関係。",stumble:"本番は松島と宮島を取りちがえた。"},
-{id:"h4c",wid:"社会-4",err:"K",lvl:"L2",rate:60,intent:"4年下で白紙だった",type:"multi",q:"青函（せいかん）トンネル が結んでいる道県を すべて 選びなさい。",choices:["北海道","青森県","岩手県","秋田県"],ansIdxs:[0,1],steps:["青函＝青（青森）＋函（函館・北海道）"],why:"名前の漢字に答えが入っている。",stumble:""},
-{id:"h4d",wid:"社会-4",err:"K",lvl:"L2",rate:65,intent:"関東の気候の用語",type:"text",q:"関東平野に冬にふく、冷たくかわいた 北西の風 を何という？",ans:"からっ風",accept:["からっ風","からっかぜ","空っ風"],steps:["日本海側で雪を降らせた後の、かわいた風","群馬県の「上州のからっ風」が有名"],why:"「かわいている」から「からっ」。",stumble:""},
+/* ================= 理科-13 物の燃え方（予習） ================= */
+{id:"r13a",wid:"理科-13",err:"K",lvl:"L1",rate:80,fig:FIG_CANDLE,cap:"ろうそくのほのお（A：いちばん外側、B：まん中、C：しんの近く）",intent:"ほのおの3つの部分（温度）",type:"choice",q:"図で、いちばん温度が高いのはどの部分？",choices:["A（いちばん外側）","B（まん中）","C（しんの近く）"],ansIdx:0,steps:["A＝外炎（がいえん）：空気（酸素）と十分にふれて完全に燃える → いちばん高温","B＝内炎、C＝炎心（えんしん）：いちばん温度が低い"],why:"外がわほど酸素が多く、よく燃える。",stumble:"いちばん「明るい」のは別（B）。温度と明るさを区別。"},
+{id:"r13b",wid:"理科-13",err:"K",lvl:"L1",rate:75,fig:FIG_CANDLE,cap:"ろうそくのほのお（A：いちばん外側、B：まん中、C：しんの近く）",intent:"いちばん明るい部分とその理由",type:"choice",q:"図で、いちばん明るくかがやいているのはどの部分？",choices:["A（いちばん外側）","B（まん中）","C（しんの近く）"],ansIdx:1,steps:["B＝内炎：燃えきっていない炭素のつぶ（すす）が熱せられて明るくかがやく","ガラス棒を入れると、Bのところに黒いすすがつく"],why:"温度が高い＝外炎、明るい＝内炎。",stumble:""},
+{id:"r13c",wid:"理科-13",err:"K",lvl:"L2",rate:70,intent:"ものが燃える3つの条件",type:"multi",q:"ものが燃えつづけるために必要なものを すべて 選びなさい。",choices:["燃えるものがある","新しい空気（酸素）がある","発火点（燃え始める温度）以上の温度がある","二酸化炭素がある","水がある"],ansIdxs:[0,1,2],steps:["①燃えるもの ②酸素 ③発火点以上の温度","3つのうち1つでもなくすと火は消える（火の消し方）"],why:"水をかける＝温度を下げる、ふたをする＝酸素をなくす。",stumble:""},
+{id:"r13d",wid:"理科-13",err:"K",lvl:"L2",rate:65,intent:"燃えたあとの空気",type:"choice",q:"集気びんの中でろうそくを燃やし、火が消えました。びんの中の空気はどうなりましたか。",choices:["酸素がすべてなくなり、二酸化炭素だけになった","酸素がへって二酸化炭素がふえ、ちっ素は変わらない","ちっ素がへって、酸素がふえた"],ansIdx:1,steps:["空気：ちっ素 約78%、酸素 約21%","燃えると酸素がへり（約21%→約17%）、二酸化炭素がふえる","ちっ素は変わらない。酸素は全部はなくならない"],why:"酸素がある程度へると火は消える。0になるわけではない。",stumble:"「すべてなくなる」のような言いすぎの選択肢に注意。"},
+{id:"r13e",wid:"理科-13",err:"K",lvl:"L2",rate:68,intent:"空気の通り道とよく燃える条件",type:"choice",q:"底のないびんをろうそくにかぶせます。いちばんよく燃えつづけるのは？",choices:["びんの上だけをあける","びんの下だけにすき間をつくる","びんの上をあけ、下にもすき間をつくる"],ansIdx:2,steps:["あたためられた空気は上へ出ていく","下のすき間から新しい空気が入る","空気の通り道（下から上）ができると、よく燃える"],why:"線香のけむりで、空気が下から入り上から出るのがわかる。",stumble:""},
+{id:"r13f",wid:"理科-13",err:"K",lvl:"L3",rate:50,intent:"ろうが燃えるしくみ（気体になって燃える）",type:"choice",q:"ろうそくの火をふき消した直後、しんから出る白いけむりに火を近づけると？",choices:["けむりに火がつき、ろうそくにまた火がつく","何も起こらない","けむりが黒くなる"],ansIdx:0,steps:["ろうは、とけて液体→しんをのぼって気体になり、その気体が燃える","白いけむり＝ろうの気体が冷えて、小さなつぶになったもの → 燃える"],why:"固体のろうがそのまま燃えるのではなく、気体になったろうが燃えている。",stumble:""},
+
+/* ================= 理科-14 音（予習） ================= */
+{id:"r14a",wid:"理科-14",err:"K",lvl:"L1",rate:85,intent:"音が出るしくみ",type:"text",q:"音が出ているものは、細かくふるえています。\nこのふるえを何といいますか。（漢字2字）",ans:"振動",accept:["しんどう","震動"],steps:["音は、ものの振動が空気を伝わって耳にとどく"],why:"たいこの上の紙がはねるのは、まくが振動しているから。",stumble:""},
+{id:"r14b",wid:"理科-14",err:"K",lvl:"L2",rate:65,intent:"音の高さを変える3つの方法",type:"multi",q:"弦（げん）をはじいて、高い音を出すにはどうしますか。すべて 選びなさい。",choices:["弦を短くする","弦を細くする","弦を強くはる","弦を強くはじく","弦を長くする"],ansIdxs:[0,1,2],steps:["高い音：短く・細く・強くはる（1秒間に振動する回数が多い）","強くはじくと変わるのは「大きさ」"],why:"高さ＝振動の回数（速さ）、大きさ＝振動のはば。",stumble:"「強くはじく」は高さではなく大きさ。"},
+{id:"r14c",wid:"理科-14",err:"K",lvl:"L2",rate:70,intent:"音の大きさ",type:"choice",q:"同じ弦を、前より強くはじきました。音はどうなりますか。",choices:["高くなる","大きくなる（高さは変わらない）","低くなる"],ansIdx:1,steps:["強くはじく → 振動のはば（ふれはば）が大きくなる → 大きい音","弦の長さ・太さ・はり方が同じなら、高さは変わらない"],why:"大きさ＝振動のはば、高さ＝振動の回数。はじく強さで変わるのは「はば」だけ。",stumble:""},
+{id:"r14d",wid:"理科-14",err:"P",lvl:"L2",rate:70,intent:"音の速さの計算（秒速340m）",type:"number",q:"花火が見えてから 3秒後に音が聞こえました。\n花火までのきょりは約何m？（音の速さは秒速 340m）",ans:"1020",accept:["1020m","約1020m"],steps:["きょり＝速さ×時間","340×3＝1020m"],why:"光はとても速いので、すぐとどくと考える。音がとどくまでの時間で、きょりがわかる。",stumble:""},
+{id:"r14e",wid:"理科-14",err:"K",lvl:"L2",rate:72,intent:"音を伝えるもの",type:"choice",q:"容器の中でブザーを鳴らし、容器の中の空気をぬいていくと、音はどうなりますか。",choices:["大きくなる","変わらない","だんだん聞こえなくなる"],ansIdx:2,steps:["音は、空気などの「伝えるもの」が振動して伝わる","空気がなくなる（真空）と、音は伝わらない"],why:"音は、空気（気体）・水（液体）・金属（固体）の中を伝わる。真空では伝わらない。",stumble:""},
+{id:"r14f",wid:"理科-14",err:"P",lvl:"L3",rate:45,intent:"山びこ（往復に注意）",type:"number",q:"山に向かってさけんだら、4秒後に山びこが返ってきました。\n山までのきょりは約何m？（音の速さは秒速 340m）",ans:"680",accept:["680m","約680m"],steps:["4秒で音が進んだきょり＝340×4＝1360m（行って帰る＝往復）","山までは半分：1360÷2＝680m"],why:"返ってくる音は「往復」。÷2 をわすれない。",stumble:"1360m で止めない。"},
+
+/* ================= 社会-11 米づくり ================= */
+{id:"s11a",wid:"社会-11",err:"K",lvl:"L1",rate:73,intent:"本番 1Ⅰ問2（白紙・正答率73%）：用語を漢字で",type:"text",q:"化学肥料や農薬を使わずに作物をつくることを、□□栽培（さいばい）といいます。\n□□に入る言葉を書きなさい。",ans:"有機",accept:["有機栽培","ゆうき","ゆうき栽培","ゆうきさいばい"],steps:["化学肥料・農薬を使わない → 有機栽培","たい肥などの有機肥料を使う"],why:"安全・安心な米づくりのくふう。漢字「有機」で書けるように、紙に1回書こう。",stumble:"本番は空らんだった。用語は、ひらがなでもいいから必ず書く。"},
+{id:"s11b",wid:"社会-11",err:"K",lvl:"L1",rate:83,intent:"米づくりの用語（転作）",type:"text",q:"米があまるようになったため、田で米以外の作物（大豆・小麦・野菜など）をつくることを何といいますか。（漢字2字）",ans:"転作",accept:["てんさく"],steps:["米の消費量がへる → 米があまる → 生産調整（減反）","田を畑にかえて別の作物をつくる＝転作"],why:"「転」＝かえる。作物を転じる。",stumble:"「単作」（1年に米だけ1回）とまちがえない。"},
+{id:"s11c",wid:"社会-11",err:"K",lvl:"L2",rate:71,intent:"米づくりの作業の順（本番 1Ⅱ問2型）",type:"choice",q:"米づくりの作業の順として正しいものは？",choices:["田植え → 田おこし → しろかき → 稲かり","田おこし → しろかき → 田植え → 中ぼし → 稲かり","しろかき → 田おこし → 中ぼし → 田植え → 稲かり"],ansIdx:1,steps:["田おこし（土をたがやす）→ しろかき（水を入れて平らにする）","→ 田植え → 中ぼし（夏に水をぬいて根を強くする）→ 稲かり"],why:"土の準備（田おこし・しろかき）→ 植える → 育てる（中ぼし）→ かり取る。",stumble:""},
+{id:"s11d",wid:"社会-11",err:"K",lvl:"L1",rate:90,intent:"米の生産量1位",type:"text",q:"米の生産量が日本一の都道府県は？",ans:"新潟県",accept:["新潟","にいがた","にいがた県"],steps:["1位 新潟県（越後平野）、2位 北海道、3位 秋田県"],why:"越後平野には信濃川・阿賀野川が流れる。",stumble:""},
+{id:"s11e",wid:"社会-11",err:"K",lvl:"L2",rate:85,intent:"平野と川と県をセットで",type:"choice",q:"庄内（しょうない）平野がある県と、流れる川の組み合わせは？",choices:["山形県・最上川","秋田県・雄物川","宮城県・北上川"],ansIdx:0,steps:["庄内平野＝山形県・最上川","秋田平野＝雄物川、仙台平野＝北上川"],why:"東北の米どころ3つ：庄内（山形）・秋田・仙台。",stumble:""},
+{id:"s11f",wid:"社会-11",err:"K",lvl:"L2",rate:70,intent:"米づくりの施設",type:"text",q:"収穫した米をかんそうさせ、低い温度で保管する大きな施設を何といいますか。（カタカナ）",ans:"カントリーエレベーター",accept:["カントリー・エレベーター","かんとりーえれべーたー"],steps:["もみをかんそう・保管する共同の施設"],why:"共同で使うことで、費用や手間をへらす。",stumble:""},
+{id:"s11g",wid:"社会-11",err:"R",lvl:"L3",rate:60,intent:"「正しくないもの」を選ぶ形式に慣れる",type:"choice",q:"米づくりについて「正しくないもの」を選びなさい。",choices:["品種改良で、味がよく、たおれにくい品種がつくられている","日本人1人が1年間に食べる米の量は、60年前よりふえている","種もみを田に直接まく「直まき」で、手間をはぶく地域がある"],ansIdx:1,steps:["問題の「正しくないもの」に線を引く","ア ○、ウ ○","イ：食べる量は60年前の半分以下にへっている → ×（これが答え）"],why:"「正しくないもの」は、正しい文に○をつけて残った1つを選ぶ。",stumble:"本番（菜種の問題）では、正しい文を選んでしまった。"},
+
+/* ================= 社会-12 畑の作物・工芸作物 ================= */
+{id:"s12a",wid:"社会-12",err:"X",lvl:"L2",rate:53,intent:"本番 2Ⅱ問4（4点・0点）：輸入する理由＝ねだん",type:"long",q:"日本は、小麦の多くを外国から輸入しています。\nそのおもな理由を、かんたんに説明しなさい。",model:"外国産の小麦のほうが、ねだんが安いから。",rubric:["「外国産のほうが安い（ねだん・価格）」が入っている","文の終わりが「〜から。」になっている"],steps:["「なぜ輸入する？」→ まず〈ねだん〉を考える","外国は広い畑・大きな機械で大量につくる → 安い","「外国産のほうが安いから。」"],why:"小麦・大豆・とうもろこし・肉…「なぜ輸入が多いか」の答えは、ほとんど「外国産のほうが安いから」。型で覚える。",stumble:"本番は問題文の「梅雨」を使って「梅雨がない国があるから」と書いて0点。問題文をうら返すだけでは理由にならない。"},
+{id:"s12b",wid:"社会-12",err:"X",lvl:"L3",rate:40,intent:"安い理由まで説明する（1歩先）",type:"long",q:"外国産の小麦が、日本産より安いのはなぜですか。",model:"広い畑で大きな機械を使い、一度に大量に生産しているから。",rubric:["「広い畑（土地）」が入っている","「大きな機械で大量に生産」が入っている","文の終わりが「〜から。」になっている"],steps:["アメリカ・カナダ・オーストラリアは畑がとても広い","大型機械で、少ない人手で大量につくる → 1つあたりの費用が安い"],why:"「広い土地＋大型機械＋大量生産→安い」は5年生でも使う黄金パターン。",stumble:""},
+{id:"s12c",wid:"社会-12",err:"R",lvl:"L1",rate:79,intent:"本番 2Ⅰ問3：「正しくないもの」を読み落とした",type:"choice",q:"茶について「正しくないもの」を選びなさい。",choices:["静岡県や鹿児島県で生産がさかんである","すずしくて、水はけの悪い土地が栽培に向いている","京都府の宇治茶が有名である"],ansIdx:1,steps:["「正しくないもの」に線を引く","ア ○、ウ ○","イ：茶は「あたたかく、水はけのよい土地」に向く → ×（答え）"],why:"茶：静岡（牧ノ原）・鹿児島・三重・京都（宇治）・埼玉（狭山）。",stumble:"答えを書く前に、もう一度「正しい？ 正しくない？」を見る。"},
+{id:"s12d",wid:"社会-12",err:"K",lvl:"L1",rate:95,intent:"工芸作物と製品",type:"text",q:"たたみ表（おもて）の原料になる工芸作物は？",ans:"いぐさ",accept:["い草","イグサ","藺草","いぐさ（い草）"],steps:["いぐさ → たたみ表・ござ","熊本県（八代平野）でほとんどがつくられる"],why:"工芸作物＝加工して製品にする作物（茶・いぐさ・こんにゃくいも・てんさい・さとうきび・菜種）。",stumble:""},
+{id:"s12e",wid:"社会-12",err:"K",lvl:"L2",rate:85,intent:"産地（下8・9回で八代平野を石狩平野と取りちがえ）",type:"choice",q:"いぐさの生産がさかんな県と平野は？",choices:["熊本県・八代（やつしろ）平野","北海道・石狩平野","香川県・讃岐平野"],ansIdx:0,steps:["いぐさ＝熊本県・八代平野","石狩平野は稲作、讃岐平野はため池"],why:"平野の名前と県・作物を3点セットで。",stumble:""},
+{id:"s12f",wid:"社会-12",err:"K",lvl:"L1",rate:95,intent:"和紙の原料（すべて選ぶ）",type:"multi",q:"和紙の原料になる植物を すべて 選びなさい。",choices:["こうぞ","みつまた","いぐさ","てんさい"],ansIdxs:[0,1],steps:["和紙：こうぞ・みつまた","いぐさ→たたみ表、てんさい→砂糖"],why:"障子紙・お札にも使われる。",stumble:""},
+{id:"s12g",wid:"社会-12",err:"K",lvl:"L2",rate:80,intent:"砂糖の原料2つの産地",type:"choice",q:"砂糖の原料「てんさい（さとうだいこん）」の生産がさかんなのは？",choices:["北海道","沖縄県","鹿児島県"],ansIdx:0,steps:["てんさい＝すずしい北海道（十勝平野）","さとうきび＝あたたかい沖縄県・鹿児島県"],why:"同じ砂糖の原料でも、気候で産地が分かれる。",stumble:"さとうきびとまちがえない。"},
+
+/* ================= 社会-13 野菜とくだもの（予習） ================= */
+{id:"s13a",wid:"社会-13",err:"K",lvl:"L1",rate:85,intent:"近郊農業",type:"text",q:"大都市の近くで野菜などをつくり、新鮮なうちに出荷する農業を何といいますか。（漢字4字）",ans:"近郊農業",accept:["きんこう農業","近郊","きんこうのうぎょう"],steps:["大都市の近く（近郊）→ 輸送の時間・費用が少ない → 新鮮","千葉県・茨城県・埼玉県など"],why:"「近郊」＝都市の近く。",stumble:""},
+{id:"s13b",wid:"社会-13",err:"K",lvl:"L2",rate:75,intent:"促成栽培（そくせいさいばい）",type:"text",q:"あたたかい気候とビニールハウスを利用して、なす・ピーマン・きゅうりなどを、ほかの産地より早い時期（冬〜春）に出荷する栽培方法は？（漢字4字）",ans:"促成栽培",accept:["そくせい栽培","促成","そくせいさいばい"],steps:["早くつくる＝促成栽培","高知平野・宮崎平野"],why:"「促」＝うながす（早める）。",stumble:"おそくするのは「抑制（よくせい）栽培」。"},
+{id:"s13c",wid:"社会-13",err:"K",lvl:"L2",rate:75,intent:"促成栽培の産地",type:"choice",q:"促成栽培がさかんな平野の組み合わせは？",choices:["高知平野・宮崎平野","越後平野・庄内平野","石狩平野・十勝平野"],ansIdx:0,steps:["冬でもあたたかい太平洋側：高知平野・宮崎平野","黒潮（暖流）の影響であたたかい"],why:"冬でもあたたかい土地＋ビニールハウスで、暖房の費用が少なくてすむ。",stumble:""},
+{id:"s13d",wid:"社会-13",err:"K",lvl:"L2",rate:70,intent:"抑制栽培（高原野菜）",type:"choice",q:"夏のすずしい気候を利用して、レタス・はくさい・キャベツを、ほかの産地より「おそい時期（夏）」に出荷しているのは？",choices:["長野県の野辺山原（のべやまはら）・群馬県の嬬恋村（つまごいむら）","高知県の高知平野","千葉県の九十九里平野"],ansIdx:0,steps:["高原のすずしい気候 → 夏に出荷（抑制栽培・高原野菜）","長野県（野辺山原）のレタス、群馬県（嬬恋村）のキャベツ"],why:"早める＝促成（あたたかい地方）、おくらせる＝抑制（すずしい高原）。",stumble:""},
+{id:"s13e",wid:"社会-13",err:"K",lvl:"L1",rate:92,intent:"くだものの産地（りんご）",type:"choice",q:"りんごの生産量が日本一の県は？",choices:["青森県","山梨県","和歌山県"],ansIdx:0,steps:["りんご：青森県（1位）・長野県（2位）→ すずしい地方"],why:"りんごはすずしい気候、みかんはあたたかい気候。",stumble:""},
+{id:"s13f",wid:"社会-13",err:"K",lvl:"L1",rate:85,intent:"くだものの産地（みかん）",type:"choice",q:"みかんの生産がさかんな県の組み合わせは？",choices:["和歌山県・愛媛県・静岡県","青森県・長野県・岩手県","山梨県・福島県・長野県"],ansIdx:0,steps:["みかん：和歌山・愛媛・静岡 → あたたかく、日当たりのよい斜面"],why:"みかんはあたたかい気候、りんごはすずしい気候。気候と産地をセットで。",stumble:""},
+{id:"s13g",wid:"社会-13",err:"K",lvl:"L1",rate:85,intent:"くだものの産地（ぶどう・もも）",type:"choice",q:"ぶどうと ももの生産量が、どちらも日本一の県は？",choices:["山梨県","山形県","岡山県"],ansIdx:0,steps:["山梨県（甲府盆地）：ぶどう・もも","水はけのよい扇状地"],why:"さくらんぼ（おうとう）は山形県。",stumble:""},
+{id:"s13h",wid:"社会-13",err:"X",lvl:"L3",rate:45,intent:"記述：時期をずらす利点＝ねだん",type:"long",q:"促成栽培や抑制栽培のように、ほかの産地と出荷の時期をずらすと、どんな良いことがありますか。",model:"ほかの産地からの出荷が少ない時期に出荷できるので、高いねだんで売れること。",rubric:["「ほかの産地の出荷が少ない時期に出せる」が入っている","「高いねだんで売れる」が入っている"],steps:["出回る量が少ない時期 → ねだんが高い","その時期をねらって出荷する"],why:"農業の記述は「ねだん（高く売れる／安い）」を入れると点になることが多い。",stumble:""},
+
+/* ================= 社会-14 肉や牛乳をつくる（予習） ================= */
+{id:"s14a",wid:"社会-14",err:"K",lvl:"L1",rate:85,intent:"酪農（らくのう）",type:"text",q:"乳牛を飼って、牛乳やバター・チーズなどをつくる農業を何といいますか。（漢字2字）",ans:"酪農",accept:["らくのう"],steps:["乳牛 → 牛乳・乳製品＝酪農"],why:"肉牛・ぶた・にわとりもふくめた全体は「畜産（ちくさん）」。",stumble:""},
+{id:"s14b",wid:"社会-14",err:"K",lvl:"L1",rate:92,intent:"乳牛の産地",type:"choice",q:"乳牛の飼育頭数が日本一なのは？",choices:["北海道","鹿児島県","栃木県"],ansIdx:0,steps:["乳牛：北海道が全国の半分以上","すずしい気候と広い牧草地"],why:"北海道は、すずしい気候と広い牧草地があり、乳牛を飼うのに向いている。",stumble:""},
+{id:"s14c",wid:"社会-14",err:"K",lvl:"L2",rate:70,intent:"ぶたの産地（2つ選ぶ）",type:"multi",q:"ぶたの飼育がさかんな県を すべて 選びなさい。",choices:["鹿児島県","宮崎県","新潟県","香川県"],ansIdxs:[0,1],steps:["ぶた：鹿児島県・宮崎県（・北海道）","肉牛：北海道・鹿児島県・宮崎県"],why:"九州南部（鹿児島・宮崎）は畜産がさかん。",stumble:""},
+{id:"s14d",wid:"社会-14",err:"K",lvl:"L2",rate:75,intent:"シラス台地",type:"text",q:"鹿児島県から宮崎県に広がる、火山灰が積もってできた台地を何といいますか。",ans:"シラス台地",accept:["シラス","しらす台地","シラスだいち"],steps:["火山灰の土 → 水もちが悪く、稲作に向かない","→ 畑作（さつまいも・茶）や畜産がさかん"],why:"米に向かない土地 → 畜産と畑作、という理由のつながりで覚える。",stumble:""},
+{id:"s14e",wid:"社会-14",err:"K",lvl:"L2",rate:65,intent:"根釧台地",type:"text",q:"北海道の東部にある、酪農がさかんな台地を何といいますか。",ans:"根釧台地",accept:["こんせん台地","根釧","こんせんだいち"],steps:["根室（ねむろ）＋釧路（くしろ）＝根釧（こんせん）台地","夏もすずしく、きりが多い → 稲作・畑作に向かない → 酪農"],why:"十勝平野は畑作、石狩平野は稲作、根釧台地は酪農。",stumble:""},
+{id:"s14f",wid:"社会-14",err:"K",lvl:"L3",rate:55,intent:"畜産の課題",type:"choice",q:"日本の畜産がかかえる問題として、正しいものは？",choices:["えさ（飼料）の多くを輸入にたよっている","牛やぶたを飼う土地が広すぎる","肉を食べる人がほとんどいなくなった"],ansIdx:0,steps:["えさのとうもろこしなどは、ほとんどが輸入","外国の安い肉との競争もある"],why:"えさを輸入にたよる → えさのねだんが上がると、農家の負担が大きい。",stumble:""},
+
+/* ================= 社会-都 川と平野・都道府県 ================= */
+{id:"st1",wid:"社会-都",err:"K",lvl:"L2",rate:83,intent:"下8・9回 2Ⅱ問3（正答率83%）で×：天竜川と取りちがえ",type:"choice",q:"濃尾（のうび）平野を流れる川は？",choices:["天竜川","木曽川","信濃川"],ansIdx:1,steps:["濃尾平野＝木曽川・長良川・揖斐川（木曽三川）","天竜川は静岡県（浜松）、信濃川は越後平野"],why:"濃尾平野＝愛知県・岐阜県。輪中（わじゅう）とセット。",stumble:""},
+{id:"st2",wid:"社会-都",err:"K",lvl:"L2",rate:85,intent:"下8・9回 2Ⅱ問6（正答率85%）で×",type:"choice",q:"石狩川の流域に広がる平野について、正しいものは？",choices:["石狩平野で、稲作がさかんである","八代平野で、いぐさの栽培がさかんである","十勝平野で、畑作がさかんである"],ansIdx:0,steps:["石狩川 → 石狩平野（北海道の米どころ）","八代平野は熊本県（球磨川）、十勝平野は十勝川"],why:"川の名前と平野の名前が同じものは取りやすい（石狩・十勝・筑後→筑紫だけちがう）。",stumble:""},
+{id:"st3",wid:"社会-都",err:"K",lvl:"L2",rate:50,intent:"組分け第7回 2問8：連絡橋のルートを取りちがえ",type:"choice",q:"広島県の尾道（おのみち）と愛媛県の今治（いまばり）を結ぶルートは？",choices:["瀬戸大橋","瀬戸内しまなみ海道","明石海峡大橋・大鳴門橋"],ansIdx:1,steps:["児島（岡山）―坂出（香川）＝瀬戸大橋","尾道（広島）―今治（愛媛）＝瀬戸内しまなみ海道","神戸（兵庫）―淡路島―鳴門（徳島）＝明石海峡大橋・大鳴門橋"],why:"本州四国連絡橋は3ルート。東から「兵庫―徳島」「岡山―香川」「広島―愛媛」。",stumble:""},
+{id:"st4",wid:"社会-都",err:"K",lvl:"L2",rate:93,intent:"同上（瀬戸大橋・正解済みの維持）",type:"choice",q:"瀬戸大橋が結んでいる県は？",choices:["岡山県と香川県","広島県と愛媛県","兵庫県と徳島県"],ansIdx:0,steps:["瀬戸大橋＝岡山県（児島）―香川県（坂出）","鉄道も通っている"],why:"3つのルートのうち、鉄道も通っているのは瀬戸大橋だけ。",stumble:""},
+{id:"st5",wid:"社会-都",err:"K",lvl:"L3",rate:53,intent:"組分け第7回 2問10：1県数え落とし",type:"number",q:"中国・四国地方の9県のうち、県名と県庁所在地の名前がちがう県はいくつ？",ans:"3",accept:["3つ","3県"],steps:["島根県（松江市）","香川県（高松市）","愛媛県（松山市） → 3つ"],why:"数える問題は、名前を全部書き出してから数える。",stumble:"頭の中だけで数えると1つ落とす。"},
+{id:"st6",wid:"社会-都",err:"K",lvl:"L2",rate:77,intent:"組分け第7回 2問3（正答率77%）で×：九谷焼と取りちがえ",type:"choice",q:"有田焼（ありたやき）がつくられている県は？",choices:["佐賀県","石川県","岐阜県"],ansIdx:0,steps:["有田焼＝佐賀県","九谷焼（くたにやき）＝石川県、美濃焼（みのやき）＝岐阜県"],why:"焼き物：有田（佐賀）・九谷（石川）・瀬戸（愛知）・美濃（岐阜）・信楽（滋賀）。",stumble:""},
+{id:"st7",wid:"社会-都",err:"K",lvl:"L2",rate:50,intent:"組分け第7回 1問3：吉野川の上流",type:"multi",q:"吉野川が流れている県を すべて 選びなさい。",choices:["徳島県","香川県","高知県","愛媛県"],ansIdxs:[0,2],steps:["吉野川は高知県から流れ出し、徳島県を通って海へ","上流に早明浦（さめうら）ダム（高知県）→ 香川県にも水を送る"],why:"香川県には水を「送っている」だけで、川は流れていない。",stumble:"香川県を選ばない。"},
+{id:"st8",wid:"社会-都",err:"K",lvl:"L2",rate:28,intent:"組分け第7回 3問8（白紙）",type:"text",q:"東京と新潟を結ぶ新幹線は、□□新幹線。\n□□に入る言葉を書きなさい。",ans:"上越",accept:["上越新幹線","じょうえつ","じょうえつ新幹線"],steps:["上野（こうずけ＝群馬）と越後（新潟）を結ぶ →「上越」","東京―大宮―高崎―新潟"],why:"東北新幹線（東京―新青森）、北陸新幹線（東京―金沢―敦賀）と区別。",stumble:"白紙にしない。知っている新幹線の名前を書いてみる。"},
+{id:"st9",wid:"社会-都",err:"K",lvl:"L1",rate:90,intent:"九州地方の県庁所在地（次のカリテの範囲）",type:"text",q:"沖縄県の県庁所在地は？",ans:"那覇市",accept:["那覇","なは","なは市"],steps:["沖縄県＝那覇市","九州・沖縄8県で、県名とちがうのは沖縄だけ"],why:"県名と県庁所在地名がちがう県は、数える問題でよく出る。",stumble:"「那覇」の漢字を1回書いておく。"},
 ];
 
-/* 都道府県ドリル（県庁所在地が県名とちがう18＋旧国名・地方） */
+/* ドリル（一問一答）：県庁所在地・昔の国名・地方 ＋ 平野と川・産地 */
 const DRILL = [
  {q:"北海道",a:"札幌市",ac:["札幌","さっぽろ"]},{q:"岩手県",a:"盛岡市",ac:["盛岡","もりおか"]},{q:"宮城県",a:"仙台市",ac:["仙台","せんだい"]},
  {q:"茨城県",a:"水戸市",ac:["水戸","みと"]},{q:"栃木県",a:"宇都宮市",ac:["宇都宮","うつのみや"]},{q:"群馬県",a:"前橋市",ac:["前橋","まえばし"]},
@@ -357,20 +454,36 @@ const DRILL = [
  {q:"山梨県",a:"甲府市",ac:["甲府","こうふ"]},{q:"愛知県",a:"名古屋市",ac:["名古屋","なごや"]},{q:"三重県",a:"津市",ac:["津","つ"]},
  {q:"滋賀県",a:"大津市",ac:["大津","おおつ"]},{q:"兵庫県",a:"神戸市",ac:["神戸","こうべ"]},{q:"島根県",a:"松江市",ac:["松江","まつえ"]},
  {q:"香川県",a:"高松市",ac:["高松","たかまつ"]},{q:"愛媛県",a:"松山市",ac:["松山","まつやま"]},{q:"沖縄県",a:"那覇市",ac:["那覇","なは"]},
+ {q:"越後平野を流れる、日本一長い川は？",a:"信濃川",ac:["信濃","しなの川","しなのがわ"]},
+ {q:"庄内平野を流れる川は？",a:"最上川",ac:["最上","もがみ川","もがみがわ"]},
+ {q:"濃尾平野を流れる川（木曽三川のうち、いちばん有名な川）は？",a:"木曽川",ac:["木曽","きそ川","きそがわ"]},
+ {q:"筑紫平野を流れる川は？",a:"筑後川",ac:["筑後","ちくご川","ちくごがわ"]},
+ {q:"仙台平野を流れる川は？",a:"北上川",ac:["北上","きたかみ川","きたかみがわ"]},
+ {q:"関東平野を流れる、流域面積が日本一の川は？",a:"利根川",ac:["利根","とね川","とねがわ"]},
+ {q:"石狩平野でさかんな農業は？（稲作／畑作／酪農）",a:"稲作",ac:["いなさく","米づくり","米"]},
+ {q:"十勝平野でさかんな農業は？（稲作／畑作／酪農）",a:"畑作",ac:["はたさく"]},
+ {q:"根釧台地でさかんな農業は？（稲作／畑作／酪農）",a:"酪農",ac:["らくのう"]},
+ {q:"りんごの生産量1位の県は？",a:"青森県",ac:["青森","あおもり"]},
+ {q:"みかんの生産量1位をあらそう、近畿地方の県は？",a:"和歌山県",ac:["和歌山","わかやま"]},
+ {q:"ぶどう・ももの生産量1位の県は？",a:"山梨県",ac:["山梨","やまなし"]},
+ {q:"さくらんぼ（おうとう）の生産量1位の県は？",a:"山形県",ac:["山形","やまがた"]},
+ {q:"茶の生産がさかんな、牧ノ原（まきのはら）がある県は？",a:"静岡県",ac:["静岡","しずおか"]},
+ {q:"いぐさ（たたみ表）の生産1位の県は？",a:"熊本県",ac:["熊本","くまもと"]},
+ {q:"こんにゃくいもの生産1位の県は？",a:"群馬県",ac:["群馬","ぐんま"]},
+ {q:"有田焼がつくられている県は？",a:"佐賀県",ac:["佐賀","さが"]},
  {q:"昔の国の名「薩摩・大隅」は今の何県？",a:"鹿児島県",ac:["鹿児島"]},{q:"昔の国の名「土佐」は今の何県？",a:"高知県",ac:["高知"]},
- {q:"昔の国の名「讃岐」は今の何県？",a:"香川県",ac:["香川"]},{q:"昔の国の名「伊予」は今の何県？",a:"愛媛県",ac:["愛媛"]},
- {q:"昔の国の名「阿波」は今の何県？",a:"徳島県",ac:["徳島"]},{q:"昔の国の名「大和」は今の何県？",a:"奈良県",ac:["奈良"]},
- {q:"昔の国の名「紀伊」は今の何県？",a:"和歌山県",ac:["和歌山"]},{q:"昔の国の名「信濃」は今の何県？",a:"長野県",ac:["長野"]},
- {q:"昔の国の名「越後」は今の何県？",a:"新潟県",ac:["新潟"]},
- {q:"岐阜県は何地方？",a:"中部地方",ac:["中部"]},{q:"三重県は何地方？",a:"近畿地方",ac:["近畿"]},{q:"山口県は何地方？",a:"中国地方",ac:["中国"]},
- {q:"福井県は何地方？",a:"中部地方",ac:["中部"]},{q:"山形県は何地方？",a:"東北地方",ac:["東北"]},{q:"茨城県は何地方？",a:"関東地方",ac:["関東"]},
+ {q:"昔の国の名「讃岐」は今の何県？",a:"香川県",ac:["香川"]},{q:"昔の国の名「越後」は今の何県？",a:"新潟県",ac:["新潟"]},
+ {q:"「増加」の対義語は？",a:"減少",ac:["げんしょう"]},{q:"「原因」の対義語は？",a:"結果",ac:["けっか"]},{q:"「安全」の対義語は？",a:"危険",ac:["きけん"]},
+ {q:"「永遠」の類義語は？（永◯）",a:"永久",ac:["えいきゅう"]},{q:"「方法」の類義語は？（手◯）",a:"手段",ac:["しゅだん"]},
 ];
 
-/* ===================================================================== */
-const KEY="chihaya_dojo_2026_09_v1";
+const KEY="chihaya_kumi8_2026_12_v1";
+const OLD_KEYS=["chihaya_dojo_2026_09_v1","chihaya_kumiwake3_v1"]; // 前のアプリからレベル・連続日数を引きつぐ
+const EXAM_DATE="2026-12-13"; const EXAM_NAME="組分けテスト第8回"; const KARITE_DATE="2026-12-05"; // カリテ 下13・14回
 const LV=[0,100,250,500,1000,1750,2750,4000,6000,9000];
 const XP={L1:10,L2:20,L3:40,L4:80};
-const INTERVALS=[3,7,14,30,60]; // 正解のたび 3日→7日→14日→30日→60日後に再出題（誤答は翌日）
+const INTERVALS=[3,7,14,30,60]; // テスト後の通常間隔
+const EXAM_INTERVALS=[2,4,6]; // テスト前：正解→2日→4日→6日後（テスト前日までに3回思い出す）。誤答は翌日
 const RARE=[{n:"ねばり強さの証",e:"🦁"},{n:"連除法マスター",e:"🧮"},{n:"星空の読み手",e:"🔭"},{n:"記述の勇者",e:"🖋️"},{n:"都道府県はかせ",e:"🗾"},{n:"約分の達人",e:"✂️"},{n:"最後まで行く人",e:"🏁"}];
 const WHEN=["朝ごはんのあと","学校から帰ったら","夕ごはんのあと","おふろの前","寝る前に少し"];
 const MSG={
@@ -388,7 +501,11 @@ const MSG={
 const sleepDay=[0,6]; // 日・土は保護
 
 let st=load(); let queue=[],qi=0,combo=0,misses=0,sessionXp=0,sessionLog=[],sessionMode="",conf=2,segFilter="ALL",curP=null,answered=false,dq=[],di=0,toastT,holdT,lastMsgs=[];
-function load(){try{const r=localStorage.getItem(KEY);if(r)return Object.assign({name:"",when:"",xp:0,streak:0,last:"",items:{},drill:{},log:[],cards:[],plan:null,theme:""},JSON.parse(r));}catch(e){}return{name:"",when:"",xp:0,streak:0,last:"",items:{},drill:{},log:[],cards:[],plan:null,theme:""};}
+function load(){const base={name:"",when:"",xp:0,streak:0,last:"",items:{},drill:{},log:[],cards:[],plan:null,theme:"",carried:null,dash:[]};
+  try{const r=localStorage.getItem(KEY);if(r)return Object.assign(base,JSON.parse(r));}catch(e){}
+  for(const k of OLD_KEYS){try{const r=localStorage.getItem(k);if(!r)continue;const o=JSON.parse(r);if(!o||!o.name)continue;
+    base.name=o.name;base.when=o.when||"";base.xp=o.xp||0;base.streak=o.streak||0;base.last=o.last||"";base.cards=o.cards||[];base.theme=o.theme||"";base.drill=o.drill||{};base.carried={from:k,xp:base.xp,d:null};break;}catch(e){}}
+  return base;}
 function save(){localStorage.setItem(KEY,JSON.stringify(st));}
 const $=id=>document.getElementById(id);
 const pick=a=>{let c=a.filter(x=>!lastMsgs.includes(x));if(!c.length)c=a;const m=c[Math.floor(Math.random()*c.length)];lastMsgs.push(m);if(lastMsgs.length>6)lastMsgs.shift();return m;};
@@ -399,8 +516,15 @@ const lvOf=xp=>{for(let i=LV.length-1;i>=0;i--)if(xp>=LV[i])return i+1;return 1;
 const lvProg=xp=>{const lv=lvOf(xp);const c=LV[lv-1]||0;const n=LV[lv]||(c+4000);return{c,n,pct:Math.min(100,(xp-c)/(n-c)*100)};};
 const P=id=>PROBLEMS.find(p=>p.id===id); const W=id=>WIDS.find(w=>w.id===id); const subOf=p=>W(p.wid).sub;
 const it=id=>st.items[id]||(st.items[id]={reps:0,due:null,seen:0,ok:0,hist:[]});
-const mastered=id=>(st.items[id]||{}).reps>=3;
+const okDays=id=>{const x=st.items[id];return x?new Set(x.hist.filter(h=>h.ok).map(h=>h.d)).size:0;};
+const mastered=id=>(st.items[id]||{}).reps>=3&&okDays(id)>=3;
 const lvlN=l=>({L1:1,L2:2,L3:3,L4:4}[l]);
+const daysToExam=()=>daysBetween(today(),EXAM_DATE);
+const beforeExam=()=>daysToExam()>0;
+function nextDue(reps){const t=today();if(!beforeExam())return addDays(t,INTERVALS[Math.min(reps-1,INTERVALS.length-1)]);
+  let d=addDays(t,EXAM_INTERVALS[Math.min(reps-1,EXAM_INTERVALS.length-1)]);const lastDay=addDays(EXAM_DATE,-1);
+  // テスト前日より先になる復習は前日に寄せる（ただし今日より後）。前日が今日以前ならテスト後の通常間隔へ
+  if(d>lastDay)d=lastDay>t?lastDay:addDays(t,INTERVALS[Math.min(reps-1,INTERVALS.length-1)]);return d;}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo(0,0);$('nav').classList.toggle('hide',false);}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2000);}
 function fmt(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -409,7 +533,7 @@ function applyTheme(){document.documentElement.dataset.theme=st.theme||"";}
 function toggleTheme(){const cur=st.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');st.theme=cur==='dark'?'light':'dark';save();applyTheme();}
 
 /* ---------- 初期化 ---------- */
-function init(){applyTheme();if(!st.name){$('whenList').innerHTML=WHEN.map((w,i)=>`<button class="choice" onclick="selWhen(this,${i})"><span class="k">${i+1}</span>${w}</button>`).join('');show('sName');return;}updateStreak();goHome();}
+function init(){applyTheme();if(!st.name){$('whenList').innerHTML=WHEN.map((w,i)=>`<button class="choice" onclick="selWhen(this,${i})"><span class="k">${i+1}</span>${w}</button>`).join('');show('sName');return;}updateStreak();goHome();if(st.carried&&!st.carried.d){st.carried.d=today();save();setTimeout(()=>toast(`前のアプリから Lv${lvOf(st.xp)}・${st.xp}XP を引きついだよ ✨`),700);}}
 let whenSel=1;function selWhen(el,i){document.querySelectorAll('#whenList .choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');whenSel=i;}
 function saveName(){const v=$('nameIn').value.trim();if(!v){$('nameIn').focus();return;}st.name=v;st.when=WHEN[whenSel];save();updateStreak();goHome();}
 function updateStreak(){const t=today();if(!st.last)return;const d=daysBetween(st.last,t);if(d<=1)return;
@@ -421,40 +545,61 @@ function bumpStreak(){const t=today();if(st.last!==t){st.streak+=1;st.last=t;sav
 /* ---------- ミッション生成（間隔反復＋新規＋交互練習） ---------- */
 function dueItems(){const t=today();return PROBLEMS.filter(p=>{const x=st.items[p.id];return x&&x.due&&x.due<=t&&!mastered(p.id);}).sort((a,b)=>st.items[a.id].due.localeCompare(st.items[b.id].due));}
 function unlockedLvl(wid){let mx=0;PROBLEMS.filter(p=>p.wid===wid).forEach(p=>{const x=st.items[p.id];if(x&&x.ok>0)mx=Math.max(mx,lvlN(p.lvl));});return mx+1;}
-function newCandidates(){const pr={P1:0,P2:1,P3:2,P4:3};return PROBLEMS.filter(p=>!st.items[p.id]).filter(p=>lvlN(p.lvl)<=unlockedLvl(p.wid)).sort((a,b)=>pr[W(a.wid).pri]-pr[W(b.wid).pri]||lvlN(a.lvl)-lvlN(b.lvl));}
+function newCandidates(){const pr0={P1:0,P2:1,P3:2,P4:3};const preOn=daysBetween(today(),KARITE_DATE)>=0;const pr=new Proxy({},{get:(_,k)=>pr0[k]});const prW=w=>(w.pre&&preOn)?0.5:pr0[w.pri];const last2=beforeExam()&&daysToExam()<=2;return PROBLEMS.filter(p=>!st.items[p.id]).filter(p=>lvlN(p.lvl)<=unlockedLvl(p.wid)).filter(p=>!(last2&&lvlN(p.lvl)>=3)).sort((a,b)=>prW(W(a.wid))-prW(W(b.wid))||lvlN(a.lvl)-lvlN(b.lvl));}
 function interleave(ids){const by={};ids.forEach(id=>{(by[subOf(P(id))]=by[subOf(P(id))]||[]).push(id);});const out=[];const keys=Object.keys(by);let i=0;while(out.length<ids.length){const k=keys[i%keys.length];if(by[k].length)out.push(by[k].shift());i++;}return out;}
 function buildMission(n){const due=dueItems().map(p=>p.id);const takeDue=due.slice(0,Math.ceil(n/2));const seenWids=new Set(takeDue.map(id=>P(id).wid));const cand=newCandidates();const picked=[];
   // 新規は単元を分散
-  for(const p of cand){if(picked.length+takeDue.length>=n)break;if(seenWids.has(p.wid)&&picked.length+takeDue.length<n-1&&cand.some(q=>!seenWids.has(q.wid)&&!picked.includes(q)))continue;picked.push(p);seenWids.add(p.wid);}
+  for(const p of cand){if(picked.length+takeDue.length>=n)break;if(seenWids.has(p.wid)&&cand.some(q=>!seenWids.has(q.wid)&&!picked.includes(q)))continue;picked.push(p);seenWids.add(p.wid);}
   let ids=[...takeDue,...picked.map(p=>p.id)];
   if(ids.length<n){for(const id of due.slice(takeDue.length)){if(ids.length>=n)break;ids.push(id);}}
   if(ids.length<n){for(const p of PROBLEMS.filter(p=>!mastered(p.id)&&!ids.includes(p.id)).sort((a,b)=>(st.items[a.id]?.ok||0)-(st.items[b.id]?.ok||0))){if(ids.length>=n)break;ids.push(p.id);}}
   return interleave(ids);}
-function getPlan(){const t=today();if(st.plan&&st.plan.date===t)return st.plan;st.plan={date:t,ids:buildMission(6),done:[]};save();return st.plan;}
+function unseenCount(){return PROBLEMS.filter(p=>!st.items[p.id]&&!p.exp).length;}
+function missionSize(){if(!beforeExam())return 6;const d=Math.max(1,daysToExam()-2); // 最後の2日は復習だけにする
+  const need=Math.ceil(unseenCount()/d);const due=dueItems().length;return Math.max(6,Math.min(8,need+Math.min(due,4)));}
+function getPlan(){const t=today();if(st.plan&&st.plan.date===t)return st.plan;st.plan={date:t,ids:buildMission(missionSize()),done:[]};save();return st.plan;}
 
 /* ---------- ホーム ---------- */
-function goHome(){renderHome();show('sHome');setNav('navHome');}
+function goHome(){if(sessionMode==='dash'){dashStop();sessionMode='';}renderHome();show('sHome');setNav('navHome');}
 function setNav(id){['navHome','navDrill','navDex'].forEach(n=>$(n).classList.toggle('on',n===id));}
 function renderHome(){const lp=lvProg(st.xp);$('hLv').textContent=lvOf(st.xp);$('hXp').textContent=st.xp;$('hStreak').textContent=st.streak;$('hMaster').textContent=PROBLEMS.filter(p=>mastered(p.id)).length;
   $('ringArc').style.strokeDashoffset=257.6*(1-lp.pct/100);$('hNext').textContent=`次のレベルまで あと ${lp.n-st.xp} XP`;
   const h=new Date().getHours();const g=h<10?"おはよう":h<17?"こんにちは":"こんばんは";$('hTitle').textContent=`${g}！`;
   $('hSub').textContent=st._back?pick(MSG.back).replace(/{name}/g,st.name):(st.when?`${st.name}、「${st.when}」が練習タイム 🕒`:st.name);st._back=false;
+  const dte=daysToExam();$('hCd').innerHTML=dte>0?`🎯 ${EXAM_NAME}まで あと <b>${dte}</b>日`:dte===0?'🎯 今日が本番！作戦を見てから行こう':'✅ テストおつかれさま！復習はつづくよ';
   const plan=getPlan();const done=plan.ids.filter(id=>plan.done.includes(id)).length;const due=dueItems().length;
+  const seenN=PROBLEMS.filter(p=>st.items[p.id]).length;const okN=PROBLEMS.filter(p=>(st.items[p.id]?.ok||0)>0).length;
+  $('planRow').innerHTML=`<div><b>${seenN}/${PROBLEMS.length}</b>ふれた問題</div><div><b>${okN}</b>正解できた</div><div><b>${PROBLEMS.filter(p=>okDays(p.id)>=2).length}</b>2日以上で正解</div><div><b>${due}</b>今日の復習</div>`;
   $('todayMeta').textContent=`${done}/${plan.ids.length}問`;$('todayBar').style.width=(done/plan.ids.length*100)+"%";
   $('todayList').innerHTML=plan.ids.map(id=>{const p=P(id);const x=st.items[id];const isRev=x&&x.seen>0;return `<div class="item" onclick="openOne('${id}',false)"><span class="badge b-${subOf(p)}">${subOf(p)}</span><span class="t">${(()=>{const s=p.q.split('\n')[0];return fmt(s.length>26?s.slice(0,26)+'…':s);})()}<br><span class="muted">${W(p.wid).name} ・ <span class="badge b-${p.lvl}" style="margin:0">${p.lvl}</span> ${isRev?'<span class="badge b-rev" style="margin-left:4px">復習</span>':'<span class="badge b-new" style="margin-left:4px">新しい</span>'}</span></span><span class="st">${plan.done.includes(id)?(st.items[id]?.hist?.slice(-1)[0]?.ok?'✅':'🔁'):''}</span></div>`;}).join('');
-  $('startBtn').textContent=done>=plan.ids.length?"今日の分はクリア！ もう少しやる ▶":done?"つづきから ▶":"スタート ▶（約8分）";
+  $('startBtn').textContent=done>=plan.ids.length?"今日の分はクリア！ もう少しやる ▶":done?"つづきから ▶":`スタート ▶（${plan.ids.length}問・約${Math.round(plan.ids.length*1.2)}分）`;
   const redo=redoIds();$('redoN').textContent=redo.length?`(${redo.length})`:"";
-  const box=$('missionBox');const d=due;box.innerHTML=`<b>📌 今日のねらい</b><br>${done>=plan.ids.length?"今日のミッション達成！明日また「復習」が出てくるから、忘れる前にもう一度会える。":d?`復習 ${Math.min(d,3)}問（忘れかけを取り戻すのがいちばん効く）＋ 新しい ${plan.ids.length-Math.min(d,3)}問。`:"新しい問題からスタート。L1で「できる」を作ってからL2へ。"}<br><span class="muted" style="color:inherit;opacity:.85">まちがえてもXPは減らない。答えを見る前に、自分で書くのがルール。</span>`;
+  const box=$('missionBox');const d=due;const kd=daysBetween(today(),KARITE_DATE);
+  const phase=dte>7?(kd>=0?"いまは「第11・12回のまちがい直し」と「第13・14回の予習」の時期。":"第11〜14回をひととおり回す時期。"):dte>2?"ラスト1週間。新しい問題はあと少し、復習がメイン。":dte>0?"ラスト2日は復習だけ。新しいむずかしい問題はやらない。早くねる！":dte===0?"今日は本番。下の「テストの日の作戦」を1回読んでから出発！":"テストが終わったら、まちがえた問題をここで直そう。";
+  box.innerHTML=`<b>📌 今日のねらい</b><br>${phase}<br>${done>=plan.ids.length?"今日のミッション達成！明日また「復習」が出てくるから、忘れる前にもう一度会える。":d?`復習 ${Math.min(d,Math.ceil(plan.ids.length/2))}問（忘れかけを取り戻すのがいちばん効く）＋ 新しい問題。`:"新しい問題からスタート。L1で「できる」を作ってからL2へ。"}<br><span class="muted" style="color:inherit;opacity:.85">まちがえてもXPは減らない。答えを見る前に、自分で書くのがルール。</span>`;
   renderSeg();}
 function redoIds(){return PROBLEMS.filter(p=>{const x=st.items[p.id];return x&&x.hist.length&&!x.hist[x.hist.length-1].ok;}).map(p=>p.id);}
 function renderSeg(){const subs=["ALL","算数","国語","理科","社会"];$('segRow').innerHTML=subs.map(s=>`<button class="${segFilter===s?'on':''}" onclick="segFilter='${s}';renderSeg()">${s==='ALL'?'ぜんぶ':s}</button>`).join('');
   $('widList').innerHTML=WIDS.filter(w=>segFilter==='ALL'||w.sub===segFilter).map(w=>{const ps=PROBLEMS.filter(p=>p.wid===w.id);const m=ps.filter(p=>mastered(p.id)).length;const okc=ps.filter(p=>(st.items[p.id]?.ok||0)>0).length;
-    return `<div class="wk" onclick="startWid('${w.id}')"><div class="top"><span style="font-size:22px">${w.em}</span><span class="t">${w.name} <span class="badge b-${w.sub}" style="margin-left:4px">${w.sub}</span><span class="tag">${w.pri}</span></span><span class="muted">${okc}/${ps.length}</span></div><div class="muted" style="font-size:12.5px;margin-top:2px">${w.note}</div><div class="lvls">${ps.map(p=>`<i class="${mastered(p.id)?'d':(st.items[p.id]?.ok?'h':'')}" title="${p.lvl}"></i>`).join('')}</div></div>`;}).join('');}
+    return `<div class="wk" onclick="startWid('${w.id}')"><div class="top"><span style="font-size:22px">${w.em}</span><span class="t">${w.name} <span class="badge b-${w.sub}" style="margin-left:4px">${w.sub}</span>${w.kai?`<span class="kai">${w.kai}</span>`:""}</span><span class="muted">${okc}/${ps.length}</span></div><div class="muted" style="font-size:12.5px;margin-top:2px">${w.note}</div><div class="lvls">${ps.map(p=>`<i class="${mastered(p.id)?'d':(st.items[p.id]?.ok?'h':'')}" title="${p.lvl}"></i>`).join('')}</div></div>`;}).join('');}
 function startWid(wid){sessionMode="wid";queue=PROBLEMS.filter(p=>p.wid===wid).map(p=>p.id);qi=0;combo=0;misses=0;sessionXp=0;sessionLog=[];openByIndex();}
 function startMission(){sessionMode="mission";const plan=getPlan();queue=plan.ids.filter(id=>!plan.done.includes(id));if(!queue.length){moreMission();return;}qi=0;combo=0;misses=0;sessionXp=0;sessionLog=[];openByIndex();}
 function moreMission(){sessionMode="mission";const plan=getPlan();const extra=buildMission(4).filter(id=>!plan.ids.includes(id));if(!extra.length){toast("今日出せる問題は全部やった！すごい");goHome();return;}plan.ids.push(...extra);save();queue=extra;qi=0;combo=0;misses=0;sessionXp=0;sessionLog=[];openByIndex();}
 function startRedo(){sessionMode="redo";queue=redoIds();if(!queue.length){toast("もう一回ボックスは空っぽ！");return;}qi=0;combo=0;misses=0;sessionXp=0;sessionLog=[];openByIndex();}
 function openByIndex(){if(qi>=queue.length){toResult();return;}openOne(queue[qi],true);}
+/* ---------- さいごまで行く練習：時間内に最後の問題まで到達する（とばしてOK・減点なし） ---------- */
+let dashT=null,dashEnd=0,dashLen=0,dashSkipped=0,dashReached=false,dashTimeUp=false;const DASH_SEC=300;
+function startDash(){const pool=PROBLEMS.filter(p=>p.type!=='long'&&!p.exp&&lvlN(p.lvl)<=3);
+  const seen=pool.filter(p=>st.items[p.id]).sort(()=>Math.random()-.5);const fresh=pool.filter(p=>!st.items[p.id]&&lvlN(p.lvl)<=2).sort(()=>Math.random()-.5);
+  let ids=[...seen.slice(0,3),...fresh.slice(0,2)];for(const p of [...seen.slice(3),...fresh.slice(2)]){if(ids.length>=5)break;ids.push(p);}
+  ids=interleave(ids.map(p=>p.id));if(ids.length<3){toast("もう少し問題をといてから、やってみよう");return;}
+  // わざと1問だけ重い問題(L3)をまん中に入れる：「とばす判断」の練習
+  const hard=PROBLEMS.filter(p=>p.lvl==='L3'&&p.type!=='long'&&!ids.includes(p.id)).sort(()=>Math.random()-.5)[0];if(hard&&ids.length>=4)ids.splice(2,1,hard.id);
+  sessionMode="dash";queue=ids;qi=0;combo=0;misses=0;sessionXp=0;sessionLog=[];dashLen=ids.length;dashSkipped=0;dashReached=false;dashTimeUp=false;dashEnd=Date.now()+DASH_SEC*1000;
+  clearInterval(dashT);dashT=setInterval(dashTick,500);openByIndex();dashTick();toast("むずかしい問題は「とばす」。さいごの問題まで行こう！");}
+function dashTick(){const left=Math.max(0,Math.round((dashEnd-Date.now())/1000));$('dashTime').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');$('dashBar').style.width=(left/DASH_SEC*100)+'%';
+  if(left<=0){clearInterval(dashT);dashT=null;if(sessionMode==='dash'){dashTimeUp=true;toResult();}}}
+function dashStop(){clearInterval(dashT);dashT=null;$('dashBox').classList.remove('on');}
 
 /* ---------- 出題 ---------- */
 function openOne(id,inSession){if(!inSession){sessionMode="single";queue=[id];qi=0;combo=0;misses=0;sessionXp=0;sessionLog=[];}
@@ -462,9 +607,10 @@ function openOne(id,inSession){if(!inSession){sessionMode="single";queue=[id];qi
   $('dots').innerHTML=queue.map((q,i)=>`<i class="${i===qi?'on':(sessionLog.find(l=>l.id===q)?(sessionLog.find(l=>l.id===q).ok?'done':'miss'):'')}"></i>`).join('');
   const x=st.items[id];const rev=x&&x.seen>0;
   $('qHead').innerHTML=`<span class="badge b-${subOf(p)}">${subOf(p)}</span><span class="badge b-${p.lvl}">${p.lvl} ${({L1:'基礎',L2:'標準',L3:'応用',L4:'発展'})[p.lvl]}</span>${rev?'<span class="badge b-rev">復習</span>':''}${p.exp?'<span class="badge" style="background:#FFF1C9;color:#7A5200">取れなくてOK</span>':''}<div class="muted" style="margin-top:6px">${W(p.wid).em} ${W(p.wid).name} ・ 想定正答率 ${p.rate}%${p.rate<40?'（上位の子むけ）':p.rate>=80?'（ほとんどの子が取れる）':''}</div>`;
-  $('qPassage').innerHTML=p.passage?`<div class="passage">${fmt(p.passage)}</div>`:'';
+  $('qPassage').innerHTML=(p.passage?`<div class="passage">${fmt(p.passage)}</div>`:'')+(p.fig?`<div class="fig">${typeof p.fig==='function'?p.fig():p.fig}${p.cap?`<div class="cap">${fmt(p.cap)}</div>`:''}</div>`:'');
+  $('dashBox').classList.toggle('on',sessionMode==='dash');$('skipBtn').textContent=sessionMode==='dash'?'とばす ⏭':'あとでやる';$('confBox').style.display=sessionMode==='dash'?'none':'';
   $('qText').textContent=p.q;$('qIntent').innerHTML=`🎯 ${fmt(p.intent)}`;
-  renderInput(p);$('fbBox').innerHTML='';$('checkBtn').style.display='';$('confBox').style.display='';document.querySelectorAll('.conf button').forEach(b=>b.classList.toggle('on',b.dataset.c==='2'));
+  renderInput(p);$('fbBox').innerHTML='';$('checkBtn').style.display='';if(sessionMode!=='dash')$('confBox').style.display='';document.querySelectorAll('.conf button').forEach(b=>b.classList.toggle('on',b.dataset.c==='2'));
   if(p.lvl==='L4')setTimeout(()=>toast("L4は取れなくてOK。見て慣れるだけで力になる ⚡"),400);
   show('sQ');}
 function renderInput(p){const box=$('qInput');
@@ -483,6 +629,7 @@ function judge(p){const ai=$('ai');
   if(p.type==='multi'){const sel=[...document.querySelectorAll('#qInput .choice.sel')].map(c=>+c.dataset.i);if(!sel.length)return{empty:true};const ok=sel.length===p.ansIdxs.length&&sel.every(i=>p.ansIdxs.includes(i));return{ok,given:sel.map(i=>'アイウエオ'[i]).join('・')};}
   const raw=ai.value.trim();if(!raw)return{empty:true};
   if(p.type==='long')return{long:true,given:raw};
+  if(p.strict){const cl=x=>z2h(x).replace(/[s　「」]/g,'');return{ok:[p.ans,...(p.accept||[])].map(cl).includes(cl(raw)),given:raw};}
   const n=normTxt(raw);const accepts=[p.ans,...(p.accept||[])].map(normTxt);
   let ok=accepts.includes(n);
   if(!ok&&p.all)ok=p.all.every(k=>raw.includes(k));
@@ -494,7 +641,7 @@ function check(){if(answered)return;const p=curP;const r=judge(p);
   answered=true;$('checkBtn').style.display='none';$('confBox').style.display='none';
   if(r.long){renderLong(p,r.given);return;}
   finish(p,r.ok,r.given,null);}
-function schedule(id,ok){const x=it(id);x.seen++;const t=today();if(ok){x.ok++;x.reps=(x.reps||0)+1;x.due=addDays(t,INTERVALS[Math.min(x.reps-1,INTERVALS.length-1)]);}else{x.reps=0;x.due=addDays(t,1);}x.hist.push({d:t,ok,conf});if(x.hist.length>30)x.hist.shift();}
+function schedule(id,ok){const x=it(id);x.seen++;const t=today();if(ok){x.ok++;x.reps=(x.reps||0)+1;x.due=nextDue(x.reps);}else{x.reps=0;x.due=addDays(t,1);}x.hist.push({d:t,ok,conf});if(x.hist.length>30)x.hist.shift();}
 function finish(p,ok,given,partial){const x=st.items[p.id];const wasSeen=x&&x.seen>0;const lastH=x&&x.hist.length?x.hist[x.hist.length-1]:null;const sameDayRetry=lastH&&lastH.d===today()&&!lastH.ok;schedule(p.id,ok);
   let xp=0,notes=[];
   if(ok){xp=XP[p.lvl];if(sameDayRetry){xp=Math.round(xp/2);notes.push("やり直しで正解");}else if(wasSeen){xp=Math.round(xp*0.6)+5;notes.push("復習ボーナス");}}
@@ -515,7 +662,7 @@ function renderLong(p,given){$('fbBox').innerHTML=`<div class="fb mid"><b>書け
 function longDone(){const p=curP;const n=document.querySelectorAll('#rub li.on').length;const tot=p.rubric.length;const ok=n===tot;finish(p,ok,$('ai')?$('ai').value:'',!ok&&n>0);}
 function msgFor(p,ok,partial){if(ok){if(conf===1)return pick(MSG.lowok);if(combo>=3)return pick(MSG.streak3);if(p.lvl==='L4')return pick(MSG.ok4);if(p.lvl==='L3')return pick(MSG.ok3);return pick(MSG.ok);}
   if(partial)return pick(MSG.wrote);if(conf===3)return pick(MSG.hyper);if(misses>=3)return pick(MSG.miss3);return pick(MSG.ng);}
-function renderFeedback(p,ok,given,xp,notes,rare,partial){const m=msgFor(p,ok,partial).replace(/{name}/g,st.name).replace(/{rate}/g,p.rate);
+function renderFeedback(p,ok,given,xp,notes,rare,partial){if(sessionMode==='dash'){const a=p.type==='choice'?`${'アイウエオ'[p.ansIdx]}　${p.choices[p.ansIdx]}`:p.type==='multi'?p.ansIdxs.map(i=>'アイウエオ'[i]).join('・'):p.ans;$('fbBox').innerHTML=`<div class="fb ${ok?'ok':'ng'}"><b>${ok?'正解！':'おしい！'}</b> <span style="float:right;font-weight:900;color:var(--accent)">+${xp} XP</span><div>答え：${fmt(a)}${ok?'':'　（解説はあとで「もう一回ボックス」で）'}</div></div><button class="btn" onclick="nextInQueue()">次へ ▶</button>`;window.scrollTo({top:$('fbBox').offsetTop-80,behavior:'smooth'});return;}const m=msgFor(p,ok,partial).replace(/{name}/g,st.name).replace(/{rate}/g,p.rate);
   const ansTxt=p.type==='choice'?`${'アイウエオ'[p.ansIdx]}　${p.choices[p.ansIdx]}`:p.type==='multi'?p.ansIdxs.map(i=>'アイウエオ'[i]+' '+p.choices[i]).join('、'):(p.model||p.ans);
   let h=`<div class="fb ${ok?'ok':partial?'mid':'ng'}"><b>${ok?'正解！ 🎉':partial?'部分点 ✍️':'おしい！ 🤔'}</b> <span style="float:right;font-weight:900;color:var(--accent)">+${xp} XP</span><div style="margin-top:4px">${fmt(m)}</div>${notes.length?`<div class="muted">${notes.join(' / ')}</div>`:''}</div>`;
   if(rare)h+=`<div class="rare">✨ レアカード『${rare.e} ${rare.n}』を獲得！ 図鑑に追加されたよ</div>`;
@@ -526,9 +673,15 @@ function renderFeedback(p,ok,given,xp,notes,rare,partial){const m=msgFor(p,ok,pa
   $('fbBox').innerHTML=h;window.scrollTo({top:$('fbBox').offsetTop-40,behavior:'smooth'});}
 function toggleMore(el){const m=$('more');const open=m.style.display==='none';m.style.display=open?'block':'none';const b=document.querySelector('.more');if(b)b.innerHTML=open?'💡 とき方をとじる ▲':'💡 ② とき方のステップ を見る ▼';}
 function retry(){answered=false;$('fbBox').innerHTML='';$('checkBtn').style.display='';$('confBox').style.display='';window.scrollTo({top:0,behavior:'smooth'});toast("同じ問題にもう一度。今度は式を書いてから");}
-function skipQ(){queue.push(queue[qi]);queue.splice(qi,1);toast("あとに回したよ");openByIndex();}
-function nextInQueue(){qi++;openByIndex();}
-function toResult(){if(sessionMode==='single'){goHome();return;}const n=sessionLog.length;const okn=sessionLog.filter(l=>l.ok).length;
+function skipQ(){if(sessionMode==='dash'){dashSkipped++;queue.push(queue[qi]);queue.splice(qi,1);dashLen--;if(dashLen<=qi)dashReached=true;toast("とばした！それでOK。先へ進もう");openByIndex();return;}queue.push(queue[qi]);queue.splice(qi,1);toast("あとに回したよ");openByIndex();}
+function nextInQueue(){qi++;if(sessionMode==='dash'&&qi>=dashLen)dashReached=true;openByIndex();}
+function toResult(){if(sessionMode==='single'){goHome();return;}
+  if(sessionMode==='dash'){dashStop();const n=sessionLog.length;const okn=sessionLog.filter(l=>l.ok).length;const reached=dashReached||(!dashTimeUp);const bonus=reached?15:0;st.xp+=bonus;sessionXp+=bonus;
+    st.dash.push({d:today(),reached,answered:n,ok:okn,skipped:dashSkipped});if(st.dash.length>60)st.dash.shift();save();sessionMode='';
+    $('rTitle').textContent=reached?"さいごまで行けた！ 🏁":"時間になったよ ⏰";animateNum($('rXp'),sessionXp);$('rMeta').textContent=`答えた ${n}問・正解 ${okn}問・とばした ${dashSkipped}回${bonus?' ・ 到達ボーナス+15':''}`;
+    $('rMsg').textContent=reached?(dashSkipped?"とばす判断ができたから、さいごまで行けた。本番もこの動きでOK！":"時間内に全部見られた。この流れを本番でも。"):"とちゅうで止まった問題はなかった？ 30秒考えて手が動かなければ「とばす」。次はさいごの問題を見るのが目標。";
+    $('rRare').innerHTML='';show('sResult');return;}
+  const n=sessionLog.length;const okn=sessionLog.filter(l=>l.ok).length;
   $('rTitle').textContent=n?(okn===n?"パーフェクト！ 🌟":okn>=n/2?"おつかれさま！":"よく最後までやった！"):"おつかれさま！";
   animateNum($('rXp'),sessionXp);$('rMeta').textContent=`${n}問中 ${okn}問 正解 ・ 合計 ${st.xp} XP ・ Lv ${lvOf(st.xp)}`;
   const hard=sessionLog.filter(l=>l.ok&&lvlN(P(l.id).lvl)>=3).length;const wids=[...new Set(sessionLog.map(l=>W(P(l.id).wid).name))];
@@ -568,7 +721,7 @@ function openParent(){const t=today();const tl=st.log.filter(l=>l.d===t);const w
   const blanksAvoided=tl.filter(l=>P(l.id).type==='long').length;const hyper=tl.filter(l=>!l.ok&&l.conf===3).map(l=>W(P(l.id).wid).name+' '+P(l.id).lvl);
   const due=dueItems().length;const dueTom=PROBLEMS.filter(p=>st.items[p.id]?.due===addDays(t,1)).length;
   const praise=[];if(tl.length)praise.push(`今日 ${tl.length}問に取り組み、正答率 ${okr(tl)}%。`);if(blanksAvoided)praise.push(`記述 ${blanksAvoided}問で必ず何か書けた（白紙回避）。`);const l3=tl.filter(l=>l.ok&&lvlN(P(l.id).lvl)>=3);if(l3.length)praise.push(`応用（L3以上）を ${l3.length}問取った：${[...new Set(l3.map(l=>W(P(l.id).wid).name))].join('・')}。`);if(hyper.length)praise.push(`高自信の誤り（${hyper.join('、')}）は最も定着しやすい修正機会。解説を一緒に読むと効果大。`);if(!tl.length)praise.push("今日はまだ未着手。「"+(st.when||"決めた時間")+"」に声をかけてみてください。");
-  $('pSummary').innerHTML=`<table class="t"><tr><th>今日</th><td>${tl.length}問 / 正答率 ${okr(tl)}% / XP +${tl.reduce((a,l)=>a+l.xp,0)}</td></tr><tr><th>直近7日</th><td>${wk.length}問 / 正答率 ${okr(wk)}% / 学習日 ${[...new Set(wk.map(l=>l.d))].length}日</td></tr><tr><th>連続日数</th><td>${st.streak}日（土日は保護）</td></tr><tr><th>復習待ち</th><td>今日 ${due}問 ・ 明日 ${dueTom}問</td></tr><tr><th>定着カード</th><td>${PROBLEMS.filter(p=>mastered(p.id)).length} / ${PROBLEMS.length}（日をあけて3回正解）</td></tr></table><div style="margin-top:10px"><b>褒めポイント</b><ul class="rules">${praise.map(p=>`<li><span class="n">✓</span><span>${fmt(p)}</span></li>`).join('')}</ul></div>`;
+  $('pSummary').innerHTML=`<table class="t"><tr><th>今日</th><td>${tl.length}問 / 正答率 ${okr(tl)}% / XP +${tl.reduce((a,l)=>a+l.xp,0)}</td></tr><tr><th>直近7日</th><td>${wk.length}問 / 正答率 ${okr(wk)}% / 学習日 ${[...new Set(wk.map(l=>l.d))].length}日</td></tr><tr><th>連続日数</th><td>${st.streak}日（土日は保護）</td></tr><tr><th>復習待ち</th><td>今日 ${due}問 ・ 明日 ${dueTom}問</td></tr><tr><th>テストまで</th><td>${daysToExam()>0?daysToExam()+'日（'+EXAM_DATE+'）':'終了'} ・ ふれた問題 ${PROBLEMS.filter(p=>st.items[p.id]).length}/${PROBLEMS.length}</td></tr><tr><th>さいごまで行く練習</th><td>${st.dash.length?`${st.dash.length}回中 ${st.dash.filter(x=>x.reached).length}回 到達（直近: とばし${st.dash[st.dash.length-1].skipped}回）`:'まだ'}</td></tr><tr><th>定着カード</th><td>${PROBLEMS.filter(p=>mastered(p.id)).length} / ${PROBLEMS.length}（日をあけて3回正解）</td></tr></table><div style="margin-top:10px"><b>褒めポイント</b><ul class="rules">${praise.map(p=>`<li><span class="n">✓</span><span>${fmt(p)}</span></li>`).join('')}</ul></div>`;
   $('pWid').innerHTML=`<table class="t"><tr><th>単元</th><th>優先</th><th>正解/全</th><th>定着</th><th>最近</th></tr>${WIDS.map(w=>{const ps=PROBLEMS.filter(p=>p.wid===w.id);const ok=ps.filter(p=>(st.items[p.id]?.ok||0)>0).length;const m=ps.filter(p=>mastered(p.id)).length;const rec=wk.filter(l=>P(l.id).wid===w.id);return `<tr><td>${w.em} ${w.name}</td><td>${w.pri}</td><td>${ok}/${ps.length}</td><td>${m}</td><td>${rec.length?okr(rec)+'%':'-'}</td></tr>`;}).join('')}</table>`;
   const cal=[1,2,3].map(c=>{const a=wk.filter(l=>l.conf===c);return `<tr><td>${['','😕 たぶんちがう','🙂 まあまあ','😎 ぜったい'][c]}</td><td>${a.length}問</td><td>${a.length?okr(a)+'%':'-'}</td></tr>`;}).join('');
   $('pCalib').innerHTML=`<table class="t"><tr><th>自信</th><th>回答数</th><th>正答率</th></tr>${cal}</table><div class="muted" style="margin-top:6px">「ぜったい」の正答率が低いときは思いこみが多いサイン。「たぶんちがう」で正解が多ければ、もっと自信を持ってよい。</div>`;
